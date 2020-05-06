@@ -21,6 +21,15 @@ xmlns:cus="clr-namespace:CustomControl.CustomComponent;assembly=CustomControl
 ### ImageButton
 ![效果](Resource/Images/imageBtn.gif)
 
+可以这样使用得到上面的结果，以下属性是添加的依赖属性：
+```
+<cus:ImageButton Width="300" Height="40" 
+                ImageWidth="30" ImageHeight="30" ImageButtonSource="tom.jpg" ImageVisibility="Visible"
+                ImageButtonContent="TOM" Foreground="Red" CornerRadius="10" Background="GreenYellow" OverBackground="BlueViolet">
+    
+</cus:ImageButton>
+```
+
 MessageBox消息窗口
 ImageButton、CustomComboBox、CustomComboBoxItem、CustomPopupEx
 CustomPasswordBox、CustomProgressBar、CustomTextControl、QrCodeControl、
