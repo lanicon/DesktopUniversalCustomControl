@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>Define a RoutedEvent</Title>
+            <Shortcut>propevent</Shortcut>
+            <Description>Code snippet for a property using RoutedEvent as the backing store</Description>
+            <Author>Microsoft Corporation</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>type</ID>
+                    <ToolTip>Property Type</ToolTip>
+                    <Default>int</Default>
+                </Literal>
+                <Literal>
+                    <ID>defaultvalue</ID>
+                    <ToolTip>The default value for this RoutingStrategy.</ToolTip>
+                    <Default>RoutingStrategy.Bubble</Default>
+                </Literal>
+                <Literal>
+                    <ID>property</ID>
+                    <ToolTip>Property Name</ToolTip>
+                    <Default>MyProperty</Default>
+                </Literal>
+                <Literal>
+                    <ID>ownerclass</ID>
+                    <ToolTip>The owning class of this Property.  Typically the class that it is declared in.</ToolTip>
+                    <Default>ownerclass</Default>
+                </Literal>
+                <Literal>
+                    <ID>datatype</ID>
+                    <ToolTip>data Type</ToolTip>
+                    <Default>string</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                <![CDATA[
+
+[Description("属性更改时发生")]
+public event $type$ $property$
+{
+    add
+    {
+        this.AddHandler($property$Event, value);
+    }
+    remove
+    {
+        this.RemoveHandler($property$Event, value);
+    }
+}
+
+// Using a RoutedEvent as the backing store for $property$.  This enables animation, styling, binding, etc...
+public static readonly RoutedEvent $property$Event = 
+    EventManager.RegisterRoutedEvent("$property$", $defaultvalue$, typeof($type$), typeof($ownerclass$));
+
+protected virtual void On$property$($datatype$ oldString, $datatype$ newString)
+{
+    RoutedPropertyChangedEventArgs<$datatype$> arg = new RoutedPropertyChangedEventArgs<$datatype$>(oldString, newString, $property$Event);
+    this.RaiseEvent(arg);
+}
+
+$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

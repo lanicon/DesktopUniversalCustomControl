@@ -1,0 +1,50 @@
+﻿<Window x:Class="CustomControl.CustomView.MsgDlg.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CustomControl.CustomView.MsgDlg"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:msgViewModel="clr-namespace:CustomControl.NotifycationObject"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance msgViewModel:MsgViewModel}"
+        x:Name="msgWindow"
+        Title="MessageWindow" Height="250" Width="400"
+        ShowInTaskbar="False" Topmost="True"
+        WindowStyle="None" WindowStartupLocation="CenterOwner" 
+        AllowsTransparency="True" ResizeMode="NoResize"
+        Style="{DynamicResource window}">
+
+    <Window.DataContext>
+        <msgViewModel:MsgViewModel></msgViewModel:MsgViewModel>
+    </Window.DataContext>
+
+    <!--pack://application:,,,/CustomControl;component/Resource/Dictionary/ControlDictionary.xaml-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Resource/Dictionary/ControlDictionary.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></i:InvokeCommandAction>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="MouseMove">
+            <i:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <local:MessageDialog x:Name="customMsg">
+        <local:MessageDialog.InputBindings>
+            <KeyBinding Key="Y" Command="{Binding YesCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+            <KeyBinding Key="N" Command="{Binding NoCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+            <KeyBinding Key="C" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+            <KeyBinding Key="Esc" Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+        </local:MessageDialog.InputBindings>
+    </local:MessageDialog>
+
+</Window>
