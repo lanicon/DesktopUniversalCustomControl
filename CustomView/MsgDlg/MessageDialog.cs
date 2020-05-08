@@ -1,6 +1,5 @@
 ﻿using CustomControl.NotifycationObject;
 using CustomControl.Service.Common;
-using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -46,14 +45,14 @@ namespace CustomControl.CustomView.MsgDlg
         /// 显示一条窗口信息，并返回结果
         /// </summary>
         /// <returns></returns>
-        public static MessageBoxResult Show(string caption, string indicateText, PackIconKind msgIcon)
-        {
-            MsgViewModel.msg_Caption = caption;
-            MsgViewModel.msg_IndicateText = indicateText;
-            MsgViewModel.msg_Icon = msgIcon;
+        //public static MessageBoxResult Show(string caption, string indicateText, PackIconKind msgIcon)
+        //{
+        //    MsgViewModel.msg_Caption = caption;
+        //    MsgViewModel.msg_IndicateText = indicateText;
+        //    MsgViewModel.msg_Icon = msgIcon;
 
-            return OpenMsgWindow();
-        }
+        //    return OpenMsgWindow();
+        //}
 
         /// <summary>
         /// 打开MessageDialog窗口

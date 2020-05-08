@@ -14,7 +14,8 @@
 ImageButtonSource 图片资源路径
 ImageButtonContent 内容
 ImageVisibility 图片是否可见
-ImageWidth/ImageHeight
+ImageWidth/ImageHeight 长宽
+OverBackground 鼠标浮动背景色
 CornerRadius 圆角
 
 ******2.CustomComboBox 继承ComboBox ******
@@ -46,6 +47,7 @@ TextInputType 输入文本类型
 
 ******5.SwitchControl******
 CornerRadius
+SwitchContent //内容
 SwitchOpenBackground  //打开的背景颜色
 SwicthCloseBackground  //关闭的背景颜色
 

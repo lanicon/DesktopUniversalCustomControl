@@ -57,23 +57,23 @@
                 </component:CustomSlider.Triggers>
             </component:CustomSlider>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10" Cursor="Hand">
-                <materialDesign:PackIcon x:Name="last" Kind="ArrowBackCircle" Width="30" Height="30" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="上一集"/>
+                <!--<materialDesign:PackIcon x:Name="last" Kind="ArrowBackCircle" Width="30" Height="30" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="上一集"/>-->
                 <ToggleButton x:Name="play_pause" IsChecked="True" Click="PlayPause_Control">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="{x:Type ToggleButton}">
                             <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                <materialDesign:PackIcon x:Name="ctl" Width="30" Height="30" Kind="PlayCircle" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="播放"/>
+                                <!--<materialDesign:PackIcon x:Name="ctl" Width="30" Height="30" Kind="PlayCircle" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="播放"/>-->
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsChecked" Value="false">
-                                    <Setter Property="Kind" Value="PauseCircle" TargetName="ctl"></Setter>
+                                    <!--<Setter Property="Kind" Value="PauseCircle" TargetName="ctl"></Setter>-->
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </ToggleButton.Template>
                 </ToggleButton>
-                <materialDesign:PackIcon x:Name="stop" Kind="Restart" Width="30" Height="30" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="重放"/>
-                <materialDesign:PackIcon x:Name="next" Kind="ArrowForwardCircle" Width="30" Height="30" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="下一集"/>
+                <!--<materialDesign:PackIcon x:Name="stop" Kind="Restart" Width="30" Height="30" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="重放"/>
+                <materialDesign:PackIcon x:Name="next" Kind="ArrowForwardCircle" Width="30" Height="30" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="下一集"/>-->
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.ColumnSpan="2" Margin="0,0,0,15">
                 <TextBlock x:Name="currentTime" Text="{Binding ElementName=playSlider,Path=Value,Converter={StaticResource DoubleToTimeSpan},Mode=OneWay}" Foreground="{StaticResource foreground}" FontSize="16"></TextBlock>
@@ -81,8 +81,8 @@
                 <TextBlock x:Name="totalTime" Text="{Binding ElementName=playSlider,Path=Maximum,Converter={StaticResource DoubleToTimeSpan},Mode=OneWay}" Foreground="{StaticResource foreground}" FontSize="16"></TextBlock>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,10" Grid.Column="1" Cursor="Hand" Focusable="True">
-                <materialDesign:PackIcon x:Name="volume" Width="30" Height="30" Kind="VolumeMedium" Foreground="{StaticResource foreground}" Background="Transparent" Focusable="True"
-                                                MouseEnter="volume_MouseEnter" MouseLeave="volume_MouseLeave" MouseLeftButtonUp="volume_MouseLeftButtonUp"/>
+                <!--<materialDesign:PackIcon x:Name="volume" Width="30" Height="30" Kind="VolumeMedium" Foreground="{StaticResource foreground}" Background="Transparent" Focusable="True"
+                                                MouseEnter="volume_MouseEnter" MouseLeave="volume_MouseLeave" MouseLeftButtonUp="volume_MouseLeftButtonUp"/>-->
                 <TextBlock x:Name="playSpeed" Text="{Binding ElementName=speedSlider,Path=SelectedItem,Converter={StaticResource SelectedItemToString}}" Padding="0,6,0,0" Focusable="True"
                                 Width="45" Height="30" Foreground="{StaticResource foreground}" Background="Transparent" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"
                                 MouseEnter="playSpeed_MouseEnter" MouseLeave="playSpeed_MouseLeave"/>
@@ -90,12 +90,12 @@
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="{x:Type ToggleButton}">
                             <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                <materialDesign:PackIcon x:Name="ctl" Width="30" Height="30" Kind="Fullscreen" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="全屏"/>
+                                <!--<materialDesign:PackIcon x:Name="ctl" Width="30" Height="30" Kind="Fullscreen" Foreground="{StaticResource foreground}" Background="Transparent" ToolTip="全屏"/>-->
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsChecked" Value="true">
-                                    <Setter Property="Kind" Value="FullscreenExit" TargetName="ctl"></Setter>
-                                    <Setter Property="ToolTip" Value="退出全屏" TargetName="ctl"></Setter>
+                                    <!--<Setter Property="Kind" Value="FullscreenExit" TargetName="ctl"></Setter>
+                                    <Setter Property="ToolTip" Value="退出全屏" TargetName="ctl"></Setter>-->
                                 </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>

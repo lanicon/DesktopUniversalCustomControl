@@ -17,7 +17,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!--MessageBoxView-->
-    <Style TargetType="{x:Type msgDlg:MessageDialog}">
+    <!--<Style TargetType="{x:Type msgDlg:MessageDialog}">
         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
         <Setter Property="Template">
@@ -83,7 +83,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
     <!--MediaPlayerView-->
     <Style TargetType="{x:Type local:MediaPlayerView}">
@@ -164,6 +164,7 @@
 
     <!--ImageButton-->
     <Style TargetType="{x:Type local:ImageButton}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="Salmon"></Setter>
         <Setter Property="OverBackground" Value="{StaticResource backgroundColor}"/>
         <Setter Property="BorderBrush" Value="BlueViolet"></Setter>
@@ -195,7 +196,10 @@
                             </TransformGroup>
                         </Grid.RenderTransform>
                         <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}">
+                                CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" ToolTip="{TemplateBinding ToolTip}">
+                            <Border.Resources>
+                                <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource toolTip}"></Style>
+                            </Border.Resources>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Image Source="{TemplateBinding ImageButtonSource}" 
                                        Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ImageWidth}" 
@@ -250,9 +254,12 @@
 
     <!--SwitchControl-->
     <Style TargetType="{x:Type local:SwitchControl}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="SwitchContent" Value="关" />
         <Setter Property="CornerRadius" Value="15"></Setter>
         <Setter Property="SwitchOpenBackground" Value="#FF0000"></Setter>
         <Setter Property="SwicthCloseBackground" Value="#DADADA"></Setter>
@@ -273,7 +280,10 @@
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </ControlTemplate.Resources>-->
-                    <BulletDecorator Background="Transparent" SnapsToDevicePixels="True">
+                    <BulletDecorator Background="Transparent" SnapsToDevicePixels="True" ToolTip="{TemplateBinding ToolTip}">
+                        <BulletDecorator.Resources>
+                            <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource toolTip}"></Style>
+                        </BulletDecorator.Resources>
                         <BulletDecorator.Bullet>
                             <Border x:Name="ForegroundPanel" BorderThickness="1" CornerRadius="{TemplateBinding CornerRadius}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                                 <Canvas>
@@ -289,7 +299,11 @@
                                         <Border.Effect>
                                             <DropShadowEffect BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray" Opacity="0.9"></DropShadowEffect>
                                         </Border.Effect>
-                                        <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+                                        <TextBlock Text="{TemplateBinding SwitchContent}" Foreground="{TemplateBinding Foreground}" Margin="{TemplateBinding Padding}" 
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center"/>
+                                        <!--<ContentPresenter Content="{TemplateBinding SwitchContent}"  Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" RecognizesAccessKey="True"/>-->
                                     </Border>
                                 </Canvas>
                             </Border>
@@ -305,6 +319,7 @@
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="ForegroundPanel" Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=SwitchOpenBackground}"/>
+                            <Setter Property="SwitchContent" Value="开" />
                             <!--<Trigger.EnterActions>
                                 <BeginStoryboard x:Name="BeginStoryboardCheckedTrue" Storyboard="{StaticResource StoryboardIsChecked}" />
                                 <RemoveStoryboard BeginStoryboardName="BeginStoryboardCheckedFalse" />
@@ -325,12 +340,17 @@
 
     <!--QRCodeControl-->
     <Style TargetType="{x:Type local:QRCodeControl}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Background" Value="Red" />
         <Setter Property="CornerRadius" Value="0"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:QRCodeControl}">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" 
+                    <Border Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" ToolTip="{TemplateBinding ToolTip}"
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border.Resources>
+                            <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource toolTip}"></Style>
+                        </Border.Resources>
                         <Grid>
                             <Image Source="{TemplateBinding QRCodeImage}"/>
                         </Grid>
@@ -346,26 +366,52 @@
         <Setter Property="Background" Value="{StaticResource backgroundColor}"></Setter>
         <!--CustomComboBox字体颜色-->
         <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Padding" Value="6,0,0,0"></Setter>
         <Setter Property="CornerRadius" Value="5"></Setter>
         <Setter Property="ComboBoxListBackground" Value="LightSalmon"></Setter>
         <Setter Property="ComboxBoxItemMouseOverBackground" Value="Salmon"></Setter>
         <Setter Property="ToggleButtonBackground" Value="Red"></Setter>
+
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type ComboBoxItem}">
-                    <Setter Property="Height" Value="40"></Setter>
+                <Style TargetType="{x:Type local:CustomComboBoxItem}">
+                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomComboBox},Path=Foreground}"/>
+                    <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Height}"></Setter>
                     <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomComboBox},Path=Width}"></Setter>
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                            <ControlTemplate TargetType="{x:Type local:CustomComboBoxItem}">
                                 <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomComboBox},Path=ComboBoxListBackground}">
-                                    <Label Content="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Height="{TemplateBinding Height}" Foreground="{TemplateBinding Foreground}" VerticalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="WhiteSmoke"/>
+                                    <Label Content="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Height="{TemplateBinding Height}" Foreground="{TemplateBinding Foreground}" 
+                                    VerticalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="WhiteSmoke"/>
+                                    <!--<Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="7*" />
+                                            <ColumnDefinition Width="2*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" 
+                                               Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        <CheckBox x:Name="cb" Grid.Column="1" IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ItemCheckBoxIsChecked,Mode=TwoWay}"
+                                                  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+                                        <Button x:Name="btn" Grid.Column="1" Content="{TemplateBinding ItemButtonContent}" Visibility="Hidden"/>
+                                        <Image x:Name="img" Grid.Column="1" Source="{TemplateBinding ItemImageSource}" Visibility="Hidden"/>
+                                    </Grid>-->
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomComboBox},Path=ComboxBoxItemMouseOverBackground}" TargetName="border"></Setter>
                                     </Trigger>
+                                    <!--<Trigger Property="ItemType" Value="CheckBox">
+                                        <Setter Property="Visibility" Value="Visible" TargetName="cb"/>
+                                    </Trigger>
+                                    <Trigger Property="ItemType" Value="Button">
+                                        <Setter Property="Visibility" Value="Visible" TargetName="btn"/>
+                                    </Trigger>
+                                    <Trigger Property="ItemType" Value="Image">
+                                        <Setter Property="Visibility" Value="Visible" TargetName="img"/>
+                                    </Trigger>-->
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
@@ -373,6 +419,7 @@
                 </Style>
             </Setter.Value>
         </Setter>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CustomComboBox}">
@@ -388,19 +435,23 @@
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </ControlTemplate.Resources>
-                    <Border x:Name="border" SnapsToDevicePixels="True" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                    <Border x:Name="border" SnapsToDevicePixels="True" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" ToolTip="{TemplateBinding ToolTip}">
+                        <Border.Resources>
+                            <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource toolTip}"></Style>
+                        </Border.Resources>
                         <Grid x:Name="grid" SnapsToDevicePixels="True" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="50" MaxWidth="50"></ColumnDefinition>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="3*" MaxWidth="50"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="{TemplateBinding Padding}"
-                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"></ContentPresenter>
-                            <ToggleButton x:Name="toggle" Grid.Column="1" Style="{StaticResource toggleButton}" Focusable="False" ClickMode="Press"
-                                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"></ToggleButton>
-                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" BorderThickness="0" VerticalContentAlignment="Center" Focusable="True" Background="Transparent"
-                                     Foreground="{TemplateBinding Foreground}" IsReadOnly="{TemplateBinding IsReadOnly}" Padding="{TemplateBinding Padding}"></TextBox>
-                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" PopupAnimation="None" Placement="Bottom">
+                            <ContentPresenter x:Name="content" Content="{TemplateBinding SelectionBoxItem}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="{TemplateBinding Padding}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" IsHitTestVisible="False"/>
+                            <ToggleButton x:Name="toggle" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource toggleButton}" Focusable="False" ClickMode="Press"
+                                          IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" BorderThickness="0" VerticalAlignment="Center" Focusable="True"
+                                     Background="Transparent" Foreground="{TemplateBinding Foreground}"
+                                     IsReadOnly="{TemplateBinding IsReadOnly}" Padding="{TemplateBinding Padding}"/>
+                            <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" PopupAnimation="None" Placement="Bottom">
                                 <Grid x:Name="TemplateRoot" Margin="50,0,50,50" RenderTransformOrigin="0.5,0.5">
                                     <Grid.RenderTransform>
                                         <TransformGroup>
@@ -435,27 +486,230 @@
                         </Trigger>
                         <Trigger Property="IsEditable" Value="true">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_EditableTextBox"></Setter>
+                            <Setter Property="Content" Value="{x:Null}" TargetName="content"></Setter>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true" SourceName="PART_EditableTextBox">
                             <!--光标的颜色-->
-                            <Setter Property="CaretBrush" Value="White" TargetName="PART_EditableTextBox"/>
+                            <Setter Property="CaretBrush" Value="white" TargetName="PART_EditableTextBox"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!--MutilComboBoxControl x:Key="DefaultMutilComboBox" -->
+    <Style TargetType="{x:Type local:MutilComboBoxControl}">
+        <!--CustomComboBox背景色-->
+        <Setter Property="Background" Value="{StaticResource backgroundColor}"></Setter>
+        <!--CustomComboBox字体颜色-->
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="ItemsSource" Value="{x:Null}" />
+        <Setter Property="IsEditable" Value="False"/> <!--不可编辑-->
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Padding" Value="6,0,0,0"></Setter>
+        <Setter Property="CornerRadius" Value="5"></Setter>
+        <Setter Property="ComboBoxListBackground" Value="LightSalmon"></Setter>
+        <Setter Property="ComboxBoxItemMouseOverBackground" Value="Salmon"></Setter>
+        <Setter Property="ToggleButtonBackground" Value="Green"></Setter>
+        <Setter Property="local:MutilComboBoxControl.IsChecked" Value="False" />
+
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Foreground}"/>
+                    <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Height}"></Setter>
+                    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Width}"></Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="border" BorderThickness="0,0,0,1" BorderBrush="WhiteSmoke"
+                                        Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ComboBoxListBackground}">
+                                    <Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="7*" />
+                                            <ColumnDefinition Width="2*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label x:Name="lb" Grid.Column="0" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" 
+                                               Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        <CheckBox x:Name="cb" Grid.Column="1"
+                                                  IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"
+                                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <!--IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"-->
+                                        <!--IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsSelected,Mode=TwoWay}"-->
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ComboxBoxItemMouseOverBackground}" TargetName="border"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="local:MutilComboBoxControl.IsDeletedContent" Value="True">
+                                        <Setter Property="IsChecked" Value="false" TargetName="cb"/>
+                                    </Trigger>
+
+                                    <!--默认 整个子项有作用-->
+                                    <Trigger Property="local:MutilComboBoxControl.SelectedType" Value="MutilItem">
+                                        <Setter Property="IsChecked" TargetName="cb"
+                                                Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsSelected,Mode=TwoWay}"/>
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="local:MutilComboBoxControl.SelectedType" Value="MutilItem"></Condition>
+                                            <Condition Property="IsSelected" Value="true"></Condition>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="local:MutilComboBoxControl.IsChecked" Value="True"/>
+                                        <!--<Setter Property="Background" Value="Red" TargetName="border"/>-->
+                                    </MultiTrigger>
+
+                                    <!--只有CheckBox有作用-->
+                                    <Trigger Property="local:MutilComboBoxControl.SelectedType" Value="OnlyCheckBox">
+                                        <Setter Property="IsChecked" TargetName="cb"
+                                                Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"/>
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="local:MutilComboBoxControl.SelectedType" Value="OnlyCheckBox"></Condition>
+                                            <Condition Property="IsSelected" Value="true"></Condition>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" Value="Green" TargetName="border"/>
+                                    </MultiTrigger>
+
+                                    <!--绑定静态变量-->
+                                    <!--<Trigger Property="IsChecked" Value="true" SourceName="cb">
+                                        <Setter Property="local:MutilComboBoxControl.MutilComboBoxContent" Value="{StaticResource (local:MutilComboBoxControl.textMutil)}" />
+                                    </Trigger>-->
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MutilComboBoxControl}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="popupLoaded">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="TemplateRoot">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"></EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"></EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="TemplateRoot">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"></EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"></EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Border x:Name="border" SnapsToDevicePixels="True" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" ToolTip="{TemplateBinding ToolTip}">
+                        <Border.Resources>
+                            <Style TargetType="{x:Type ToolTip}" BasedOn="{StaticResource toolTip}"></Style>
+                        </Border.Resources>
+                        <Grid x:Name="grid" SnapsToDevicePixels="True" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*"/>
+                                <ColumnDefinition Width="0" MaxWidth="40" x:Name="delColumn"></ColumnDefinition>
+                                <ColumnDefinition Width="3*" MaxWidth="40"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <!--<ContentControl x:Name="content" IsTabStop="False" IsHitTestVisible="False" VerticalAlignment="Center" Background="Blue"
+                                            Content="{TemplateBinding local:MutilComboBoxControl.MutilComboBoxContent}"/>-->
+                            <!--<ToggleButton x:Name="toggle" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource toggleButton}" Focusable="False" ClickMode="Press"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>-->
+                            
+                            <UniformGrid Columns="2" Grid.Column="1" Grid.ColumnSpan="2" Height="{TemplateBinding Height}">
+                                <ToggleButton x:Name="delToggleButton" Grid.Column="0" Style="{StaticResource delToggleButton}"
+                                              IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsDeletedContent),Mode=TwoWay}"
+                                              Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=AddDeleteFun,Converter={StaticResource BooleanToVisibilityConverter}}"></ToggleButton>
+                                <ToggleButton x:Name="toggle" Style="{StaticResource toggleButton}" Focusable="False" ClickMode="Press"
+                                              IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </UniformGrid>                           
+                            <TextBox x:Name="PART_EditableTextBox" BorderThickness="0" VerticalAlignment="Center" Focusable="True"
+                                     Background="Transparent" Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False"
+                                     Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Text,Mode=TwoWay}"
+                                     IsReadOnly="{TemplateBinding IsReadOnly}" Padding="{TemplateBinding Padding}"/>
+                            <Popup x:Name="PART_Popup" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" PopupAnimation="Slide" Placement="Bottom">
+                                <Grid x:Name="TemplateRoot" Margin="50,0,50,50" RenderTransformOrigin="0.5,0.5">
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                    <Rectangle Width="{Binding TemplatedParent}" Height="{Binding TemplatedParent}" Fill="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" RadiusX="5" RadiusY="5">
+                                        <Rectangle.Effect>
+                                            <DropShadowEffect BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray" Opacity="0.8"></DropShadowEffect>
+                                        </Rectangle.Effect>
+                                    </Rectangle>
+                                    <Border x:Name="dropDownBorder" CornerRadius="5" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ElementName=grid,Path=Width}">
+                                        <ListBox x:Name="dropDownListBox" SelectionMode="Multiple" ItemsSource="{TemplateBinding ItemsSource}"
+                                                MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderThickness="0" BorderBrush="BlueViolet" 
+                                                ItemTemplate="{TemplateBinding ItemTemplate}" ItemContainerStyle="{TemplateBinding ItemContainerStyle}"/>
+                                        <!--ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.ListItemsSource),Mode=TwoWay}"-->
+                                    </Border>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="AddDeleteFun" Value="True">
+                            <Setter Property="Width" Value="1*" TargetName="delColumn"/>
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="True">
+                            <Setter Property="CaretBrush" Value="white" TargetName="PART_EditableTextBox"/>
+                            <Setter Property="IsHitTestVisible" Value="True" TargetName="PART_EditableTextBox"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true" SourceName="toggle">
+                            <Setter Property="CornerRadius" Value="5,5,0,0" TargetName="border"></Setter>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="popupLoadedStoryBoard" Storyboard="{StaticResource popupLoaded}"></BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="popupLoadedStoryBoard"></RemoveStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--CustomComboBoxItem-->
     <Style TargetType="{x:Type local:CustomComboBoxItem}">
+        <Setter Property="Padding" Value="5,0,0,0" />
+        <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.WindowTextBrushKey}}" />
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CustomComboBoxItem}">
                     <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}">
-                        <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <!--Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomComboBoxItem},Path=Content}"-->
+                            <Label Grid.Column="0" Content="{TemplateBinding Content}"  
+                                   Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <CheckBox x:Name="cb" Grid.Column="1" IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ItemCheckBoxIsChecked,Mode=TwoWay}"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
+                            <Button x:Name="btn" Grid.Column="1" Content="{TemplateBinding ItemButtonContent}" Visibility="Hidden"/>
+                            <Image x:Name="img" Grid.Column="1" Source="{TemplateBinding ItemImageSource}" Visibility="Hidden"/>
+                        </Grid>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ItemType" Value="CheckBox">
+                            <Setter Property="Visibility" Value="Visible" TargetName="cb"/>
+                        </Trigger>
+                        <Trigger Property="ItemType" Value="Button">
+                            <Setter Property="Visibility" Value="Visible" TargetName="btn"/>
+                        </Trigger>
+                        <Trigger Property="ItemType" Value="Image">
+                            <Setter Property="Visibility" Value="Visible" TargetName="img"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -481,9 +735,9 @@
                                      exposed:CustomPasswordBoxhelper.IsShowIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsEyeVisible}"
                                      exposed:CustomPasswordBoxhelper.IsShowPassword="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsShowPassword}"
                                      PasswordChar="{TemplateBinding PasswordChar}" MaxLength="{TemplateBinding MaxLength}">
-                            <i:Interaction.Behaviors>
+                            <!--<i:Interaction.Behaviors>
                                 <exposed:PasswordBoxBehavior></exposed:PasswordBoxBehavior>
-                            </i:Interaction.Behaviors>
+                            </i:Interaction.Behaviors>-->
                         </PasswordBox>
                     </Border>
                 </ControlTemplate>
@@ -493,6 +747,9 @@
     
     <!--CustomTextControl-->
     <Style TargetType="{x:Type local:CustomTextControl}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="5"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -511,7 +768,8 @@
                         <Grid>
                             <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                       IsHitTestVisible="{TemplateBinding IsHitTestVisible}" Foreground="{TemplateBinding Foreground}"></ScrollViewer>
-                            <TextBlock x:Name="PART_PlaceHolder" Visibility="Collapsed" Text="{TemplateBinding TextPlaceHolder}" Foreground="Gray" Opacity="0.7" FontSize="{TemplateBinding FontSize}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"></TextBlock>
+                            <TextBlock x:Name="PART_PlaceHolder" Visibility="Collapsed" Text="{TemplateBinding TextPlaceHolder}" Foreground="Gray" Opacity="0.7" 
+                                       FontSize="{TemplateBinding FontSize}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}"></TextBlock>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -770,5 +1028,5 @@
     <Style TargetType="{x:Type local:CoordinateSystem}">
 
     </Style>
-    
+
 </ResourceDictionary>

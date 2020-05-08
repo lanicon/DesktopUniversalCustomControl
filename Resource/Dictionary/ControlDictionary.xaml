@@ -13,22 +13,18 @@
         <GradientStop Offset="0.6" Color="Orange"></GradientStop>
         <GradientStop Offset="0.9" Color="OrangeRed"></GradientStop>
     </LinearGradientBrush>
-    <!--<LinearGradientBrush x:Key="backgroundColor">
-        <GradientStop Offset="0.3" Color="Blue"></GradientStop>
-        <GradientStop Offset="0.6" Color="Blue"></GradientStop>
-        <GradientStop Offset="0.9" Color="Blue"></GradientStop>
-    </LinearGradientBrush>-->
     <DropShadowEffect x:Key="effect" BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray"></DropShadowEffect>
     <OuterGlowBitmapEffect x:Key="bitmapEffect" GlowColor="DarkBlue" GlowSize="10" Opacity="0.7"></OuterGlowBitmapEffect>
-    
 
-    <!--Template-->
+
+    <!--ToolTipTemplate-->
     <ControlTemplate x:Key="toolTipTemplate" TargetType="{x:Type ToolTip}">
         <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0"
                             CornerRadius="5" Background="{TemplateBinding Background}">
             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8"/>
         </Border>
     </ControlTemplate>
+
 
     <!--转换器-->
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
@@ -43,7 +39,7 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="14,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="2" StrokeDashArray="1 2"/>
+                    <Rectangle Margin="10,0,0,0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="2" StrokeDashArray="1 2"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -218,6 +214,76 @@
         </Setter>
     </Style>
 
+    <!--TooggleButton 删除按钮-->
+    <Style x:Key="delToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="loaded">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"></EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"></EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="border">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"></EasingDoubleKeyFrame>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1"></EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Border x:Name="border" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                        <!--{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomComboBox},Path=ToggleButtonBackground}-->
+                        <Canvas VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Canvas.RenderTransform>
+                                <RotateTransform Angle="45"></RotateTransform>
+                            </Canvas.RenderTransform>
+                            <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:MutilComboBoxControl},Path=ToggleButtonBackground}">
+                                <Path.Data>
+                                    <EllipseGeometry  RadiusX="12" RadiusY="12"></EllipseGeometry>
+                                </Path.Data>
+                            </Path>
+                            <Path Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:MutilComboBoxControl},Path=StrokeLineColor}" StrokeThickness="2">
+                                <Path.Data>
+                                    <LineGeometry StartPoint="-12,0" EndPoint="12,0"></LineGeometry>
+                                </Path.Data>
+                            </Path>
+                            <Path Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:MutilComboBoxControl},Path=StrokeLineColor}" StrokeThickness="2">
+                                <Path.Data>
+                                    <LineGeometry StartPoint="0,-12" EndPoint="0,12"></LineGeometry>
+                                </Path.Data>
+                            </Path>
+                            <!--<Path Data="M 0,0 L 8,8 Z M 0,8 L 8,0 Z" Stroke="White" StrokeThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                        </Canvas>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="CornerRadius" Value="0" TargetName="border"></Setter>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="defaultStoryBoard" Storyboard="{StaticResource loaded}"></BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <RemoveStoryboard BeginStoryboardName="defaultStoryBoard"></RemoveStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Cursor" Value="Hand"></Setter>
+                            <Setter Property="BitmapEffect">
+                                <Setter.Value>
+                                    <DropShadowBitmapEffect ShadowDepth="1" Softness="0.5" Opacity="0.2" Color="Gray"></DropShadowBitmapEffect>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--ComboBox-->
     <Style x:Key="comboBox" TargetType="{x:Type ComboBox}">
         <Setter Property="ItemContainerStyle">
@@ -306,9 +372,9 @@
                             <component:CustomTextControl x:Name="visiblePassword" Visibility="Collapsed" Text="{TemplateBinding exposed:CustomPasswordBoxhelper.Password}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                          Background="Transparent" InputMethod.IsInputMethodEnabled="False" TextChanged="VisiblePassword_TextChanged" BorderThickness="0" Focusable="True" MaxLength="{TemplateBinding MaxLength}"
                                                          Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"></component:CustomTextControl>
-                            <materialDesign:PackIcon x:Name="eye" Grid.Column="1" Kind="Lock" Width="25" Height="25" MouseLeftButtonDown="Eye_MouseLeftButtonDown" VerticalAlignment="Center" 
+                            <!--<materialDesign:PackIcon x:Name="eye" Grid.Column="1" Kind="Lock" Width="25" Height="25" MouseLeftButtonDown="Eye_MouseLeftButtonDown" VerticalAlignment="Center" 
                                                      Visibility="{TemplateBinding exposed:CustomPasswordBoxhelper.IsShowIcon,Converter={StaticResource BooleanToVisibilityConverter}}" Background="Transparent"                                      
-                                                     Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"></materialDesign:PackIcon>
+                                                     Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"></materialDesign:PackIcon>-->
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -321,12 +387,12 @@
                         <Trigger Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="true">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentHost"></Setter>
                             <Setter Property="Visibility" Value="Visible" TargetName="visiblePassword"></Setter>
-                            <Setter Property="Kind" Value="Eye" TargetName="eye"></Setter>
+                            <!--<Setter Property="Kind" Value="Eye" TargetName="eye"></Setter>-->
                         </Trigger>
                         <Trigger Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="false">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ContentHost"></Setter>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="visiblePassword"></Setter>
-                            <Setter Property="Kind" Value="Lock" TargetName="eye"></Setter>
+                            <!--<Setter Property="Kind" Value="Lock" TargetName="eye"></Setter>-->
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="border" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
@@ -347,7 +413,59 @@
         <Setter Property="FontFamily" Value="微软雅黑"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="Margin" Value="-25,0,0,0"/>
-    </Style> 
+    </Style>
+
+    <Style x:Key="CheckItemStyle" TargetType="{x:Type ListBoxItem}" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}" >
+                    <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:MutilComboBoxControl},Path=ComboBoxListBackground}">
+                        <Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="lb" Grid.Column="0" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" 
+                                               Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <CheckBox x:Name="cb" Grid.Column="1"
+                                                  IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(component:MutilComboBoxControl.IsChecked),Mode=TwoWay}"
+                                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:MutilComboBoxControl},Path=ComboxBoxItemMouseOverBackground}" TargetName="border"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="true" SourceName="cb">
+                            <Setter Property="component:MutilComboBoxControl.MutilComboBoxContent" Value="{StaticResource (component:MutilComboBoxControl.textMutil)}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                    <!--<Border x:Name="Border" Background="{TemplateBinding Background}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <CheckBox IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </CheckBox>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        --><!--<Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ItemSelectedBackground}" />
+                            <Setter Property="Foreground" Value="{StaticResource ItemSelectedForeground}" />
+                        </Trigger>--><!--
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="Red" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Opacity" Value="0.8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>-->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 </ResourceDictionary>

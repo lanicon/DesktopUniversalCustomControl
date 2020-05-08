@@ -47,10 +47,9 @@ namespace CustomControl.CustomComponent
         /// <returns></returns>
         private static ImageSource GetQRCodeImage(QRCodeControl qrCodeControl)
         {
-            if (qrCodeControl.QrCodeContent == null)
-                qrCodeControl.QrCodeContent = string.Empty;
-            Console.WriteLine(qrCodeControl.GetValue(BackgroundProperty).ToString() + "|" + qrCodeControl.GetValue(ForegroundProperty).ToString());
+            //Console.WriteLine(qrCodeControl.GetValue(ForegroundProperty).ToString() + "|" + qrCodeControl.GetValue(BackgroundProperty).ToString());
 
+            System.Drawing.ColorConverter colorConverter = new System.Drawing.ColorConverter();
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
             {
                 using (QRCodeData qRCodeData = qrGenerator.CreateQrCode(qrCodeControl.QrCodeContent, QRCodeGenerator.ECCLevel.Q))
@@ -59,10 +58,10 @@ namespace CustomControl.CustomComponent
                     {
                         Bitmap codeImage = qrCode.GetGraphic(
                             qrCodeControl.QrCodePixelsPerModule,
-                            qrCodeControl.Foreground,
+                            (System.Drawing.Color)colorConverter.ConvertFromString(qrCodeControl.Foreground.ToString()),
                             System.Drawing.Color.FromName(((SolidColorBrush)qrCodeControl.Background).Color.ToString()),
-                            ImageBitmapConverter.ToBitmap(qrCodeControl.QrCodeIcon), 
-                            qrCodeControl.QrCodeIconSizePercent, 
+                            ImageBitmapConverter.ToBitmap(qrCodeControl.QrCodeIcon),
+                            qrCodeControl.QrCodeIconSizePercent,
                             qrCodeControl.QrCodeIconBorderWidth);
                         qrCodeControl.QRCodeImage = ImageBitmapConverter.ToImageSource(codeImage);
                         //qrCodeControl.QRCodeImage = Imaging.CreateBitmapSourceFromHBitmap(codeImage.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
@@ -116,7 +115,7 @@ namespace CustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty QrCodeContentProperty =
-            DependencyProperty.Register("QrCodeContent", typeof(string), typeof(QRCodeControl), new PropertyMetadata(string.Empty, GetChangedQRCodeImage));
+            DependencyProperty.Register("QrCodeContent", typeof(string), typeof(QRCodeControl), new PropertyMetadata("**我是写代码的厨子**", GetChangedQRCodeImage));
 
 
         /// <summary>
@@ -161,27 +160,27 @@ namespace CustomControl.CustomComponent
         /// <summary>
         /// 二维码前置颜色
         /// </summary>
-        public new System.Drawing.Color Foreground
+        public new Brush Foreground
         {
-            get { return (System.Drawing.Color)GetValue(ForegroundProperty); }
+            get { return (Brush)GetValue(ForegroundProperty); }
             set { SetValue(ForegroundProperty, value); }
         }
 
         public new static readonly DependencyProperty ForegroundProperty =
-            DependencyProperty.Register("Foreground", typeof(System.Drawing.Color), typeof(QRCodeControl), new PropertyMetadata(System.Drawing.Color.DarkRed, GetChangedQRCodeImage));
+            DependencyProperty.Register("Foreground", typeof(Brush), typeof(QRCodeControl), new PropertyMetadata(Brushes.Red, GetChangedQRCodeImage));
 
 
         /// <summary>
         /// 二维码背景颜色
         /// </summary>
-        public new System.Windows.Media.Brush Background
+        public new Brush Background
         {
-            get { return (System.Windows.Media.Brush)GetValue(BackgroundProperty); }
+            get { return (Brush)GetValue(BackgroundProperty); }
             set { SetValue(BackgroundProperty, value); }
         }
 
         public new static readonly DependencyProperty BackgroundProperty =
-            DependencyProperty.Register("Background", typeof(System.Windows.Media.Brush), typeof(QRCodeControl), new PropertyMetadata(System.Windows.Media.Brushes.PaleGreen, GetChangedQRCodeImage));
+            DependencyProperty.Register("Background", typeof(Brush), typeof(QRCodeControl), new PropertyMetadata(Brushes.PaleGreen, GetChangedQRCodeImage));
 
 
         /// <summary>
@@ -204,6 +203,8 @@ namespace CustomControl.CustomComponent
                 var qrCodeControl = d as QRCodeControl;
                 if (qrCodeControl.QrCodeIconSizePercent < 0)
                     qrCodeControl.QrCodeIconSizePercent = 0;
+                if (qrCodeControl.QrCodeIconSizePercent > 20)
+                    qrCodeControl.QrCodeIconSizePercent = 20;
                 if (qrCodeControl.QrCodeIconBorderWidth <= 0)
                     qrCodeControl.QrCodeIconBorderWidth = 1;
                 if (qrCodeControl.QrCodePixelsPerModule <= 0)
@@ -211,11 +212,16 @@ namespace CustomControl.CustomComponent
                 if (qrCodeControl.QrCodePixelsPerModule > 200)
                     qrCodeControl.QrCodePixelsPerModule = 200;
 
+                //if (e.Property == ForegroundProperty)
+                //    qrCodeControl.SetValue(ForegroundProperty, e.NewValue);
+                //if (e.Property == BackgroundProperty)
+                //    qrCodeControl.SetValue(BackgroundProperty, e.NewValue);
+
                 qrCodeControl.QRCodeImage = GetQRCodeImage(qrCodeControl);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Console.WriteLine(ex.Message + "------");
             }
         }
     }

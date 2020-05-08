@@ -45,7 +45,7 @@ namespace CustomControl.CustomComponent
             var textControl = d as CustomTextControl;
 
             if ((TextInputType)e.NewValue == TextInputType.digit)
-                pattern = @"^(\-|\+?)\d+(\.\d+)?$"; //"^[0-9]*$"; //实数
+                pattern = @"^(\-|\+?)\d+(\.\d+)?$"; //"^[0-9]*$"; //数字
             else if ((TextInputType)e.NewValue == TextInputType.letter)
                 pattern = "^[A-Za-z]+$"; //只能输入字母 大写->A-Z,小写a-z
             else if ((TextInputType)e.NewValue == TextInputType.digitOrLetterLine)
@@ -61,7 +61,7 @@ namespace CustomControl.CustomComponent
             textControl.TextChanged += delegate { TextControlTextChanged(textControl, (int)textControl.TextInputType); };
         }
 
-        static string[] wrongs = new string[6] { null, "请输入实数", "请输入字母", "请输入数字、26个英文字母或者下划线组成的字符串", "请输入数字和26个英文字母组成的字符串", "只能输入汉字" };
+        static string[] wrongs = new string[6] { null, "请输入数字", "请输入字母", "请输入数字、26个英文字母或者下划线组成的字符串", "请输入数字和26个英文字母组成的字符串", "只能输入汉字" };
         private static void TextControlTextChanged(CustomTextControl textControl, int index)
         {
             Regex regex = new Regex(pattern);
@@ -72,6 +72,7 @@ namespace CustomControl.CustomComponent
                 SetIsMatchRule(textControl, false);
 
             SetWrongTextIndicate(textControl, wrongs[index]);
+            textControl.TextPlaceHolder = wrongs[index];
         }
 
 

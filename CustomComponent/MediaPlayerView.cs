@@ -1,5 +1,4 @@
 ﻿using CustomControl.ExposedMethod;
-using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections;
 using System.Collections.Generic;

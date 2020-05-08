@@ -1,5 +1,4 @@
 ﻿using CustomControl.CustomView.MsgDlg;
-using MaterialDesignThemes.Wpf;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -96,7 +95,7 @@ namespace CustomControl.NotifycationObject
         public static MessageBoxResult msg_Result;
         public static string msg_Caption;
         public static string msg_IndicateText;
-        public static PackIconKind msg_Icon;
+        //public static PackIconKind msg_Icon;
 
         private string _caption = msg_Caption;
         /// <summary>
@@ -118,15 +117,15 @@ namespace CustomControl.NotifycationObject
             set { SetProperty(ref _indicateText, value); }
         }
 
-        private PackIconKind _msgIcon = msg_Icon;
-        /// <summary>
-        /// 消息图标
-        /// </summary>
-        public PackIconKind msgIcon
-        {
-            get { return _msgIcon; }
-            set { SetProperty(ref _msgIcon, value); }
-        }
+        //private PackIconKind _msgIcon = msg_Icon;
+        ///// <summary>
+        ///// 消息图标
+        ///// </summary>
+        //public PackIconKind msgIcon
+        //{
+        //    get { return _msgIcon; }
+        //    set { SetProperty(ref _msgIcon, value); }
+        //}
 
 
         #endregion

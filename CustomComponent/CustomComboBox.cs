@@ -17,7 +17,7 @@ using System.Windows.Shapes;
 namespace CustomControl.CustomComponent
 {
     /// <summary>
-    /// ComboBox控件
+    /// CustomComboBox控件
     /// </summary>
     public class CustomComboBox : ComboBox
     {
@@ -26,6 +26,26 @@ namespace CustomControl.CustomComponent
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomComboBox), new FrameworkPropertyMetadata(typeof(CustomComboBox)));
         }
 
+        public CustomComboBox()
+        {
+            this.Loaded += CustomComboBox_Loaded;         
+        }
+
+        private CustomComboBox cus;
+        private void CustomComboBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            cus = sender as CustomComboBox;
+            var border = this.Template.FindName("border", cus) as Border;
+            border.MouseLeftButtonDown += Border_MouseLeftButtonDown;   //控制下拉框开关     
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {          
+            if (cus.IsDropDownOpen)
+                cus.IsDropDownOpen = false;
+            else
+                cus.IsDropDownOpen = true;
+        }
 
         /// <summary>
         /// CornerRadius

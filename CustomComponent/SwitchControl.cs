@@ -38,7 +38,6 @@ namespace CustomControl.CustomComponent
 
         public SwitchControl()
         {
-            //this.DataContext = this;
             this.Loaded += SwitchControl_Loaded;
         }
 
@@ -62,6 +61,10 @@ namespace CustomControl.CustomComponent
             sliderw = this.Width - this.Height;
             SetSliderWidth(this, sliderw);
             this.CornerRadius = new CornerRadius(this.Height / 2);
+            if(this.IsChecked == true)
+            {
+                OnChecked(e);
+            }
         }
 
 
@@ -78,24 +81,41 @@ namespace CustomControl.CustomComponent
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(SwitchControl), new PropertyMetadata());
 
 
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public string SwitchContent
+        {
+            get { return (string)GetValue(SwitchContentProperty); }
+            set { SetValue(SwitchContentProperty, value); }
+        }
+
+        public static readonly DependencyProperty SwitchContentProperty =
+            DependencyProperty.Register("SwitchContent", typeof(string), typeof(SwitchControl), new PropertyMetadata());
+
+
+        /// <summary>
+        /// 打开的背景颜色
+        /// </summary>
         public Brush SwitchOpenBackground
         {
             get { return (Brush)GetValue(SwitchOpenBackgroundProperty); }
             set { SetValue(SwitchOpenBackgroundProperty, value); }
         }
 
-        //打开的背景颜色
         public static readonly DependencyProperty SwitchOpenBackgroundProperty =
             DependencyProperty.Register("SwitchOpenBackground", typeof(Brush), typeof(SwitchControl), new PropertyMetadata());
 
 
+        /// <summary>
+        /// 关闭的背景颜色
+        /// </summary>
         public Brush SwicthCloseBackground
         {
             get { return (Brush)GetValue(SwicthCloseBackgroundProperty); }
             set { SetValue(SwicthCloseBackgroundProperty, value); }
         }
 
-        //关闭的背景颜色
         public static readonly DependencyProperty SwicthCloseBackgroundProperty =
             DependencyProperty.Register("SwicthCloseBackground", typeof(Brush), typeof(SwitchControl), new PropertyMetadata());
 

@@ -1,7 +1,6 @@
 ﻿using CustomControl.CustomComponent;
 using CustomControl.ExposedMethod;
 using CustomControl.Resource.Transitions;
-using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -120,19 +119,19 @@ namespace CustomControl.Resource.Dictionary
         PasswordBox pb;
         private void Eye_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            pb = (sender as PackIcon).TemplatedParent as PasswordBox;
-            cpb = pb.TemplatedParent as CustomPasswordBox;
-            index++;
-            if (index % 2 != 0)
-            {
-                CustomPasswordBoxhelper.SetPassword(cpb, pb.Password);
-                CustomPasswordBoxhelper.SetIsShowPassword(pb, true);
-            }
-            else
-            {
-                CustomPasswordBoxhelper.SetPassword(cpb, pb.Password);
-                CustomPasswordBoxhelper.SetIsShowPassword(pb, false);
-            }
+            //pb = (sender as PackIcon).TemplatedParent as PasswordBox;
+            //cpb = pb.TemplatedParent as CustomPasswordBox;
+            //index++;
+            //if (index % 2 != 0)
+            //{
+            //    CustomPasswordBoxhelper.SetPassword(cpb, pb.Password);
+            //    CustomPasswordBoxhelper.SetIsShowPassword(pb, true);
+            //}
+            //else
+            //{
+            //    CustomPasswordBoxhelper.SetPassword(cpb, pb.Password);
+            //    CustomPasswordBoxhelper.SetIsShowPassword(pb, false);
+            //}
         }
 
         private void VisiblePassword_TextChanged(object sender, TextChangedEventArgs e)

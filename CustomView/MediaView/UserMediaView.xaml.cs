@@ -2,7 +2,6 @@
 using CustomControl.CustomView.MsgDlg;
 using CustomControl.ExposedMethod;
 using CustomControl.NotifycationObject;
-using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -44,7 +43,7 @@ namespace CustomControl.CustomView.MediaView
 
             mediaElement.MouseLeftButtonUp += MediaElement_MouseLeftButtonUp;
             MouseDoubleClick += UserMediaView_MouseDoubleClick;
-            stop.MouseLeftButtonUp += Stop_MouseLeftButtonUp;
+            //stop.MouseLeftButtonUp += Stop_MouseLeftButtonUp;
         }
 
         #region 控制界面显示与否
@@ -153,8 +152,8 @@ namespace CustomControl.CustomView.MediaView
 
         private void volume_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (e.GetPosition(volume).Y >= 30 || e.GetPosition(volume).X <= 0 || e.GetPosition(volume).X >= 30)
-                mediaViewModel.IsVolumeOpen = false;
+            //if (e.GetPosition(volume).Y >= 30 || e.GetPosition(volume).X <= 0 || e.GetPosition(volume).X >= 30)
+            //    mediaViewModel.IsVolumeOpen = false;
         }
 
         private void VolumePopup_MouseLeave(object sender, MouseEventArgs e)
@@ -167,17 +166,17 @@ namespace CustomControl.CustomView.MediaView
         //静音模式
         private void volume_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(volume.Kind == PackIconKind.VolumeOff)
-            {
-                mediaElement.IsMuted = false;
-                volumeSlider.Value = mutedVolumeValue;
-            }
-            else
-            {
-                mediaElement.IsMuted = true;
-                mutedVolumeValue = volumeSlider.Value;
-                volumeSlider.Value = 0;
-            }
+            //if(volume.Kind == PackIconKind.VolumeOff)
+            //{
+            //    mediaElement.IsMuted = false;
+            //    volumeSlider.Value = mutedVolumeValue;
+            //}
+            //else
+            //{
+            //    mediaElement.IsMuted = true;
+            //    mutedVolumeValue = volumeSlider.Value;
+            //    volumeSlider.Value = 0;
+            //}
         }
 
         //音量值
@@ -190,18 +189,18 @@ namespace CustomControl.CustomView.MediaView
             else
                 mediaElement.IsMuted = true;
            
-            if (volumeSlider.Value > 0.5 && volumeSlider.Value <= 1.0)
-            {
-                volume.Kind = PackIconKind.VolumeHigh;
-            }
-            else if(volumeSlider.Value > 0 && volumeSlider.Value <= 0.5)
-            {
-                volume.Kind = PackIconKind.VolumeMedium;
-            }
-            else
-            {
-                volume.Kind = PackIconKind.VolumeOff;
-            }
+            //if (volumeSlider.Value > 0.5 && volumeSlider.Value <= 1.0)
+            //{
+            //    volume.Kind = PackIconKind.VolumeHigh;
+            //}
+            //else if(volumeSlider.Value > 0 && volumeSlider.Value <= 0.5)
+            //{
+            //    volume.Kind = PackIconKind.VolumeMedium;
+            //}
+            //else
+            //{
+            //    volume.Kind = PackIconKind.VolumeOff;
+            //}
         }
 
         #endregion
