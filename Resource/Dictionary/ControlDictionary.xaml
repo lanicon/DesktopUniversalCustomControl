@@ -28,6 +28,7 @@
 
     <!--转换器-->
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    <converter:IntConverToVisiblity x:Key="IntConverToVisiblity"></converter:IntConverToVisiblity>
     <converter:MediaPlayerStateToVisibility x:Key="MediaPlayerStateToVisibility"></converter:MediaPlayerStateToVisibility>
     <converter:DoubleToInt x:Key="DoubleToInt"></converter:DoubleToInt>
     <converter:DoubleToTimeSpan x:Key="DoubleToTimeSpan"></converter:DoubleToTimeSpan>
@@ -415,57 +416,6 @@
         <Setter Property="Margin" Value="-25,0,0,0"/>
     </Style>
 
-    <Style x:Key="CheckItemStyle" TargetType="{x:Type ListBoxItem}" >
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}" >
-                    <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:MutilComboBoxControl},Path=ComboBoxListBackground}">
-                        <Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="7*" />
-                                <ColumnDefinition Width="2*" />
-                            </Grid.ColumnDefinitions>
-                            <Label x:Name="lb" Grid.Column="0" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" 
-                                               Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            <CheckBox x:Name="cb" Grid.Column="1"
-                                                  IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(component:MutilComboBoxControl.IsChecked),Mode=TwoWay}"
-                                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:MutilComboBoxControl},Path=ComboxBoxItemMouseOverBackground}" TargetName="border"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="true" SourceName="cb">
-                            <Setter Property="component:MutilComboBoxControl.MutilComboBoxContent" Value="{StaticResource (component:MutilComboBoxControl.textMutil)}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                    <!--<Border x:Name="Border" Background="{TemplateBinding Background}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <CheckBox IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}">
-                                <ContentPresenter Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </CheckBox>
-                        </StackPanel>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        --><!--<Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{StaticResource ItemSelectedBackground}" />
-                            <Setter Property="Foreground" Value="{StaticResource ItemSelectedForeground}" />
-                        </Trigger>--><!--
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="Red" />
-                            <Setter Property="Foreground" Value="White" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Opacity" Value="0.8" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>-->
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
 
 </ResourceDictionary>

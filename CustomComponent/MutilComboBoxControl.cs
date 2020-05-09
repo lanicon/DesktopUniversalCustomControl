@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CustomControl.ExposedMethod;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -41,10 +42,187 @@ namespace CustomControl.CustomComponent
 
         private void MutilComboBox_Loaded(object sender, RoutedEventArgs e)
         {
-            //if (MutilComboBox.ItemsSource == null)
-            //    MutilComboBox.ItemsSource = MutilComboBox.Items;
-            //SetListItemsSource(MutilComboBox, MutilComboBox.Items);
+ 
         }
+
+
+
+        /// <summary>
+        /// 子项的Lable内容
+        /// </summary>
+        public object SelectedItemContent
+        {
+            get { return (object)GetValue(SelectedItemContentProperty); }
+            set { SetValue(SelectedItemContentProperty, value); }
+        }
+
+        public static readonly DependencyProperty SelectedItemContentProperty =
+            DependencyProperty.Register("SelectedItemContent", typeof(object), typeof(MutilComboBoxControl), new PropertyMetadata(default(object)));
+
+
+        /// <summary>
+        /// 子项类型
+        /// </summary>
+        public ItemType ItemType
+        {
+            get { return (ItemType)GetValue(ItemTypeProperty); }
+            set { SetValue(ItemTypeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemTypeProperty =
+            DependencyProperty.Register("ItemType", typeof(ItemType), typeof(MutilComboBoxControl), 
+                new PropertyMetadata(ItemType.CheckBox,changed));
+
+        private static void changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            SetCheckBoxItemTypeIndex(MutilComboBox, false);
+            SetButtonItemTypeIndex(MutilComboBox, false);
+            SetImageItemTypeIndex(MutilComboBox, false);
+
+            switch (MutilComboBox.ItemType)
+            {
+                case ItemType.CheckBox:
+                    SetCheckBoxItemTypeIndex(MutilComboBox, true);
+                    break;
+                case ItemType.Button:
+                    SetButtonItemTypeIndex(MutilComboBox, true);
+                    break;
+                case ItemType.Image:
+                    SetImageItemTypeIndex(MutilComboBox, true);
+                    break;
+                default:
+                    break;
+            }
+            
+            //Console.WriteLine($"序号：{MutilComboBox.ItemType}"); 
+        }
+
+        public static bool GetCheckBoxItemTypeIndex(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(CheckBoxItemTypeIndexProperty);
+        }
+
+        public static void SetCheckBoxItemTypeIndex(DependencyObject obj, bool value)
+        {
+            obj.SetValue(CheckBoxItemTypeIndexProperty, value);
+        }
+
+        // CheckBoxItemTypeIndex的序号
+        public static readonly DependencyProperty CheckBoxItemTypeIndexProperty =
+            DependencyProperty.RegisterAttached("CheckBoxItemTypeIndex", typeof(bool), typeof(MutilComboBoxControl), new PropertyMetadata(true));
+
+
+        /// <summary>
+        /// 按钮内容
+        /// </summary>
+        public string ItemButtonContent
+        {
+            get { return (string)GetValue(ItemButtonContentProperty); }
+            set { SetValue(ItemButtonContentProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemButtonContentProperty =
+            DependencyProperty.Register("ItemButtonContent", typeof(string), typeof(MutilComboBoxControl), new PropertyMetadata(string.Empty));
+
+
+        public static bool GetButtonItemTypeIndex(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(ButtonItemTypeIndexProperty);
+        }
+
+        public static void SetButtonItemTypeIndex(DependencyObject obj, bool value)
+        {
+            obj.SetValue(ButtonItemTypeIndexProperty, value);
+        }
+
+        // ButtonItemTypeIndex的序号
+        public static readonly DependencyProperty ButtonItemTypeIndexProperty =
+            DependencyProperty.RegisterAttached("ButtonItemTypeIndex", typeof(bool), typeof(MutilComboBoxControl), new PropertyMetadata(false));
+
+
+
+        public static bool GetIsDeleteButtonPressed(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsDeleteButtonPressedProperty);
+        }
+
+        public static void SetIsDeleteButtonPressed(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsDeleteButtonPressedProperty, value);
+        }
+
+        //是否点击删除子项按钮
+        public static readonly DependencyProperty IsDeleteButtonPressedProperty =
+            DependencyProperty.RegisterAttached("IsDeleteButtonPressed", typeof(bool), typeof(MutilComboBoxControl), 
+                new PropertyMetadata(false,IsPressedChanged));
+        private static Label lable;
+        private static void IsPressedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var listBoxItem = d as ListBoxItem;
+            lable = listBoxItem.Template.FindName("lb", listBoxItem) as Label;
+            if((bool)e.NewValue)
+            {
+                MutilComboBox.SelectedItemContent = lable.Content;
+                MutilComboBox.OnDeleteItemValueEvent(e.OldValue, e.NewValue);
+                Console.WriteLine(lable.Content);
+            }              
+        }
+
+
+        [Description("删除按钮点击时发生")]
+        public event RoutedEventHandler DeleteItemValue
+        {
+            add
+            {
+                this.AddHandler(DeleteItemValueEvent, value);
+            }
+            remove
+            {
+                this.RemoveHandler(DeleteItemValueEvent, value);
+            }
+        }
+
+        //删除按钮事件
+        public static readonly RoutedEvent DeleteItemValueEvent =
+            EventManager.RegisterRoutedEvent("DeleteItemValue", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventArgs<object>), typeof(MutilComboBoxControl));
+        
+        protected virtual void OnDeleteItemValueEvent(object oldString, object newString)
+        {
+            //RoutedEventArgs args = new RoutedEventArgs(DeleteItemValueEvent, this);
+            RoutedPropertyChangedEventArgs<object> arg = new RoutedPropertyChangedEventArgs<object>(oldString, newString, DeleteItemValueEvent);
+            MutilComboBox.RaiseEvent(arg); //引用自定义事件
+            //Button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
+
+
+
+        /// <summary>
+        /// 图片地址
+        /// </summary>
+        public ImageSource ItemImageSource
+        {
+            get { return (ImageSource)GetValue(ItemImageSourceProperty); }
+            set { SetValue(ItemImageSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemImageSourceProperty =
+            DependencyProperty.Register("ItemImageSource", typeof(ImageSource), typeof(MutilComboBoxControl), new PropertyMetadata());
+
+
+        public static bool GetImageItemTypeIndex(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(ImageItemTypeIndexProperty);
+        }
+
+        public static void SetImageItemTypeIndex(DependencyObject obj, bool value)
+        {
+            obj.SetValue(ImageItemTypeIndexProperty, value);
+        }
+
+        //ImageItemTypeIndex的序号
+        public static readonly DependencyProperty ImageItemTypeIndexProperty =
+            DependencyProperty.RegisterAttached("ImageItemTypeIndex", typeof(bool), typeof(MutilComboBoxControl), new PropertyMetadata(false));
+
 
 
         /// <summary>
@@ -70,7 +248,7 @@ namespace CustomControl.CustomComponent
         }
       
         public static readonly DependencyProperty StrokeLineColorProperty =
-            DependencyProperty.Register("StrokeLineColor", typeof(Brush), typeof(MutilComboBoxControl), new PropertyMetadata(Brushes.White));
+            DependencyProperty.Register("StrokeLineColor", typeof(Brush), typeof(MutilComboBoxControl), new PropertyMetadata());
 
 
         public static bool GetIsDeletedContent(DependencyObject obj)
@@ -98,25 +276,25 @@ namespace CustomControl.CustomComponent
         }
 
 
-        [Description("删除按钮点击时发生")]
-        public event RoutedEventHandler DeleteButtonIsCheckedChanged
+        [Description("清空文本按钮点击时发生")]
+        public event RoutedEventHandler ClearButtonIsCheckedChanged
         {
             add
             {
-                this.AddHandler(DeleteButtonIsCheckedChangedEvent, value);
+                this.AddHandler(ClearButtonIsCheckedChangedEvent, value);
             }
             remove
             {
-                this.RemoveHandler(DeleteButtonIsCheckedChangedEvent, value);
+                this.RemoveHandler(ClearButtonIsCheckedChangedEvent, value);
             }
         }
-
-        public static readonly RoutedEvent DeleteButtonIsCheckedChangedEvent =
-            EventManager.RegisterRoutedEvent("DeleteButtonIsCheckedChanged", RoutingStrategy.Bubble, typeof(Boolean), typeof(MutilComboBoxControl));
-
-        protected virtual void OnDeleteButtonIsCheckedChanged(bool oldString, bool newString)
+        //清空文本事件
+        public static readonly RoutedEvent ClearButtonIsCheckedChangedEvent =
+            EventManager.RegisterRoutedEvent("ClearButtonIsCheckedChanged", RoutingStrategy.Bubble, typeof(Boolean), typeof(MutilComboBoxControl));
+        
+        protected virtual void OnClearButtonIsCheckedChanged(bool oldString, bool newString)
         {
-            RoutedPropertyChangedEventArgs<bool> arg = new RoutedPropertyChangedEventArgs<bool>(oldString, newString, DeleteButtonIsCheckedChangedEvent);
+            RoutedPropertyChangedEventArgs<bool> arg = new RoutedPropertyChangedEventArgs<bool>(oldString, newString, ClearButtonIsCheckedChangedEvent);
             this.RaiseEvent(arg);
         }
 
@@ -215,5 +393,15 @@ namespace CustomControl.CustomComponent
     {
         OnlyCheckBox = 1, //仅CheckBox
         MutilItem = 2     //整个子项
+    }
+
+    /// <summary>
+    /// 内容类型
+    /// </summary>
+    public enum ItemType
+    {
+        CheckBox = 1, //文本+选择框
+        Button = 2, //文本+按钮
+        Image = 3, //文本+图片
     }
 }

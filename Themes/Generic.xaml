@@ -497,8 +497,91 @@
             </Setter.Value>
         </Setter>
     </Style>
+  
+    <Style x:Key="ItemContainer" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Foreground}"/>
+        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Height}"></Setter>
+        <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Width}"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="border" BorderThickness="0,0,0,1" BorderBrush="Yellow"
+                            Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ComboBoxListBackground}">
+                        <Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="lb" Grid.Column="0" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" 
+                                               Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
+                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <CheckBox x:Name="cb" Grid.Column="1" 
+                                      Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},
+                                       Path=CheckBoxItemTypeIndex,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <!--IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"-->
+                            <!--IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsSelected,Mode=TwoWay}"-->
+                            <Button x:Name="btn" Grid.Column="1" Focusable="False"
+                                    Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ItemButtonContent}" 
+                                    Style="{StaticResource button}" ClickMode="Release"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},
+                                              Path=ButtonItemTypeIndex,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <Image x:Name="img" Grid.Column="1" 
+                                   Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ItemImageSource}" 
+                                   Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},
+                                   Path=ImageItemTypeIndex,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ComboxBoxItemMouseOverBackground}" TargetName="border"></Setter>
+                        </Trigger>
+                        <Trigger Property="local:MutilComboBoxControl.IsDeletedContent" Value="True">
+                            <Setter Property="IsChecked" Value="false" TargetName="cb"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true" SourceName="btn">
+                            <Setter Property="local:MutilComboBoxControl.IsDeleteButtonPressed" Value="True"/>
+                        </Trigger>
 
-    <!--MutilComboBoxControl x:Key="DefaultMutilComboBox" -->
+                        <!--默认 整个子项有作用-->
+                        <Trigger Property="local:MutilComboBoxControl.SelectedType" Value="MutilItem">
+                            <Setter Property="IsChecked" TargetName="cb"
+                                                Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsSelected,Mode=TwoWay}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="local:MutilComboBoxControl.SelectedType" Value="MutilItem"></Condition>
+                                <Condition Property="IsSelected" Value="true"></Condition>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="local:MutilComboBoxControl.IsChecked" Value="True"/>
+                            <!--<Setter Property="Background" Value="Red" TargetName="border"/>-->
+                        </MultiTrigger>
+
+                        <!--只有CheckBox有作用-->
+                        <Trigger Property="local:MutilComboBoxControl.SelectedType" Value="OnlyCheckBox">
+                            <Setter Property="IsChecked" TargetName="cb"
+                                                Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="local:MutilComboBoxControl.SelectedType" Value="OnlyCheckBox"></Condition>
+                                <Condition Property="IsSelected" Value="true"></Condition>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="Green" TargetName="border"/>
+                        </MultiTrigger>
+
+                        <!--绑定静态变量-->
+                        <!--<Trigger Property="IsChecked" Value="true" SourceName="cb">
+                            <Setter Property="local:MutilComboBoxControl.MutilComboBoxContent" Value="{StaticResource (local:MutilComboBoxControl.textMutil)}" />
+                        </Trigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--MutilComboBoxControl-->
     <Style TargetType="{x:Type local:MutilComboBoxControl}">
         <!--CustomComboBox背景色-->
         <Setter Property="Background" Value="{StaticResource backgroundColor}"></Setter>
@@ -511,83 +594,11 @@
         <Setter Property="CornerRadius" Value="5"></Setter>
         <Setter Property="ComboBoxListBackground" Value="LightSalmon"></Setter>
         <Setter Property="ComboxBoxItemMouseOverBackground" Value="Salmon"></Setter>
-        <Setter Property="ToggleButtonBackground" Value="Green"></Setter>
+        <Setter Property="StrokeLineColor" Value="Green" />
+        <Setter Property="ToggleButtonBackground" Value="Yellow"></Setter>
         <Setter Property="local:MutilComboBoxControl.IsChecked" Value="False" />
-
-        <Setter Property="ItemContainerStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="VerticalContentAlignment" Value="Center"/>
-                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Foreground}"/>
-                    <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Height}"></Setter>
-                    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=Width}"></Setter>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border x:Name="border" BorderThickness="0,0,0,1" BorderBrush="WhiteSmoke"
-                                        Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ComboBoxListBackground}">
-                                    <Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="7*" />
-                                            <ColumnDefinition Width="2*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label x:Name="lb" Grid.Column="0" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" 
-                                               Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        <CheckBox x:Name="cb" Grid.Column="1"
-                                                  IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"
-                                                  VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                        <!--IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"-->
-                                        <!--IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsSelected,Mode=TwoWay}"-->
-                                    </Grid>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:MutilComboBoxControl},Path=ComboxBoxItemMouseOverBackground}" TargetName="border"></Setter>
-                                    </Trigger>
-                                    <Trigger Property="local:MutilComboBoxControl.IsDeletedContent" Value="True">
-                                        <Setter Property="IsChecked" Value="false" TargetName="cb"/>
-                                    </Trigger>
-
-                                    <!--默认 整个子项有作用-->
-                                    <Trigger Property="local:MutilComboBoxControl.SelectedType" Value="MutilItem">
-                                        <Setter Property="IsChecked" TargetName="cb"
-                                                Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsSelected,Mode=TwoWay}"/>
-                                    </Trigger>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="local:MutilComboBoxControl.SelectedType" Value="MutilItem"></Condition>
-                                            <Condition Property="IsSelected" Value="true"></Condition>
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="local:MutilComboBoxControl.IsChecked" Value="True"/>
-                                        <!--<Setter Property="Background" Value="Red" TargetName="border"/>-->
-                                    </MultiTrigger>
-
-                                    <!--只有CheckBox有作用-->
-                                    <Trigger Property="local:MutilComboBoxControl.SelectedType" Value="OnlyCheckBox">
-                                        <Setter Property="IsChecked" TargetName="cb"
-                                                Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.IsChecked),Mode=TwoWay}"/>
-                                    </Trigger>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="local:MutilComboBoxControl.SelectedType" Value="OnlyCheckBox"></Condition>
-                                            <Condition Property="IsSelected" Value="true"></Condition>
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="Background" Value="Green" TargetName="border"/>
-                                    </MultiTrigger>
-
-                                    <!--绑定静态变量-->
-                                    <!--<Trigger Property="IsChecked" Value="true" SourceName="cb">
-                                        <Setter Property="local:MutilComboBoxControl.MutilComboBoxContent" Value="{StaticResource (local:MutilComboBoxControl.textMutil)}" />
-                                    </Trigger>-->
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ItemContainer}"></Setter>
+     
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MutilComboBoxControl}">
@@ -644,7 +655,8 @@
                                     <Border x:Name="dropDownBorder" CornerRadius="5" MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ElementName=grid,Path=Width}">
                                         <ListBox x:Name="dropDownListBox" SelectionMode="Multiple" ItemsSource="{TemplateBinding ItemsSource}"
                                                 MaxHeight="{TemplateBinding MaxDropDownHeight}" BorderThickness="0" BorderBrush="BlueViolet" 
-                                                ItemTemplate="{TemplateBinding ItemTemplate}" ItemContainerStyle="{TemplateBinding ItemContainerStyle}"/>
+                                                ItemTemplate="{TemplateBinding ItemTemplate}" 
+                                                ItemContainerStyle="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ItemContainerStyle,Mode=TwoWay}"/>
                                         <!--ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(local:MutilComboBoxControl.ListItemsSource),Mode=TwoWay}"-->
                                     </Border>
                                 </Grid>
@@ -672,6 +684,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
     </Style>
 
     <!--CustomComboBoxItem-->
@@ -695,20 +708,11 @@
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <CheckBox x:Name="cb" Grid.Column="1" IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ItemCheckBoxIsChecked,Mode=TwoWay}"
                                       VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
-                            <Button x:Name="btn" Grid.Column="1" Content="{TemplateBinding ItemButtonContent}" Visibility="Hidden"/>
-                            <Image x:Name="img" Grid.Column="1" Source="{TemplateBinding ItemImageSource}" Visibility="Hidden"/>
+
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ItemType" Value="CheckBox">
-                            <Setter Property="Visibility" Value="Visible" TargetName="cb"/>
-                        </Trigger>
-                        <Trigger Property="ItemType" Value="Button">
-                            <Setter Property="Visibility" Value="Visible" TargetName="btn"/>
-                        </Trigger>
-                        <Trigger Property="ItemType" Value="Image">
-                            <Setter Property="Visibility" Value="Visible" TargetName="img"/>
-                        </Trigger>
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1028,5 +1032,10 @@
     <Style TargetType="{x:Type local:CoordinateSystem}">
 
     </Style>
+
+
+
+
+    
 
 </ResourceDictionary>

@@ -1,4 +1,6 @@
-﻿# DesktopCustomControl
+﻿[![Fork me on Gitee](https://gitee.com/ChanceZXY/DesktopCustomControl/widgets/widget_3.svg)](https://gitee.com/ChanceZXY/DesktopCustomControl)
+# DesktopCustomControl
+
 ## 介绍
 C#WPF自定义控件集，也支持WinFrom，项目基于.netFrameWork4.6.1,完全原生开发，没有使用任何第三方控件，可以直接用在你的项目中，该项目会一直更新，后面会移植到.net Core 3.1上.
 ***
@@ -118,17 +120,40 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ***
 
 ### 6\. MutilComboBoxControl （多选可编辑下拉控件）
-继承CustomComboBox ，支持text、checkbox、button
+继承CustomComboBox ，支持checkbox、button、image，可来回切换，并增加相应事件
 
-![效果](Resource/Demo/MutilComboBoxControl.gif)
+![效果](Resource/Demo/MutilComboBoxControlExtend.gif)
 ```
 示例代码
 <cus:MutilComboBoxControl Width="300" Height='40' x:Name="mcb" ItemsSource="{Binding list}" 
-                            IsEditable="True" StrokeLineColor="Yellow" AddDeleteFun="True"
-                            cus:MutilComboBoxControl.SelectedType="MutilItem"/>
+                            ItemType="Button" ItemButtonContent="删除" 
+                            DeleteItemValue="mcb_DeleteItemValue"
+                            ClearButtonIsCheckedChanged="mcb_DeleteButtonIsCheckedChanged" 
+                            IsEditable="False" AddDeleteFun="True" ItemImageSource="tom.jpg"
+                            cus:MutilComboBoxControl.SelectedType="OnlyCheckBox"/>
+
+    //选择类型
+    public enum SelectedType
+    {
+        OnlyCheckBox = 1, //仅CheckBox
+        MutilItem = 2     //整个子项
+    }
+    //内容类型
+    public enum ItemType
+    {
+        CheckBox = 1, //文本+选择框
+        Button = 2, //文本+按钮
+        Image = 3, //文本+图片
+    }
 ```
+- SelectedItemContent 选择项文本内容
+- ItemType  选择子项类型（ItemType）
+- ItemButtonContent ItemType=Button时设置button的内容
+- DeleteItemValue ItemType=Button时触发的事件
+- ItemImageSource ItemType=Image时图片路径
 - StrokeLineColor 删除X符号的颜色
 - AddDeleteFun 是否添加删除按钮
+- ClearButtonIsCheckedChanged 清空文本时触发的事件（暂时还没添加功能有需要再加）
 - SelectedType 表示只有Checked点击有效，否则表示整个子项点击有效
 ***
 

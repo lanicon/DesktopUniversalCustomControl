@@ -78,12 +78,13 @@
     </Compile>
     <Compile Include="ExposedMethod\ComponentStyle.cs" />
     <Compile Include="ExposedMethod\CustomPasswordBoxhelper.cs" />
+    <Compile Include="ExposedMethod\CustomVisualTreeHelper.cs" />
     <Compile Include="ExposedMethod\GetPathHelper.cs" />
     <Compile Include="ExposedMethod\ImageBitmapConverter.cs" />
     <Compile Include="ExposedMethod\SqlHelper.cs" />
     <Compile Include="ExposedMethod\TextValidationRule.cs" />
     <Compile Include="ExposedMethod\TimerClock.cs" />
-    <Compile Include="ExposedMethod\ValueConverter.cs" />
+    <Compile Include="ExposedMethod\IsEnableConverter.cs" />
     <Compile Include="ExposedMethod\WaterEffect.cs" />
     <Compile Include="NotifycationObject\MediaViewModel.cs" />
     <Compile Include="NotifycationObject\MsgViewModel.cs" />
