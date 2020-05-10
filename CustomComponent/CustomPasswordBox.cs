@@ -13,7 +13,7 @@ using System.Windows.Documents;
 namespace CustomControl.CustomComponent
 {
     /// <summary>
-    /// Password控件
+    /// CustomPasswordBox控件
     /// </summary>
     public class CustomPasswordBox: Control
     {
@@ -75,31 +75,35 @@ namespace CustomControl.CustomComponent
                 //    pwd.IsEyeVisible = true;
                 //else
                 //    pwd.IsEyeVisible = false;
-            }
+                //var passwordBox = pwd.Template.FindName("pb", pwd) as PasswordBox;
+                //passwordBox.Password = pwd.Password;
+
+                Console.WriteLine("CustomPasswordBox密码为：" + pwd.Password);
+            }        
         }
+
+
+        ///// <summary>
+        ///// 密码是否可见（默认false）
+        ///// </summary>
+        //public bool IsShowPassword
+        //{
+        //    get { return (bool)GetValue(IsShowPasswordProperty); }
+        //    set { SetValue(IsShowPasswordProperty, value); }
+        //}
+
+        //public static readonly DependencyProperty IsShowPasswordProperty =
+        //    DependencyProperty.Register("IsShowPassword", typeof(bool), typeof(CustomPasswordBox), new PropertyMetadata(false, OnEyeValueChanged));
+
+        //private static void OnEyeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var pwd = d as CustomPasswordBox;
+        //    CustomPasswordBoxhelper.SetIsShowPassword(pwd, (bool)e.NewValue);
+        //}
 
 
         /// <summary>
-        /// 密码是否可见（默认false）
-        /// </summary>
-        public bool IsShowPassword
-        {
-            get { return (bool)GetValue(IsShowPasswordProperty); }
-            set { SetValue(IsShowPasswordProperty, value); }
-        }
-
-        public static readonly DependencyProperty IsShowPasswordProperty =
-            DependencyProperty.Register("IsShowPassword", typeof(bool), typeof(CustomPasswordBox), new PropertyMetadata(false, OnEyeValueChanged));
-
-        private static void OnEyeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var pwd = d as CustomPasswordBox;
-            CustomPasswordBoxhelper.SetIsShowPassword(pwd, (bool)e.NewValue);
-        }
-
-
-        /// <summary>
-        /// 眼睛图标是否可见（默认false）
+        /// 眼睛和锁图标是否可见（默认false）
         /// </summary>
         public bool IsEyeVisible
         {
@@ -114,6 +118,19 @@ namespace CustomControl.CustomComponent
         {
             var pwd = d as CustomPasswordBox;
         }
+
+
+        /// <summary>
+        /// 图标百分比大小
+        /// </summary>
+        public double IconSizePercent
+        {
+            get { return (double)GetValue(IconSizePercentProperty); }
+            set { SetValue(IconSizePercentProperty, value); }
+        }
+
+        public static readonly DependencyProperty IconSizePercentProperty =
+            DependencyProperty.Register("IconSizePercent", typeof(double), typeof(CustomPasswordBox), new PropertyMetadata(1.0));
 
 
         /// <summary>
@@ -139,7 +156,7 @@ namespace CustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty MaxLengthProperty =
-            DependencyProperty.Register("MaxLength", typeof(int), typeof(CustomPasswordBox), new PropertyMetadata(15));
+            DependencyProperty.Register("MaxLength", typeof(int), typeof(CustomPasswordBox), new PropertyMetadata());
 
 
         /// <summary>

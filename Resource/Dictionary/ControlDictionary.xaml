@@ -343,12 +343,9 @@
         </Setter>
     </Style>
     
-    <!--CustomPasswordBox-->
+    <!--PasswordBox-->
     <Style x:Key="passwordbox" TargetType="{x:Type PasswordBox}">
-        <Setter Property="BorderBrush" Value="#F00"/>
-        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontFamily" Value="Times New Roman"/>
-        <Setter Property="PasswordChar" Value="●"/>
         <Setter Property="Padding" Value="1"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -359,41 +356,61 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type PasswordBox}">
-                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True"
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
                             CornerRadius="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=CornerRadius}"
-                            Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Background}">
+                            Background="{TemplateBinding Background}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="30" MaxWidth="40"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" ScrollViewer.CanContentScroll="True"
-                                          Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"/>
-                            <TextBlock x:Name="PART_PlaceHolder" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=PasswordPlaceHolder,Mode=OneWay}" Foreground="LightGray" FontSize="14" Visibility="Collapsed" SnapsToDevicePixels="True" VerticalAlignment="Center"></TextBlock>
-                            <component:CustomTextControl x:Name="visiblePassword" Visibility="Collapsed" Text="{TemplateBinding exposed:CustomPasswordBoxhelper.Password}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                         Background="Transparent" InputMethod.IsInputMethodEnabled="False" TextChanged="VisiblePassword_TextChanged" BorderThickness="0" Focusable="True" MaxLength="{TemplateBinding MaxLength}"
-                                                         Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"></component:CustomTextControl>
-                            <!--<materialDesign:PackIcon x:Name="eye" Grid.Column="1" Kind="Lock" Width="25" Height="25" MouseLeftButtonDown="Eye_MouseLeftButtonDown" VerticalAlignment="Center" 
-                                                     Visibility="{TemplateBinding exposed:CustomPasswordBoxhelper.IsShowIcon,Converter={StaticResource BooleanToVisibilityConverter}}" Background="Transparent"                                      
-                                                     Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"></materialDesign:PackIcon>-->
+                            <ScrollViewer x:Name="PART_ContentHost" UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                          ScrollViewer.CanContentScroll="True" Foreground="{TemplateBinding Foreground}"/>
+                            <TextBlock x:Name="PART_PlaceHolder" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=PasswordPlaceHolder}" 
+                                       Foreground="LightGray" FontSize="14" Visibility="Collapsed" SnapsToDevicePixels="True" VerticalAlignment="Center"></TextBlock>
+                            <component:CustomTextControl x:Name="visiblePassword" Visibility="Collapsed"
+                                                         Text="{Binding Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                         Background="Transparent" InputMethod.IsInputMethodEnabled="False" 
+                                                         TextChanged="VisiblePasswordTextChanged" 
+                                                         BorderThickness="0" Focusable="True" MaxLength="{TemplateBinding MaxLength}"
+                                                         Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"/>
+                            <component:CustomIconControl x:Name="eye" Grid.Column="1" Kind="Lock" Height="{TemplateBinding Height}" VerticalAlignment="Center" Background="SaddleBrown"
+                                                         IconSizePercent="{TemplateBinding exposed:CustomPasswordBoxhelper.IconSizePercent}"
+                                                         Visibility="{TemplateBinding exposed:CustomPasswordBoxhelper.IsShowIcon,Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                         Click="ToggleButtonIconClick"
+                                                         Command="{Binding PasswordConvertToTextCommand}"
+                                                         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type PasswordBox}}}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
+                        <!--<EventTrigger RoutedEvent="PasswordChanged">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Height" Storyboard.TargetName="border">
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0" Value="30.0"></EasingDoubleKeyFrame>
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>-->
                         <Trigger Property="exposed:CustomPasswordBoxhelper.Password" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_PlaceHolder"></Setter>
                         </Trigger>
                         <Trigger Property="exposed:CustomPasswordBoxhelper.Password" Value="">
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_PlaceHolder"></Setter>
                         </Trigger>
-                        <Trigger Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="true">
+                        <Trigger Property="IsChecked" Value="True" SourceName="eye">
+                            <Setter Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="True"></Setter>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentHost"></Setter>
                             <Setter Property="Visibility" Value="Visible" TargetName="visiblePassword"></Setter>
-                            <!--<Setter Property="Kind" Value="Eye" TargetName="eye"></Setter>-->
+                            <Setter Property="Kind" Value="Eye" TargetName="eye"></Setter>
                         </Trigger>
-                        <Trigger Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="false">
+                        <Trigger Property="IsChecked" Value="False" SourceName="eye">
+                            <Setter Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="False"></Setter>
                             <Setter Property="Visibility" Value="Visible" TargetName="PART_ContentHost"></Setter>
                             <Setter Property="Visibility" Value="Collapsed" TargetName="visiblePassword"></Setter>
-                            <!--<Setter Property="Kind" Value="Lock" TargetName="eye"></Setter>-->
+                            <Setter Property="Kind" Value="Lock" TargetName="eye"></Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="border" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
@@ -416,6 +433,6 @@
         <Setter Property="Margin" Value="-25,0,0,0"/>
     </Style>
 
-
+    
 
 </ResourceDictionary>

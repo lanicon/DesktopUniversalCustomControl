@@ -63,6 +63,7 @@
     <Compile Include="CustomComponent\ChartControlView.cs" />
     <Compile Include="CustomComponent\CustomComboBox.cs" />
     <Compile Include="CustomComponent\CustomComboBoxItem.cs" />
+    <Compile Include="CustomComponent\CustomIconControl.cs" />
     <Compile Include="CustomComponent\CustomPasswordBox.cs" />
     <Compile Include="CustomComponent\CustomPopupEx.cs" />
     <Compile Include="CustomComponent\CustomProgressBar.cs" />
@@ -134,6 +135,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resource\Dictionary\ControlDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resource\Dictionary\IconDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,8 +16,28 @@ namespace CustomControl.ExposedMethod
     /// <summary>
     /// 为CustomPasswordBox增加Password绑定功能
     /// </summary>
-    public static class CustomPasswordBoxhelper
+    public class CustomPasswordBoxhelper
     {
+        //密码
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.RegisterAttached("Password", typeof(string), typeof(CustomPasswordBoxhelper),
+                new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
+        //触发PasswordChanged事件
+        public static readonly DependencyProperty IsTriggerProperty =
+            DependencyProperty.RegisterAttached("IsTrigger", typeof(bool), typeof(CustomPasswordBoxhelper),
+                new PropertyMetadata(false, IsTriggerChanged));
+
+
+        public static bool GetIsTrigger(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsTriggerProperty);
+        }
+        public static void SetIsTrigger(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsTriggerProperty, value);
+        }
+
+
         public static string GetPassword(DependencyObject obj)
         {
             return (string)obj.GetValue(PasswordProperty);
@@ -27,19 +47,33 @@ namespace CustomControl.ExposedMethod
         {
             obj.SetValue(PasswordProperty, value);
         }
-        //明文密码
-        public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.RegisterAttached("Password", typeof(string), typeof(CustomPasswordBoxhelper), new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
+
+
+        private static void IsTriggerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var pwd = d as PasswordBox;
+            pwd.PasswordChanged += Pwd_PasswordChanged;
+        }
+
 
         private static void OnPasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            //CustomPasswordBox pwd = d as CustomPasswordBox;
             PasswordBox pwd = d as PasswordBox;
+            //pwd.PasswordChanged += Pwd_PasswordChanged;
             string password = e.NewValue.ToString();
-            if(pwd != null && pwd.Password != password)
+            if (pwd != null && pwd.Password != password)
             {
                 pwd.Password = password;
             }
         }
+
+        private static void Pwd_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var pwd = sender as PasswordBox;
+            SetPassword(pwd, pwd.Password);
+        }
+
 
 
         public static bool GetIsShowPassword(DependencyObject obj)
@@ -55,6 +89,20 @@ namespace CustomControl.ExposedMethod
         public static readonly DependencyProperty IsShowPasswordProperty =
             DependencyProperty.RegisterAttached("IsShowPassword", typeof(bool), typeof(CustomPasswordBoxhelper), new PropertyMetadata(false));
 
+
+        public static double GetIconSizePercent(DependencyObject obj)
+        {
+            return (double)obj.GetValue(IconSizePercentProperty);
+        }
+
+        public static void SetIconSizePercent(DependencyObject obj, double value)
+        {
+            obj.SetValue(IconSizePercentProperty, value);
+        }
+
+        //图标大小
+        public static readonly DependencyProperty IconSizePercentProperty =
+            DependencyProperty.RegisterAttached("IconSizePercent", typeof(double), typeof(CustomPasswordBoxhelper), new PropertyMetadata(1.0));
 
 
         public static bool GetIsShowIcon(DependencyObject obj)
@@ -93,12 +141,11 @@ namespace CustomControl.ExposedMethod
 
         protected override void OnAttached()
         {
-            base.OnAttached();          
+            //base.OnAttached();          
             AssociatedObject.PasswordChanged += AssociatedObject_PasswordChanged;
         }
 
 
-        int start;
         private void AssociatedObject_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var pwd = sender as PasswordBox;
@@ -108,13 +155,13 @@ namespace CustomControl.ExposedMethod
                 CustomPasswordBoxhelper.SetPassword(pwd, pwd.Password);
             }
 
-            start = (int)pwd.PointToScreen(GetCursorPosition()).X;
-            SetSelection(AssociatedObject, start, 0); //AssociatedObject.Password.Length
+            //int start = (int)pwd.PointToScreen(GetCursorPosition()).X;
+            //SetSelection(AssociatedObject, start, start); //AssociatedObject.Password.Length
         }
 
         protected override void OnDetaching()
         {
-            base.OnDetaching();
+            //base.OnDetaching();
             AssociatedObject.PasswordChanged -= AssociatedObject_PasswordChanged;
         }
 

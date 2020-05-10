@@ -14,6 +14,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/CustomControl;component/Resource/Dictionary/ControlDictionary.xaml"/>
+        <ResourceDictionary Source="/CustomControl;component/Resource/Dictionary/IconDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!--MessageBoxView-->
@@ -160,6 +161,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+
 
 
     <!--ImageButton-->
@@ -708,7 +710,6 @@
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <CheckBox x:Name="cb" Grid.Column="1" IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ItemCheckBoxIsChecked,Mode=TwoWay}"
                                       VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
-
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -719,31 +720,104 @@
         </Setter>
     </Style>
 
+    <!--CustomIconControl-->
+    <Style TargetType="{x:Type local:CustomIconControl}">
+        <Setter Property="Background" Value="Green"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CustomIconControl}">
+                    <!--<Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <UserControl x:Name="userControl" Template="{StaticResource Icon}"/>
+                    </Border>-->
+                    <Border x:Name="border" VerticalAlignment="Center">
+                        <Grid x:Name="TemplateRoot">
+                            <!--锁-->
+                            <Canvas x:Name="LockCanvas" Visibility="Visible">
+                                <Canvas.RenderTransform>
+                                    <ScaleTransform ScaleX="{TemplateBinding IconSizePercent}" ScaleY="{TemplateBinding IconSizePercent}"/>
+                                </Canvas.RenderTransform>
+                                <Path Fill="{TemplateBinding Background}">
+                                    <Path.Data>
+                                        <RectangleGeometry Rect="0,0,20,15" RadiusX="2" RadiusY="2"></RectangleGeometry>
+                                    </Path.Data>
+                                </Path>
+                                <Path Data="M 4,0 L 4,-3 A 6,6,180,1,1,16,-3 L 16,0" StrokeThickness="3" Stroke="{TemplateBinding Background}"/>
+                                <Path Fill="{TemplateBinding Foreground}">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="10,5" RadiusX="2" RadiusY="2"></EllipseGeometry>
+                                    </Path.Data>
+                                </Path>
+                                <Path Data="M 10,5 L 10,10" StrokeThickness="2" Stroke="{TemplateBinding Foreground}" ></Path>
+                            </Canvas>
+                            <!--眼睛-->
+                            <Canvas x:Name="EyeCanvas" Visibility="Collapsed">
+                                <Canvas.RenderTransform>
+                                    <ScaleTransform ScaleX="{TemplateBinding IconSizePercent}" ScaleY="{TemplateBinding IconSizePercent}"/>
+                                </Canvas.RenderTransform>
+                                <Path Fill="{TemplateBinding Background}">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="15,0"  RadiusX="15" RadiusY="8"></EllipseGeometry>
+                                    </Path.Data>
+                                </Path>
+                                <Path Fill="{TemplateBinding Foreground}">
+                                    <Path.Data>
+                                        <EllipseGeometry Center="15,0" RadiusX="5" RadiusY="5"></EllipseGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Canvas>
+                            <!--灯泡-->
+                            <Canvas x:Name="BulbCanvas" Visibility="Collapsed">
+                                <Canvas.RenderTransform>
+                                    <ScaleTransform ScaleX="{TemplateBinding IconSizePercent}" ScaleY="{TemplateBinding IconSizePercent}"/>
+                                </Canvas.RenderTransform>
+                                <Path Data="M 4,0 L 4,-20 A 20,20,180,1,1,16,-20 L 16,0" StrokeThickness="3" Stroke="{TemplateBinding Foreground}"></Path>
+                            </Canvas>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>          
+        </Setter>
+    </Style>
+
     <!--CustomPasswordBox-->
     <Style TargetType="{x:Type local:CustomPasswordBox}">
+        <Setter Property="IconSizePercent" Value="1.0"/>
         <Setter Property="PasswordChar" Value="●"/>
-        <Setter Property="IsShowPassword" Value="False"></Setter>
-        <Setter Property="IsEyeVisible" Value="True"></Setter>
+        <Setter Property="MaxLength" Value="15" />
+        <Setter Property="PasswordPlaceHolder" Value="请输入密码"></Setter>
+        <Setter Property="IsEyeVisible" Value="False"></Setter>
         <Setter Property="CornerRadius" Value="10"></Setter>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-        <Setter Property="PasswordPlaceHolder" Value="请输入密码"></Setter>
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderBrush" Value="BlueViolet"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CustomPasswordBox}">
-                    <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"
-                            BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                        <PasswordBox x:Name="pb" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Style="{StaticResource passwordbox}"
-                                     exposed:CustomPasswordBoxhelper.Password="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                     exposed:CustomPasswordBoxhelper.IsShowIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsEyeVisible}"
-                                     exposed:CustomPasswordBoxhelper.IsShowPassword="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=IsShowPassword}"
+                    <Border x:Name="border">
+                        <PasswordBox x:Name="pb" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                                     BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                     Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" 
+                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Style="{StaticResource passwordbox}"                                       
+                                     exposed:CustomPasswordBoxhelper.IsShowIcon="{TemplateBinding IsEyeVisible}"
+                                     exposed:CustomPasswordBoxhelper.IconSizePercent="{TemplateBinding IconSizePercent}"
+                                     exposed:CustomPasswordBoxhelper.IsTrigger="True"
+                                     exposed:CustomPasswordBoxhelper.Password="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      PasswordChar="{TemplateBinding PasswordChar}" MaxLength="{TemplateBinding MaxLength}">
+
+                            <!--exposed:CustomPasswordBoxhelper.Password ="{Binding Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"-->
+                            <!--exposed:CustomPasswordBoxhelper.Password="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"-->
                             <!--<i:Interaction.Behaviors>
-                                <exposed:PasswordBoxBehavior></exposed:PasswordBoxBehavior>
-                            </i:Interaction.Behaviors>-->
+                                    <exposed:PasswordBoxBehavior></exposed:PasswordBoxBehavior>
+                                </i:Interaction.Behaviors>-->
                         </PasswordBox>
                     </Border>
+                    <ControlTemplate.Triggers>
+
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1016,6 +1090,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    
 
     <!--ArrowLine-->
     <Style TargetType="{x:Type local:ArrowLine}">
@@ -1034,8 +1110,5 @@
     </Style>
 
 
-
-
-    
 
 </ResourceDictionary>

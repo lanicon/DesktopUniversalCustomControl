@@ -12,6 +12,18 @@ C#WPF自定义控件集，也支持WinFrom，项目基于.netFrameWork4.6.1,完�
 ```XAML
 xmlns:cus="clr-namespace:CustomControl.CustomComponent;assembly=CustomControl
 ```
+- 你也可以直接调用库里面的样式
+```
+<Application.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/CustomControl;component/Resource/Dictionary/ControlDictionary.xaml"></ResourceDictionary>
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</Application.Resources>
+如这样调用即可：
+<Button Width="100" Height="40" Style="{DynamicResource button}"/>
+```
 - 在WinForm中使用方法：
 项目中添加WPF用户控件，然后在xaml文件中引入以下即可
 ```XAML
@@ -156,4 +168,20 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 - ClearButtonIsCheckedChanged 清空文本时触发的事件（暂时还没添加功能有需要再加）
 - SelectedType 表示只有Checked点击有效，否则表示整个子项点击有效
 ***
+
+### 7\. CustomPasswordBox（可清除、铭文显示密码框）
+支持删除、明码、Icon选择
+
+![效果](Resource/Demo/CustomPasswordBox.gif)
+
+```
+<cus:CustomPasswordBox x:Name="cpb" Width="300" Height="50" BorderThickness="3" IconSizePercent="1" Background="Yellow" Foreground="Green" IsEyeVisible="True"/>
+```
+- IsEyeVisible 眼睛和锁图标是否可见
+- IconSizePercent 图标百分比大小
+- PasswordChar 加密符号
+- MaxLength
+- PasswordPlaceHolder 占位符
+- CornerRadius 圆角
+- OnPasswordValueChanged 密码Changed事件
 

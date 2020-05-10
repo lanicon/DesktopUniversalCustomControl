@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -22,6 +24,8 @@ namespace CustomControl.Resource.Dictionary
     public partial class DictionaryEvent : ResourceDictionary, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public static RoutedCommand PasswordConvertToTextCommand { get; private set; }
+        public static readonly CommandBinding ConvertToTextCommandBinding;
 
         private Point _clickPoint;
         /// <summary>
@@ -39,7 +43,24 @@ namespace CustomControl.Resource.Dictionary
 
         public DictionaryEvent()
         {
-            InitializeComponent();
+            InitializeComponent();            
+        }
+
+        static DictionaryEvent()
+        {
+            //密码转文字命令
+            PasswordConvertToTextCommand = new RoutedCommand();
+            ConvertToTextCommandBinding = new CommandBinding(PasswordConvertToTextCommand);
+            ConvertToTextCommandBinding.Executed += ConvertToTextCommandBinding_Executed;
+        }
+
+        private static void ConvertToTextCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            //var toggle = sender as ToggleButton;
+            //var control = e.Parameter as FrameworkElement;
+            //if (control is CustomPasswordBox)
+            //    ((CustomPasswordBox)control).Password;
+            Console.WriteLine("进来了");
         }
 
 
@@ -113,31 +134,21 @@ namespace CustomControl.Resource.Dictionary
             canvas.Children.Clear();
         }
 
-
-        int index = 0;
-        CustomPasswordBox cpb;
-        PasswordBox pb;
-        private void Eye_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //明码与密码同步
+        private void ToggleButtonIconClick(object sender, RoutedEventArgs e)
         {
-            //pb = (sender as PackIcon).TemplatedParent as PasswordBox;
-            //cpb = pb.TemplatedParent as CustomPasswordBox;
-            //index++;
-            //if (index % 2 != 0)
-            //{
-            //    CustomPasswordBoxhelper.SetPassword(cpb, pb.Password);
-            //    CustomPasswordBoxhelper.SetIsShowPassword(pb, true);
-            //}
-            //else
-            //{
-            //    CustomPasswordBoxhelper.SetPassword(cpb, pb.Password);
-            //    CustomPasswordBoxhelper.SetIsShowPassword(pb, false);
-            //}
+            var pb = (sender as CustomIconControl).TemplatedParent as PasswordBox;
+            var cpb = pb.TemplatedParent as CustomPasswordBox;
+
+            var clearPassword = pb.Template.FindName("visiblePassword", pb) as CustomTextControl;
+            clearPassword.Text = cpb.Password;
         }
 
-        private void VisiblePassword_TextChanged(object sender, TextChangedEventArgs e)
+        //明码与密码同步
+        private void VisiblePasswordTextChanged(object sender, TextChangedEventArgs e)
         {
-            pb = (sender as CustomTextControl).TemplatedParent as PasswordBox;
-            cpb = pb.TemplatedParent as CustomPasswordBox;
+            var pb = (sender as CustomTextControl).TemplatedParent as PasswordBox;
+            var cpb = pb.TemplatedParent as CustomPasswordBox;
 
             pb.Password = (sender as CustomTextControl).Text;
             CustomPasswordBoxhelper.SetPassword(cpb, pb.Password);
