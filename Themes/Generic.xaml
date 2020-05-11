@@ -387,33 +387,11 @@
                                 <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomComboBox},Path=ComboBoxListBackground}">
                                     <Label Content="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" Height="{TemplateBinding Height}" Foreground="{TemplateBinding Foreground}" 
                                     VerticalContentAlignment="Center" BorderThickness="0,0,0,1" BorderBrush="WhiteSmoke"/>
-                                    <!--<Grid VerticalAlignment="Center" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="7*" />
-                                            <ColumnDefinition Width="2*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="0" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" 
-                                               Padding="{TemplateBinding Padding}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
-                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                        <CheckBox x:Name="cb" Grid.Column="1" IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ItemCheckBoxIsChecked,Mode=TwoWay}"
-                                                  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden"/>
-                                        <Button x:Name="btn" Grid.Column="1" Content="{TemplateBinding ItemButtonContent}" Visibility="Hidden"/>
-                                        <Image x:Name="img" Grid.Column="1" Source="{TemplateBinding ItemImageSource}" Visibility="Hidden"/>
-                                    </Grid>-->
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="true">
                                         <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomComboBox},Path=ComboxBoxItemMouseOverBackground}" TargetName="border"></Setter>
                                     </Trigger>
-                                    <!--<Trigger Property="ItemType" Value="CheckBox">
-                                        <Setter Property="Visibility" Value="Visible" TargetName="cb"/>
-                                    </Trigger>
-                                    <Trigger Property="ItemType" Value="Button">
-                                        <Setter Property="Visibility" Value="Visible" TargetName="btn"/>
-                                    </Trigger>
-                                    <Trigger Property="ItemType" Value="Image">
-                                        <Setter Property="Visibility" Value="Visible" TargetName="img"/>
-                                    </Trigger>-->
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
@@ -734,9 +712,11 @@
                     <Border x:Name="border" VerticalAlignment="Center">
                         <Grid x:Name="TemplateRoot">
                             <!--锁-->
-                            <Canvas x:Name="LockCanvas" Visibility="Visible">
+                            <Canvas x:Name="LockCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
+                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=LockCanvas}">
                                 <Canvas.RenderTransform>
-                                    <ScaleTransform ScaleX="{TemplateBinding IconSizePercent}" ScaleY="{TemplateBinding IconSizePercent}"/>
+                                    <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}" 
+                                                    ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}"/>
                                 </Canvas.RenderTransform>
                                 <Path Fill="{TemplateBinding Background}">
                                     <Path.Data>
@@ -752,28 +732,38 @@
                                 <Path Data="M 10,5 L 10,10" StrokeThickness="2" Stroke="{TemplateBinding Foreground}" ></Path>
                             </Canvas>
                             <!--眼睛-->
-                            <Canvas x:Name="EyeCanvas" Visibility="Collapsed">
+                            <Canvas x:Name="EyeCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
+                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=EyeCanvas}">
                                 <Canvas.RenderTransform>
-                                    <ScaleTransform ScaleX="{TemplateBinding IconSizePercent}" ScaleY="{TemplateBinding IconSizePercent}"/>
+                                    <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}" 
+                                        ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}"/>
                                 </Canvas.RenderTransform>
                                 <Path Fill="{TemplateBinding Background}">
                                     <Path.Data>
-                                        <EllipseGeometry Center="15,0"  RadiusX="15" RadiusY="8"></EllipseGeometry>
+                                        <EllipseGeometry Center="10,0"  RadiusX="15" RadiusY="8"></EllipseGeometry>
                                     </Path.Data>
                                 </Path>
                                 <Path Fill="{TemplateBinding Foreground}">
                                     <Path.Data>
-                                        <EllipseGeometry Center="15,0" RadiusX="5" RadiusY="5"></EllipseGeometry>
+                                        <EllipseGeometry Center="10,0" RadiusX="5" RadiusY="5"></EllipseGeometry>
                                     </Path.Data>
                                 </Path>
                             </Canvas>
                             <!--灯泡-->
-                            <Canvas x:Name="BulbCanvas" Visibility="Collapsed">
+                            <Canvas x:Name="BulbCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
+                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=BulbCanvas}">
                                 <Canvas.RenderTransform>
-                                    <ScaleTransform ScaleX="{TemplateBinding IconSizePercent}" ScaleY="{TemplateBinding IconSizePercent}"/>
+                                    <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}" 
+                                        ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}"/>
                                 </Canvas.RenderTransform>
                                 <Path Data="M 4,0 L 4,-20 A 20,20,180,1,1,16,-20 L 16,0" StrokeThickness="3" Stroke="{TemplateBinding Foreground}"></Path>
                             </Canvas>
+                            <!--多值绑定-->
+                            <!--<Grid.Visibility>
+                                <MultiBinding  Converter="{StaticResource CanvasNameToVisibility}" ConverterParameter="{Binding}">
+                                    <Binding></Binding>
+                                </MultiBinding>
+                            </Grid.Visibility>-->
                         </Grid>
                     </Border>
                 </ControlTemplate>

@@ -185,3 +185,13 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 - CornerRadius 圆角
 - OnPasswordValueChanged 密码Changed事件
 
+### 8\. CustomIconControl（图标控件）
+纯代码绘制图表，目前只画了3个，后面有需要再加
+
+![效果](Resource/Demo/CustomIconControl.gif)
+```
+<cus:CustomIconControl x:Name="xxx" Width="50" Height="30" Kind="Eye" Foreground="Green" Background="Yellow" IconSizePercent="10"/>
+```
+- Kind 图标类型 
+- IconSizePercent 图标百分比大小
+***

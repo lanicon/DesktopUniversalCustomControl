@@ -30,12 +30,6 @@ namespace CustomControl.CustomComponent
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomIconControl), new FrameworkPropertyMetadata(typeof(CustomIconControl)));           
         }
 
-        public CustomIconControl()
-        {
-
-        }
-
-
         /// <summary>
         /// 图标类型
         /// </summary>
@@ -47,7 +41,7 @@ namespace CustomControl.CustomComponent
 
         public static readonly DependencyProperty KindProperty =
             DependencyProperty.Register("Kind", typeof(IconType), typeof(CustomIconControl), 
-                new PropertyMetadata(IconType.Lock, new PropertyChangedCallback(KindChanged)));
+               new FrameworkPropertyMetadata(IconType.Lock,new PropertyChangedCallback(KindChanged)));
 
         private static void KindChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -61,16 +55,6 @@ namespace CustomControl.CustomComponent
             //    if (can.Name.Contains(icon.Kind.ToString()))  //注意Contains函数区分字母大小写
             //        can.Visibility = Visibility.Visible;
             //}
-
-            var icon = d as CustomIconControl;
-            var TemplateRoot = icon.Template.FindName("TemplateRoot", icon) as Grid;
-            foreach (var canvas in TemplateRoot.Children)  //遍历Grid下面所有Canvas控件控制它们的显示与否
-            {
-                Canvas can = (canvas as Canvas);
-                can.Visibility = Visibility.Collapsed;
-                if (can.Name.Contains(icon.Kind.ToString()))  //注意Contains函数区分字母大小写
-                    can.Visibility = Visibility.Visible;
-            }
         }
 
 

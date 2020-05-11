@@ -76,25 +76,22 @@ namespace CustomControl.Service.Common
         }
     }
 
+
     /// <summary>
-    /// MutilComboBoxControl中的子项类型转换
+    /// Canvas控件的显示与否
     /// </summary>
-    public class IntConverToVisiblity : IValueConverter
+    public class CanvasNameToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int i = (int)value;
-            int[] index = new int[3] { 1, 2, 3 };
-            Type[] types = new Type[3] { typeof(CheckBox), typeof(Button), typeof(Image) };
-            Console.WriteLine("目标类型：" + targetType);
-            if (index[i - 1] == i)
-            {
+            Console.WriteLine("Name:========"+ targetType.FullName);
+            Console.WriteLine("parameter:========" + parameter);
+            var kind = (IconType)value;
+            string canvasName = parameter.ToString();
+            if (canvasName.Contains(kind.ToString()))
                 return Visibility.Visible;
-            }
             else
-            {
                 return Visibility.Collapsed;
-            }        
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
