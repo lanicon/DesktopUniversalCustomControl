@@ -79,5 +79,7 @@ namespace CustomControl.CustomComponent
         Eye = 1,  //眼睛
         Lock = 2,  //锁
         Bulb = 3,  //电灯泡 
+        Message = 4, //消息
+        CloseCircle = 5, //圆形关闭
     }
 }

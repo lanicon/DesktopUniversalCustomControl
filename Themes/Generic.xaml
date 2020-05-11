@@ -18,7 +18,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!--MessageBoxView-->
-    <!--<Style TargetType="{x:Type msgDlg:MessageDialog}">
+    <Style TargetType="{x:Type msgDlg:MessageDialog}">
         <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
         <Setter Property="Template">
@@ -40,19 +40,19 @@
                                         <ColumnDefinition Width="8*"></ColumnDefinition>
                                         <ColumnDefinition Width="1*"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
-                                    <materialDesign:PackIcon Kind="Message" Foreground="White" Width="30" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"></materialDesign:PackIcon>
+                                    <local:CustomIconControl Kind="Message" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"></local:CustomIconControl>
                                     <TextBlock Grid.Column="1" Text="{Binding caption}" Foreground="White" FontSize="16" FontFamily="正楷" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                    <materialDesign:PackIcon Grid.Column="2" Kind="CloseCircle" ForceCursor="True" Foreground="White" Background="Transparent" 
+                                    <local:CustomIconControl  Grid.Column="2" Kind="CloseCircle" ForceCursor="True" Foreground="White" Background="BlueViolet" 
                                                              Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="关闭">
-                                        <materialDesign:PackIcon.Resources>
+                                        <local:CustomIconControl.Resources>
                                             <Style TargetType="ToolTip" BasedOn="{StaticResource toolTip}"></Style>
-                                        </materialDesign:PackIcon.Resources>
+                                        </local:CustomIconControl.Resources>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                                 <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
-                                    </materialDesign:PackIcon>
+                                    </local:CustomIconControl>
                                 </Grid>
                             </Border>
 
@@ -62,7 +62,7 @@
                                     <ColumnDefinition Width="1*"></ColumnDefinition>
                                     <ColumnDefinition Width="5*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <materialDesign:PackIcon Grid.Column="1" Kind="{Binding msgIcon}" Foreground="{DynamicResource foregroundColor}" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left"></materialDesign:PackIcon>
+                                <local:CustomIconControl  Grid.Column="1" Kind="{Binding msgIcon}" Foreground="{DynamicResource foregroundColor}" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left"></local:CustomIconControl>
                                 <TextBlock Grid.Column="2" Text="{Binding indicateText}" TextWrapping="Wrap" Foreground="{DynamicResource foregroundColor}" FontSize="16" VerticalAlignment="Center"></TextBlock>
                             </Grid>
 
@@ -84,7 +84,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
+    </Style>
 
     <!--MediaPlayerView-->
     <Style TargetType="{x:Type local:MediaPlayerView}">
@@ -705,13 +705,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CustomIconControl}">
-                    <!--<Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
+                    <Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <UserControl x:Name="userControl" Template="{StaticResource Icon}"/>
-                    </Border>-->
-                    <Border x:Name="border" VerticalAlignment="Center">
+                        <UserControl x:Name="userControl" Template="{StaticResource IconTemplate}"/>
+                    </Border>
+                    <!--<Border x:Name="border" VerticalAlignment="Center">
                         <Grid x:Name="TemplateRoot">
-                            <!--锁-->
                             <Canvas x:Name="LockCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
                                 Converter={StaticResource CanvasNameToVisibility},ConverterParameter=LockCanvas}">
                                 <Canvas.RenderTransform>
@@ -731,7 +730,7 @@
                                 </Path>
                                 <Path Data="M 10,5 L 10,10" StrokeThickness="2" Stroke="{TemplateBinding Foreground}" ></Path>
                             </Canvas>
-                            <!--眼睛-->
+
                             <Canvas x:Name="EyeCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
                                 Converter={StaticResource CanvasNameToVisibility},ConverterParameter=EyeCanvas}">
                                 <Canvas.RenderTransform>
@@ -749,7 +748,7 @@
                                     </Path.Data>
                                 </Path>
                             </Canvas>
-                            <!--灯泡-->
+
                             <Canvas x:Name="BulbCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
                                 Converter={StaticResource CanvasNameToVisibility},ConverterParameter=BulbCanvas}">
                                 <Canvas.RenderTransform>
@@ -758,14 +757,14 @@
                                 </Canvas.RenderTransform>
                                 <Path Data="M 4,0 L 4,-20 A 20,20,180,1,1,16,-20 L 16,0" StrokeThickness="3" Stroke="{TemplateBinding Foreground}"></Path>
                             </Canvas>
-                            <!--多值绑定-->
-                            <!--<Grid.Visibility>
+                        </Grid>
+                    </Border>-->
+                    <!--多值绑定-->
+                    <!--<Grid.Visibility>
                                 <MultiBinding  Converter="{StaticResource CanvasNameToVisibility}" ConverterParameter="{Binding}">
                                     <Binding></Binding>
                                 </MultiBinding>
                             </Grid.Visibility>-->
-                        </Grid>
-                    </Border>
                 </ControlTemplate>
             </Setter.Value>          
         </Setter>
@@ -892,7 +891,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
+                        
                         <Grid>
                             <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}"/>
@@ -1011,8 +1010,8 @@
         </Setter>
     </Style>
     <Style TargetType="{x:Type local:CustomSlider}">
-        <Setter Property="SliderHeight" Value="6"></Setter>
-        <Setter Property="SliderWidth" Value="6"></Setter>
+        <Setter Property="SliderHeight" Value="10"></Setter>
+        <Setter Property="SliderWidth" Value="10"></Setter>
         <Setter Property="SliderBackground" Value="#8D8D8D"></Setter>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="CornerRadius" Value="5"/>
@@ -1039,8 +1038,11 @@
                                 <!--<Border HorizontalAlignment="Right" BorderBrush="Gray" BorderThickness="1,1,0,1" Background="{StaticResource SliderText}" Width="80" CornerRadius="8,0,0,8"/>-->
                                 <!--<TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Tag}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14"/>-->
                                 <!--<Border Grid.Column="2" HorizontalAlignment="Right" BorderBrush="Gray" BorderThickness="0,1,1,1" Background="{StaticResource SliderText}" Width="40" CornerRadius="0,8,8,0"/>-->
-                                <TextBlock Grid.Column="1" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:N0\}%}" Margin="10,0,0,0" Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" DataContext="{Binding outputspeed}"/>
-                                <Border x:Name="SliderBorder" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding SliderBackground}" Height="{TemplateBinding SliderHeight}">
+                                <TextBlock Grid.Column="1" Text="{Binding ElementName=PART_Track,Path=Value,StringFormat=\{0:N0\}%}" Margin="10,0,0,0" 
+                                           Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                           FontSize="14" DataContext="{Binding outputspeed}"/>
+                                <Border x:Name="SliderBorder" CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding SliderBackground}" 
+                                        Height="{TemplateBinding SliderHeight}">
                                     <Track x:Name="PART_Track" Orientation="{TemplateBinding Orientation}">
                                         <Track.DecreaseRepeatButton>
                                             <RepeatButton x:Name="decBtn" Style="{StaticResource Slider_DecreaseRepeatButton}" Command="Slider.DecreaseLarge" Background="Red"/>

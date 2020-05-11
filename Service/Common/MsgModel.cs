@@ -1,4 +1,5 @@
-﻿using CustomControl.NotifycationObject;
+﻿using CustomControl.CustomComponent;
+using CustomControl.NotifycationObject;
 using CustomControl.Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,11 @@ namespace CustomControl.Service.Common
             msgViewModel = new MsgViewModel();
         }
 
-        //public void GetMsgData(string caption, string indicateText, PackIconKind msgIcon)
-        //{
-        //    msgViewModel.caption = caption;
-        //    msgViewModel.indicateText = indicateText;
-        //    msgViewModel.msgIcon = msgIcon;
-        //}
+        public void GetMsgData(string caption, string indicateText, IconType msgIcon)
+        {
+            msgViewModel.caption = caption;
+            msgViewModel.indicateText = indicateText;
+            msgViewModel.msgIcon = msgIcon;
+        }
     }
 }

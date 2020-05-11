@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CustomControl.Resource.Dictionary"
-                    xmlns:component="clr-namespace:CustomControl.CustomComponent">
+                    xmlns:component="clr-namespace:CustomControl.CustomComponent"
+                    xmlns:converter="clr-namespace:CustomControl.Service.Common">
     
     <!--Canvas画图标-->
     
@@ -62,55 +63,109 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="Icon" TargetType="{x:Type UserControl}">
+    <converter:CanvasNameToVisibility x:Key="CanvasNameToVisibility"></converter:CanvasNameToVisibility>
+    
+    <ControlTemplate x:Key="IconTemplate" TargetType="{x:Type UserControl}">
         <Border x:Name="border" VerticalAlignment="Center">
             <Grid x:Name="TemplateRoot">
                 <!--锁-->
-                <Canvas x:Name="LockCanvas" Visibility="Collapsed">
+                <Canvas x:Name="LockCanvas" 
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Kind, 
+                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=LockCanvas}">
                     <Canvas.RenderTransform>
                         <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}" 
-                                        ScaleY="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}"/>
+                                                    ScaleY="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}"/>
                     </Canvas.RenderTransform>
-                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Background}">
+                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Background}">
                         <Path.Data>
                             <RectangleGeometry Rect="0,0,20,15" RadiusX="2" RadiusY="2"></RectangleGeometry>
                         </Path.Data>
                     </Path>
-                    <Path Data="M 4,0 L 4,-3 A 6,6,180,1,1,16,-3 L 16,0" StrokeThickness="3"
-                          Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Background}"/>
-                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Foreground}">
+                    <Path Data="M 4,0 L 4,-3 A 6,6,180,1,1,16,-3 L 16,0" StrokeThickness="3" Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Background}"/>
+                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Foreground}">
                         <Path.Data>
                             <EllipseGeometry Center="10,5" RadiusX="2" RadiusY="2"></EllipseGeometry>
                         </Path.Data>
                     </Path>
-                    <Path Data="M 10,5 L 10,10" StrokeThickness="2"
-                          Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Foreground}" ></Path>
+                    <Path Data="M 10,5 L 10,10" StrokeThickness="2" Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Foreground}" ></Path>
                 </Canvas>
                 <!--眼睛-->
-                <Canvas x:Name="EyeCanvas" Visibility="Collapsed">
+                <Canvas x:Name="EyeCanvas" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Kind, 
+                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=EyeCanvas}">
                     <Canvas.RenderTransform>
                         <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}" 
                                         ScaleY="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}"/>
                     </Canvas.RenderTransform>
-                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Background}">
+                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Background}">
                         <Path.Data>
                             <EllipseGeometry Center="10,0"  RadiusX="15" RadiusY="8"></EllipseGeometry>
                         </Path.Data>
                     </Path>
-                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Foreground}">
+                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Foreground}">
                         <Path.Data>
                             <EllipseGeometry Center="10,0" RadiusX="5" RadiusY="5"></EllipseGeometry>
                         </Path.Data>
                     </Path>
                 </Canvas>
                 <!--灯泡-->
-                <Canvas x:Name="BulbCanvas" Visibility="Collapsed">
+                <Canvas x:Name="BulbCanvas" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},
+                    Path=Kind,Converter={StaticResource CanvasNameToVisibility},ConverterParameter=BulbCanvas}">
                     <Canvas.RenderTransform>
                         <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}" 
                                         ScaleY="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}"/>
                     </Canvas.RenderTransform>
-                    <Path Data="M 4,0 L 4,-20 A 20,20,180,1,1,16,-20 L 16,0" StrokeThickness="3"
-                          Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=Foreground}"></Path>
+                    <Path Data="M 4,0 L 4,-20 A 20,20,180,1,1,16,-20 L 16,0" StrokeThickness="3" Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Foreground}"></Path>
+                </Canvas>
+                <!--消息-->
+                <Canvas x:Name="MessageCanvas" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},
+                    Path=Kind,Converter={StaticResource CanvasNameToVisibility},ConverterParameter=MessageCanvas}">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}" 
+                                        ScaleY="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}"/>
+                    </Canvas.RenderTransform>
+                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Foreground}">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <EllipseGeometry Center="10,8" RadiusX="18" RadiusY="18"></EllipseGeometry>
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                    <Path Data="M 10,26 Q 40,30 20,20" Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Foreground}"/>
+                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Background}">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <EllipseGeometry Center="2,8" RadiusX="3" RadiusY="3"></EllipseGeometry>
+                                <EllipseGeometry Center="10,8" RadiusX="3" RadiusY="3"></EllipseGeometry>
+                                <EllipseGeometry Center="18,8" RadiusX="3" RadiusY="3"></EllipseGeometry>
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+                <!--关闭-->
+                <Canvas x:Name="CloseCircleCanvas" Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},
+                    Path=Kind,Converter={StaticResource CanvasNameToVisibility},ConverterParameter=CloseCircleCanvas}">
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}" 
+                                        ScaleY="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path=IconSizePercent}"/>
+                            <RotateTransform Angle="45"></RotateTransform>
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
+                    <Path Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Background}">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <EllipseGeometry Center="18,18" RadiusX="18" RadiusY="18"></EllipseGeometry>
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
+                    <Path Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomIconControl},Path= Foreground}" StrokeThickness="2">
+                        <Path.Data>
+                            <GeometryGroup>
+                                <LineGeometry StartPoint="0,18" EndPoint="36,18"></LineGeometry>
+                                <LineGeometry StartPoint="18,0" EndPoint="18,36"></LineGeometry>
+                            </GeometryGroup>
+                        </Path.Data>
+                    </Path>
                 </Canvas>
             </Grid>
         </Border>

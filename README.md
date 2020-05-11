@@ -32,7 +32,10 @@ xmlns:cus="clr-namespace:CustomControl.CustomComponent;assembly=CustomControl
 **WPF项目和WinForm项目都需要引入CustomControl这个依赖库，并且把库文件放到项目生成文件夹下面即可，即与（.exe）程序同目录**
 ***
 
-## 接下来展现每个组件的效果，您可以在此基础上进一步自定义和扩展
+## 接下来展现每个控件的效果，您可以在此基础上进一步自定义和扩展，包含（control和view）
+
+## A.Control(控件)介绍
+***
 
 ### 1\. ImageButton （图片按钮控件）
 ![效果](Resource/Demo/ImageButton.gif)
@@ -186,7 +189,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 - OnPasswordValueChanged 密码Changed事件
 
 ### 8\. CustomIconControl（图标控件）
-纯代码绘制图表，目前只画了3个，后面有需要再加
+纯代码绘制图表，目前只画了5个，后面有需要再加
 
 ![效果](Resource/Demo/CustomIconControl.gif)
 ```
@@ -194,4 +197,59 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ```
 - Kind 图标类型 
 - IconSizePercent 图标百分比大小
+***
+
+### 9\. CustomProgressBar（进度控件）
+继承ProgressBar，可支持文字、竖直和横向
+
+![效果](Resource/Demo/CustomProgressBar.gif)
+
+```
+<cus:CustomProgressBar x:Name="progress" Width="300" Height="40" CornerRadius="10" IsIndeterminate="False"  Orientation="Horizontal" Background="SaddleBrown" Foreground="Red" Value="0" TextColor="Blue"/>
+```
+- TextColro 文本颜色
+- CornerRadius 圆角
+***
+
+### 10\. CustomSlider (滑动控件)
+继承Slider，可支持文字、竖直和横向
+
+![效果](Resource/Demo/CustomSlider.gif)
+
+```
+<cus:CustomSlider x:Name="slider" Width="300" Height="300" CornerRadius="10" Background="Yellow" 
+                    Foreground="SaddleBrown" ShapeType="Circle" Maximum="100" Minimum="0"
+                    SliderBackground="Red" SliderTextShow="True" 
+                    ThumbBrush="BlueViolet" ThumbSize="40" Orientation="Vertical" 
+                    SliderWidth="20" SliderHeight="20"/>
+```
+- SliderWidth  用于纵向
+- SliderHeight  用于横向
+- SliderBackground  Slider背景
+- ShapeType  Thumb形状类型(Rectangle,Ellipse,Circle)
+- ThumbBrush  Thumb填充颜色
+- ThumbSize   thumb大小
+- SliderTextShow  Value是否显示
+- CornerRadius 圆角
+***
+### 11\. CustomPopupEx （浮动控件）
+可随父本控件移动，有阴影效果
+
+![效果](Resource/Demo/CustomPopupEx.gif)
+
+```
+<cus:CustomPopupEx IsOpen="True" StaysOpen="True" Placement="Center" 
+PlacementTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" 
+Width="300" Height="300" IsPositionUpdate="True" Topmost="True">
+    <Grid Background="Red"/>
+</cus:CustomPopupEx>
+```
+
+- IsPositionUpdate 是否跟随父控件移动
+- Topmost 是否置前
+***
+
+
+
+## B.视图(View)介绍
 ***
