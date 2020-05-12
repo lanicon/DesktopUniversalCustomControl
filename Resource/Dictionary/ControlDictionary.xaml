@@ -376,7 +376,7 @@
                                                          TextChanged="VisiblePasswordTextChanged" 
                                                          BorderThickness="0" Focusable="True" MaxLength="{TemplateBinding MaxLength}"
                                                          Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=component:CustomPasswordBox},Path=Foreground}"/>
-                            <component:CustomIconControl x:Name="eye" Grid.Column="1" Kind="Lock" VerticalAlignment="Center" Background="SaddleBrown"
+                            <component:CustomIconControl x:Name="eye" Grid.Column="1" Kind="Lock" VerticalAlignment="Center" Foreground="SaddleBrown" Background="White"
                                                          IconSizePercent="{TemplateBinding exposed:CustomPasswordBoxhelper.IconSizePercent}"
                                                          Visibility="{TemplateBinding exposed:CustomPasswordBoxhelper.IsShowIcon,Converter={StaticResource BooleanToVisibilityConverter}}"
                                                          Click="ToggleButtonIconClick"

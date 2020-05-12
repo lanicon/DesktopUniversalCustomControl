@@ -189,7 +189,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 - OnPasswordValueChanged 密码Changed事件
 
 ### 8\. CustomIconControl（图标控件）
-纯代码绘制图表，目前只画了5个，后面有需要再加
+纯代码绘制图标，目前只画了15个，后面有需要再加
 
 ![效果](Resource/Demo/CustomIconControl.gif)
 ```
@@ -252,4 +252,24 @@ Width="300" Height="300" IsPositionUpdate="True" Topmost="True">
 
 
 ## B.视图(View)介绍
+***
+### 1\. MessageDialog （弹出框）
+继承MessageBox，可提供自定义修改,支持键盘控制
+
+![效果](Resource/Demo/MessageDialog.png)
+
+调用方法：目前有2个方法
+```
+MessageDialog.Show("标题", "是否还在工作?分红金额分红呵呵佛how回复哦和王佛后额我和佛鳄湖哦黄飞鸿额我和佛文化", IconType.Eye);
+```
+***
+
+### 2\. MediaPlayerView（视频播放器）
+基于MediaElement，自定义视频播放器,
+有上一集，暂停，播放，下一集，倍速，音量控制，全屏，下载(待完成)等功能
+
+![效果](Resource/Demo/MediaPlayerView.gif)
+
+- Source 资源路径
+- ItemSource 资源路径集合
 ***

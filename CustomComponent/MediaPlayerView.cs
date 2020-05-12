@@ -68,6 +68,19 @@ namespace CustomControl.CustomComponent
         }
 
 
+        /// <summary>
+        /// 视频资源集合
+        /// </summary>
+        public IEnumerable<Uri> ItemSource
+        {
+            get { return (IEnumerable<Uri>)GetValue(ItemSourceProperty); }
+            set { SetValue(ItemSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemSourceProperty =
+            DependencyProperty.Register("ItemSource", typeof(IEnumerable<Uri>), typeof(MediaPlayerView), new PropertyMetadata(null));
+
+
         [Description("音视频状态")]
         public MediaPlayerState MediaState
         {

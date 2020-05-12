@@ -41,9 +41,8 @@ namespace CustomControl.CustomView.MediaView
             timer = TimerClock.IntervalMultiSeconds(timer, 1, RefreshSlider);
             controlTimer = TimerClock.IntervalMultiSeconds(controlTimer, 3, ControlPopupIsShow);
 
-            mediaElement.MouseLeftButtonUp += MediaElement_MouseLeftButtonUp;
+            //mediaElement.MouseLeftButtonUp += MediaElement_MouseLeftButtonUp;
             MouseDoubleClick += UserMediaView_MouseDoubleClick;
-            //stop.MouseLeftButtonUp += Stop_MouseLeftButtonUp;
         }
 
         #region 控制界面显示与否
@@ -102,21 +101,25 @@ namespace CustomControl.CustomView.MediaView
         #region 播放、暂停、重放
 
         private void PlayPause_Control(object sender, RoutedEventArgs e)
-        {
-            if (play_pause.IsChecked.Value)
+        {          
+            if (!play_pause.IsChecked.Value)
                 Pause();
             else
                 Play();
         }
-        private void Border_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Play();
-            play_pause.IsChecked = false;
-        }
+
         private void MediaElement_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            Pause();
-            play_pause.IsChecked = true;
+            if (play_pause.IsChecked.Value)
+            {
+                Pause();
+                play_pause.IsChecked = false;                             
+            }
+            else
+            {
+                Play();
+                play_pause.IsChecked = true;                              
+            }                
         }
 
         //播放
@@ -134,11 +137,11 @@ namespace CustomControl.CustomView.MediaView
         }
 
         //重放
-        private void Stop_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Restart_Click(object sender, RoutedEventArgs e)
         {
             mediaElement.Stop();
             Play();
-            play_pause.IsChecked = false;
+            play_pause.IsChecked = true;
         }
 
         #endregion
@@ -152,8 +155,8 @@ namespace CustomControl.CustomView.MediaView
 
         private void volume_MouseLeave(object sender, MouseEventArgs e)
         {
-            //if (e.GetPosition(volume).Y >= 30 || e.GetPosition(volume).X <= 0 || e.GetPosition(volume).X >= 30)
-            //    mediaViewModel.IsVolumeOpen = false;
+            if (e.GetPosition(volume).Y >= 30 || e.GetPosition(volume).X <= 0 || e.GetPosition(volume).X >= 30)
+                mediaViewModel.IsVolumeOpen = false;
         }
 
         private void VolumePopup_MouseLeave(object sender, MouseEventArgs e)
@@ -164,19 +167,19 @@ namespace CustomControl.CustomView.MediaView
 
         private double mutedVolumeValue = 0.0;
         //静音模式
-        private void volume_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Volume_Click(object sender, RoutedEventArgs e)
         {
-            //if(volume.Kind == PackIconKind.VolumeOff)
-            //{
-            //    mediaElement.IsMuted = false;
-            //    volumeSlider.Value = mutedVolumeValue;
-            //}
-            //else
-            //{
-            //    mediaElement.IsMuted = true;
-            //    mutedVolumeValue = volumeSlider.Value;
-            //    volumeSlider.Value = 0;
-            //}
+            if (volume.Kind == IconType.VolumeOff)
+            {
+                mediaElement.IsMuted = false;
+                volumeSlider.Value = mutedVolumeValue;
+            }
+            else
+            {
+                mediaElement.IsMuted = true;
+                mutedVolumeValue = volumeSlider.Value;
+                volumeSlider.Value = 0;
+            }
         }
 
         //音量值
@@ -188,19 +191,19 @@ namespace CustomControl.CustomView.MediaView
                 mediaElement.IsMuted = false;
             else
                 mediaElement.IsMuted = true;
-           
-            //if (volumeSlider.Value > 0.5 && volumeSlider.Value <= 1.0)
-            //{
-            //    volume.Kind = PackIconKind.VolumeHigh;
-            //}
-            //else if(volumeSlider.Value > 0 && volumeSlider.Value <= 0.5)
-            //{
-            //    volume.Kind = PackIconKind.VolumeMedium;
-            //}
-            //else
-            //{
-            //    volume.Kind = PackIconKind.VolumeOff;
-            //}
+
+            if (volumeSlider.Value > 0.5 && volumeSlider.Value <= 1.0)
+            {
+                volume.Kind = IconType.VolumeHigh;
+            }
+            else if (volumeSlider.Value > 0 && volumeSlider.Value <= 0.5)
+            {
+                volume.Kind = IconType.VolumeMedium;
+            }
+            else
+            {
+                volume.Kind = IconType.VolumeOff;
+            }
         }
 
         #endregion
@@ -236,6 +239,8 @@ namespace CustomControl.CustomView.MediaView
 
         #endregion
 
+        #region 其它控制
+
         //更新SliderValue
         private void RefreshSlider()
         {
@@ -259,14 +264,14 @@ namespace CustomControl.CustomView.MediaView
             mediaElement.Position = TimeSpan.FromSeconds(0);
             playSlider.Value = 0;
             Pause();
-            play_pause.IsChecked = true;
+            play_pause.IsChecked = false;
             mediaElement.LoadedBehavior = MediaState.Manual;
         }
 
         //媒体播放错误
         private void mediaElement_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         {
-            MessageDialog.Show(e.ErrorException.Message);
+            MessageDialog.Show("播放错误：" + e.ErrorException.Message);
         }
 
         //全屏、退出全屏
@@ -288,6 +293,32 @@ namespace CustomControl.CustomView.MediaView
             fullScreent.IsChecked = true;
             Window.GetWindow(this).WindowState = WindowState.Maximized;
         }
+
+        //上一个
+        private void Last_Click(object sender, RoutedEventArgs e)
+        {
+            var mediaPlayerView = userMedia.TemplatedParent as MediaPlayerView;
+            int index = mediaPlayerView.ItemSource.ToList().IndexOf(mediaPlayerView.Source);
+            index -= 1;
+            if (index >= 0)
+            {
+                mediaPlayerView.Source = mediaPlayerView.ItemSource.ElementAt(index);
+            }
+        }
+
+        //下一个
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+            var mediaPlayerView = userMedia.TemplatedParent as MediaPlayerView;
+            int index = mediaPlayerView.ItemSource.ToList().IndexOf(mediaPlayerView.Source);
+            index += 1;
+            if (index < mediaPlayerView.ItemSource.Count())
+            {
+                mediaPlayerView.Source = mediaPlayerView.ItemSource.ElementAt(index);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// ControlGrid显示与隐藏

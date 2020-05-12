@@ -42,13 +42,13 @@
                                     </Grid.ColumnDefinitions>
                                     <local:CustomIconControl Kind="Message" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"></local:CustomIconControl>
                                     <TextBlock Grid.Column="1" Text="{Binding caption}" Foreground="White" FontSize="16" FontFamily="正楷" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                    <local:CustomIconControl  Grid.Column="2" Kind="CloseCircle" ForceCursor="True" Foreground="White" Background="BlueViolet" 
-                                                             Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="关闭">
+                                    <local:CustomIconControl Grid.Column="2" Kind="CloseCircle" ForceCursor="True" Foreground="White" Background="Green" 
+                                                             Width="30" Height="30" ToolTip="关闭">
                                         <local:CustomIconControl.Resources>
                                             <Style TargetType="ToolTip" BasedOn="{StaticResource toolTip}"></Style>
                                         </local:CustomIconControl.Resources>
                                         <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                            <i:EventTrigger EventName="Click">
                                                 <i:InvokeCommandAction Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></i:InvokeCommandAction>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
@@ -56,14 +56,17 @@
                                 </Grid>
                             </Border>
 
-                            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                            <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*"></ColumnDefinition>
                                     <ColumnDefinition Width="1*"></ColumnDefinition>
                                     <ColumnDefinition Width="5*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                                <local:CustomIconControl  Grid.Column="1" Kind="{Binding msgIcon}" Foreground="{DynamicResource foregroundColor}" Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left"></local:CustomIconControl>
-                                <TextBlock Grid.Column="2" Text="{Binding indicateText}" TextWrapping="Wrap" Foreground="{DynamicResource foregroundColor}" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                <local:CustomIconControl x:Name="hintText" Grid.Column="1" Kind="{Binding msgIcon}" 
+                                                         Margin="0,0,0,0" IconSizePercent="1" Foreground="{DynamicResource foregroundColor}"
+                                                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                <TextBlock Grid.Column="2" Text="{Binding indicateText}" TextWrapping="Wrap" VerticalAlignment="Center"
+                                           Margin="15,0,0,0" Foreground="{DynamicResource foregroundColor}" FontSize="16"></TextBlock>
                             </Grid>
 
                             <Grid Grid.Row="2">
@@ -102,6 +105,11 @@
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <media:UserMediaView  Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Hand"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -702,69 +710,29 @@
     <Style TargetType="{x:Type local:CustomIconControl}">
         <Setter Property="Background" Value="Green"/>
         <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CustomIconControl}">
                     <Border Background="Transparent" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
                             BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <UserControl x:Name="userControl" Template="{StaticResource IconTemplate}"/>
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}" 
+                                            ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}"/>
+                        </Border.RenderTransform>
+                        <UserControl x:Name="userControl" Template="{StaticResource IconTemplate}" 
+                                     Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
                     </Border>
-                    <!--<Border x:Name="border" VerticalAlignment="Center">
-                        <Grid x:Name="TemplateRoot">
-                            <Canvas x:Name="LockCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
-                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=LockCanvas}">
-                                <Canvas.RenderTransform>
-                                    <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}" 
-                                                    ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}"/>
-                                </Canvas.RenderTransform>
-                                <Path Fill="{TemplateBinding Background}">
-                                    <Path.Data>
-                                        <RectangleGeometry Rect="0,0,20,15" RadiusX="2" RadiusY="2"></RectangleGeometry>
-                                    </Path.Data>
-                                </Path>
-                                <Path Data="M 4,0 L 4,-3 A 6,6,180,1,1,16,-3 L 16,0" StrokeThickness="3" Stroke="{TemplateBinding Background}"/>
-                                <Path Fill="{TemplateBinding Foreground}">
-                                    <Path.Data>
-                                        <EllipseGeometry Center="10,5" RadiusX="2" RadiusY="2"></EllipseGeometry>
-                                    </Path.Data>
-                                </Path>
-                                <Path Data="M 10,5 L 10,10" StrokeThickness="2" Stroke="{TemplateBinding Foreground}" ></Path>
-                            </Canvas>
-
-                            <Canvas x:Name="EyeCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
-                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=EyeCanvas}">
-                                <Canvas.RenderTransform>
-                                    <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}" 
-                                        ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}"/>
-                                </Canvas.RenderTransform>
-                                <Path Fill="{TemplateBinding Background}">
-                                    <Path.Data>
-                                        <EllipseGeometry Center="10,0"  RadiusX="15" RadiusY="8"></EllipseGeometry>
-                                    </Path.Data>
-                                </Path>
-                                <Path Fill="{TemplateBinding Foreground}">
-                                    <Path.Data>
-                                        <EllipseGeometry Center="10,0" RadiusX="5" RadiusY="5"></EllipseGeometry>
-                                    </Path.Data>
-                                </Path>
-                            </Canvas>
-
-                            <Canvas x:Name="BulbCanvas" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent},Path=Kind, 
-                                Converter={StaticResource CanvasNameToVisibility},ConverterParameter=BulbCanvas}">
-                                <Canvas.RenderTransform>
-                                    <ScaleTransform ScaleX="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}" 
-                                        ScaleY="{Binding RelativeSource={RelativeSource TemplatedParent},Path=IconSizePercent}"/>
-                                </Canvas.RenderTransform>
-                                <Path Data="M 4,0 L 4,-20 A 20,20,180,1,1,16,-20 L 16,0" StrokeThickness="3" Stroke="{TemplateBinding Foreground}"></Path>
-                            </Canvas>
-                        </Grid>
-                    </Border>-->
-                    <!--多值绑定-->
-                    <!--<Grid.Visibility>
-                                <MultiBinding  Converter="{StaticResource CanvasNameToVisibility}" ConverterParameter="{Binding}">
-                                    <Binding></Binding>
-                                </MultiBinding>
-                            </Grid.Visibility>-->
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true"/>
+                                <Condition Property="ExistEffect" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Effect" Value="{StaticResource effect}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>          
         </Setter>

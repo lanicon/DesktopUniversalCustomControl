@@ -84,8 +84,6 @@ namespace CustomControl.Service.Common
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Console.WriteLine("Name:========"+ targetType.FullName);
-            Console.WriteLine("parameter:========" + parameter);
             var kind = (IconType)value;
             string canvasName = parameter.ToString();
             if (canvasName.Contains(kind.ToString()))

@@ -28,11 +28,6 @@ namespace CustomControl.CustomComponent
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomSlider), new FrameworkPropertyMetadata(typeof(CustomSlider)));
         }
 
-        public CustomSlider()
-        {
-            Console.WriteLine("---------------------");
-        }
-
         /// <summary>
         /// SliderHeight(用于横向)
         /// </summary>

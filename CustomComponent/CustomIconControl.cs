@@ -69,6 +69,19 @@ namespace CustomControl.CustomComponent
 
         public static readonly DependencyProperty IconSizePercentProperty =
             DependencyProperty.Register("IconSizePercent", typeof(double), typeof(CustomIconControl), new PropertyMetadata(1.0));
+
+
+        /// <summary>
+        /// 是否有阴影效果
+        /// </summary>
+        public bool ExistEffect
+        {
+            get { return (bool)GetValue(ExistEffectProperty); }
+            set { SetValue(ExistEffectProperty, value); }
+        }
+
+        public static readonly DependencyProperty ExistEffectProperty =
+            DependencyProperty.Register("ExistEffect", typeof(bool), typeof(CustomIconControl), new PropertyMetadata(false));
     }
 
     /// <summary>
@@ -81,5 +94,15 @@ namespace CustomControl.CustomComponent
         Bulb = 3,  //电灯泡 
         Message = 4, //消息
         CloseCircle = 5, //圆形关闭
+        Play = 6, //播放
+        Pause = 7, //暂停
+        Restart = 8, //重放
+        Last = 9, //上一个
+        Next = 10, //下一个
+        VolumeMedium = 11, //音量（50%）
+        VolumeHigh = 12,  //音量（>50%）
+        VolumeOff = 13,   //音量（=0）
+        FullScreen = 14,  //全屏
+        FullScreenExit = 15,  //退出全屏
     }
 }
