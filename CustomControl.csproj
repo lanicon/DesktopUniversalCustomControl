@@ -110,6 +110,7 @@
     <Compile Include="Resource\Dictionary\DictionaryEvent.cs" />
     <Compile Include="Resource\Transitions\AttachedProperty.cs" />
     <Compile Include="Service\Common\Converter.cs" />
+    <Compile Include="Service\Common\TypeConver.cs" />
     <Compile Include="Service\Common\MsgModel.cs" />
     <Compile Include="Service\Interface\IMsgData.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

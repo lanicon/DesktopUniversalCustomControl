@@ -1,7 +1,10 @@
 ﻿using CustomControl.ExposedMethod;
+using CustomControl.Service.Common;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,26 +37,64 @@ namespace CustomControl.CustomComponent
         }
 
 
-        /// <summary>
-        /// 图表数据
-        /// </summary>
+
+        //旧数据
+        public static readonly DependencyProperty ChartDataCollectionProperty =
+            DependencyProperty.Register("ChartDataCollection", typeof(PointCollection), typeof(ChartControlView), 
+                new PropertyMetadata(default(PointCollection), OnChartDataCollectionChanged));
+
+        //新数据
+        public static readonly DependencyProperty ChartNewDataCollectionProperty =
+            DependencyProperty.RegisterAttached("ChartNewDataCollection", typeof(PointCollection), typeof(ChartControlView),
+                new PropertyMetadata(default(PointCollection)));
+
         public PointCollection ChartDataCollection
         {
             get { return (PointCollection)GetValue(ChartDataCollectionProperty); }
             set { SetValue(ChartDataCollectionProperty, value); }
         }
 
-        public static readonly DependencyProperty ChartDataCollectionProperty =
-            DependencyProperty.Register("ChartDataCollection", typeof(PointCollection), typeof(ChartControlView), new PropertyMetadata(null, OnChartDataCollectionChanged));
+        public static PointCollection GetChartNewDataCollection(DependencyObject obj)
+        {
+            return (PointCollection)obj.GetValue(ChartNewDataCollectionProperty);
+        }
 
+        public static void SetChartNewDataCollection(DependencyObject obj, PointCollection value)
+        {
+            obj.SetValue(ChartNewDataCollectionProperty, value);
+        }
+
+        //数据改变时发生
         private static void OnChartDataCollectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if(d != null && d is ChartControlView)
             {
                 var chartControl = d as ChartControlView;
-                //if(chartControl.ChartDataCollection != null)
-                //    chartControl.GetNewPointDataCollection(chartControl);               
+                if (chartControl.ChartDataCollection != null)
+                    chartControl.GetNewPointDataCollection(chartControl);
             }
+        }
+        /// <summary>
+        /// 由X轴刻度值计算得到新的坐标集合
+        /// </summary>
+        /// <param name="chartControl"></param>
+        private void GetNewPointDataCollection(ChartControlView chartControl)
+        {
+            Console.WriteLine(chartControl.ChartDataCollection);
+            PointCollection pointDataCollection = new PointCollection(chartControl.ChartDataCollection.Count);
+            for (int i = 0; i < chartControl.ChartDataCollection.Count; i++)
+            {
+                pointDataCollection.Add(new Point(chartControl.CenterPoint.X + chartControl.ChartDataCollection[i].X * chartControl.XTickValueInterval,
+                                                  chartControl.CenterPoint.Y - chartControl.ChartDataCollection[i].Y * chartControl.YTickValueInterval));
+            }
+            SetChartNewDataCollection(chartControl, pointDataCollection);
+
+            //拷贝
+            //chartControl.ChartDataCollection = chartControl.ChartDataCollection.Clone();
+            //chartControl.ChartDataCollection.Clear();
+            //chartControl.ChartDataCollection = new PointCollection(pointDataCollection);
+            Console.WriteLine("计算");
+            Console.WriteLine(GetChartNewDataCollection(chartControl));
         }
 
 
@@ -128,7 +169,7 @@ namespace CustomControl.CustomComponent
             {
                 var chartControl = d as ChartControlView;
                 //chartControl.ApplyTemplate();
-                Console.WriteLine("1111===================1111");
+                //Console.WriteLine("1111===================1111");
             }
         }
 
@@ -240,6 +281,7 @@ namespace CustomControl.CustomComponent
         /// <summary>
         /// X轴刻度描述 
         /// </summary>
+        [TypeConverter(typeof(StringToListTypeConver))]
         public List<string> XTickDescription
         {
             get { return (List<string>)GetValue(XTickDescriptionProperty); }
@@ -266,6 +308,7 @@ namespace CustomControl.CustomComponent
         /// <summary>
         /// Y轴刻度描述 
         /// </summary>
+        [TypeConverter(typeof(StringToListTypeConver))]
         public List<string> YTickDescription
         {
             get { return (List<string>)GetValue(YTickDescriptionProperty); }
@@ -295,7 +338,7 @@ namespace CustomControl.CustomComponent
             if (d != null && d is ChartControlView)
             {
                 var chartControl = d as ChartControlView;
-                chartControl.OnApplyTemplate();
+                //chartControl.OnApplyTemplate();
                 Console.WriteLine("XTickValueInterval=" + chartControl.XTickValueInterval);
                 Console.WriteLine("YTickValueInterval=" + chartControl.YTickValueInterval);
             }
@@ -312,7 +355,7 @@ namespace CustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty ChartTypeProperty =
-            DependencyProperty.Register("ChartType", typeof(ChartType), typeof(ChartControlView), new PropertyMetadata(ChartType.StraightLine, TicksDescriptionChanged));
+            DependencyProperty.Register("ChartType", typeof(ChartType), typeof(ChartControlView), new PropertyMetadata(ChartType.PolyLine, TicksDescriptionChanged));
 
 
 
@@ -321,44 +364,50 @@ namespace CustomControl.CustomComponent
         /// </summary>
         public override void OnApplyTemplate()
         {
-            //Canvas coordinateCanvas = this.Template.FindName("coordinateSystem", this) as Canvas;
-            //CoordinateSystem coordinateSystem = coordinateCanvas.FindName("coordinate") as CoordinateSystem;
-            //Canvas xCanvas = this.Template.FindName("xTicks", this) as Canvas;
-            //Canvas yCanvas = this.Template.FindName("yTicks", this) as Canvas;
-
-            Canvas coordinateCanvas = this.GetTemplateChild("coordinateSystem") as Canvas;
+            //if (this.Template == null)
+            //    return;
+            Grid TemplateRoot = this.Template.FindName("TemplateRoot", this) as Grid;
+            Canvas coordinateCanvas = this.Template.FindName("coordinateSystem", this) as Canvas;
             CoordinateSystem coordinateSystem = coordinateCanvas.FindName("coordinate") as CoordinateSystem;
-            Canvas xCanvas = this.GetTemplateChild("xTicks") as Canvas;
-            Canvas yCanvas = this.GetTemplateChild("yTicks") as Canvas;
+            Canvas xCanvas = this.Template.FindName("xTicks", this) as Canvas;
+            Canvas yCanvas = this.Template.FindName("yTicks", this) as Canvas;
+
+            //Canvas coordinateCanvas = ChartView.GetTemplateChild("coordinateSystem") as Canvas;
+            //CoordinateSystem coordinateSystem = coordinateCanvas.FindName("coordinate") as CoordinateSystem;
+            //Canvas xCanvas = ChartView.GetTemplateChild("xTicks") as Canvas;
+            //Canvas yCanvas = ChartView.GetTemplateChild("yTicks") as Canvas;
 
             this.XTickValueInterval = coordinateSystem.XTickValue;
             this.YTickValueInterval = coordinateSystem.YTickValue;
+            Console.WriteLine("TemplateXTickValueInterval=" + this.XTickValueInterval);
+            Console.WriteLine("TemplateYTickValueInterval=" + this.YTickValueInterval);
+            GetNewPointDataCollection(this);
+
 
             //动态增加X刻度描述
             if (this.XTickDescription != null)
             {
-                for (int i = 0; i < this.XTickDescription.Count; i++)
+                for (int i = 0; i < this.XTickDescription.Count(); i++)
                 {
                     TextBlock textBlock = new TextBlock();
-                    textBlock.Text = XTickDescription[i];
+                    textBlock.Text = this.XTickDescription[i];
                     textBlock.Style = ComponentStyle.GetComponentStyle("textBlock");
-                    textBlock.Margin = XTicksMargin;
+                    textBlock.Margin = this.XTicksMargin;
                     xCanvas.Children.Add(textBlock);
                     xCanvas.RegisterName("xTick_tb" + i + 1, textBlock);
                     Canvas.SetLeft(textBlock, coordinateSystem.XTicks[i].X);
                     Canvas.SetTop(textBlock, coordinateSystem.XTicks[i].Y);
                 }
             }
-
             //动态增加Y刻度描述
             if (this.YTickDescription != null)
             {
                 for (int i = 0; i < this.YTickDescription.Count; i++)
                 {
                     TextBlock textBlock = new TextBlock();
-                    textBlock.Text = YTickDescription[i];
+                    textBlock.Text = this.YTickDescription[i];
                     textBlock.Style = ComponentStyle.GetComponentStyle("textBlock");
-                    textBlock.Margin = YTicksMargin;
+                    textBlock.Margin = this.YTicksMargin;
                     yCanvas.Children.Add(textBlock);
                     yCanvas.RegisterName("yTick_tb" + i + 1, textBlock);
                     Canvas.SetLeft(textBlock, coordinateSystem.YTicks[i].X);
@@ -366,25 +415,10 @@ namespace CustomControl.CustomComponent
                 }
             }
         }
-
-        private void GetNewPointDataCollection(ChartControlView chartControl)
-        {
-            PointCollection pointDataCollection = new PointCollection(chartControl.ChartDataCollection.Count);
-            for (int i = 0; i < chartControl.ChartDataCollection.Count; i++)
-            {
-                pointDataCollection.Add(new Point(chartControl.CenterPoint.X + chartControl.ChartDataCollection[i].X * chartControl.XTickValueInterval,
-                                                  chartControl.CenterPoint.Y - chartControl.ChartDataCollection[i].Y * chartControl.YTickValueInterval));
-            }
-
-            chartControl.ChartDataCollection = chartControl.ChartDataCollection.Clone();
-            chartControl.ChartDataCollection.Clear();
-            chartControl.ChartDataCollection = new PointCollection(pointDataCollection);
-        }
     }
 
     public enum ChartType
     {
-        StraightLine = 0, //直线图
         PolyLine = 1, //折线图
         Cylinder = 2, //圆柱图
         Histogram = 3, //直方图

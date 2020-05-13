@@ -119,7 +119,7 @@
     <Style TargetType="{x:Type local:ChartControlView}">
         <Setter Property="StrokeCoordinate" Value="Red"/>
         <Setter Property="StrokeThicknessCoordinate" Value="2"/>
-        <Setter Property="XAxisDescription" Value="月份(年))"/>
+        <Setter Property="XAxisDescription" Value="月份(年)"/>
         <Setter Property="YAxisDescription" Value="产量(kg)"/>
         <Setter Property="XAxisMargin" Value="0"/>
         <Setter Property="YAxisMargin" Value="-60,-5,0,0"/>
@@ -129,12 +129,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ChartControlView}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
+                        <Grid x:Name="TemplateRoot">
                             <Canvas x:Name="coordinateSystem">
                                 <local:CoordinateSystem x:Name="coordinate" CenterPoint="{TemplateBinding CenterPoint}" XEndPoint="{TemplateBinding XEndPoint}" YEndPoint="{TemplateBinding YEndPoint}"
                                                     XCoordinateTicks="{TemplateBinding XCoordinateTicks}" YCoordinateTicks="{TemplateBinding YCoordinateTicks}"
                                                     Stroke="{TemplateBinding StrokeCoordinate}" StrokeThickness="{TemplateBinding StrokeThicknessCoordinate}"/>
-                                <TextBlock Text="{TemplateBinding XAxisDescription}" FontSize="14" FontWeight="Bold" Foreground="White"
+                                <TextBlock Text="{TemplateBinding XAxisDescription}" FontSize="14" FontWeight="Bold" Foreground="White" Margin="{TemplateBinding XAxisMargin}"
                                            Canvas.Left="{Binding ElementName=coordinate,Path=XEndPoint.X}"
                                            Canvas.Top="{Binding ElementName=coordinate,Path=XEndPoint.Y}"/>
                                 <TextBlock Text="{TemplateBinding YAxisDescription}" FontSize="14" FontWeight="Bold" Foreground="White" Margin="{TemplateBinding YAxisMargin}"
@@ -143,27 +143,28 @@
                             </Canvas>
                             <!--X轴刻度描述-->
                             <Canvas x:Name="xTicks">
-                                <!--<TextBlock Canvas.Left="{Binding ElementName=coordinate,Path=XTicks[0].X}" Canvas.Top="{Binding ElementName=coordinate,Path=XTicks[0].Y}" 
+                                <TextBlock Canvas.Left="{Binding ElementName=coordinate,Path=XTicks[0].X}" Canvas.Top="{Binding ElementName=coordinate,Path=XTicks[0].Y}" 
                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=XTickDescription[0]}" Style="{StaticResource textBlock}"
-                                           Margin="{TemplateBinding XTicksMargin}"/>-->
+                                           Margin="{TemplateBinding XTicksMargin}"/>
                             </Canvas>
                             <!--Y轴刻度描述-->
                             <Canvas x:Name="yTicks">
-                                <!--<TextBlock Canvas.Left="{Binding ElementName=coordinate,Path=YTicks[0].X}" Canvas.Top="{Binding ElementName=coordinate,Path=YTicks[0].Y}" 
+                                <TextBlock Canvas.Left="{Binding ElementName=coordinate,Path=YTicks[0].X}" Canvas.Top="{Binding ElementName=coordinate,Path=YTicks[0].Y}" 
                                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=YTickDescription[0]}" Style="{StaticResource textBlock}"
-                                           Margin="{TemplateBinding YTicksMargin}"/>-->
+                                           Margin="{TemplateBinding YTicksMargin}"/>
                             </Canvas>
                             <!--画图-->
                             <Canvas x:Name="drawChart">
-                                <Polyline x:Name="line" Points="{TemplateBinding ChartDataCollection}" Stroke="{TemplateBinding StrokeCoordinate}" StrokeThickness="{TemplateBinding StrokeThicknessCoordinate}"/>
+                                <Polyline x:Name="polyLine" Points="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ChartNewDataCollection}" 
+                                          Stroke="{TemplateBinding StrokeCoordinate}" StrokeThickness="{TemplateBinding StrokeThicknessCoordinate}"/>
                                 
                             </Canvas>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="ChartType" Value="Cylinder">
-                            <Setter Property="Stroke" Value="Blue" TargetName="line"/>
-                        </Trigger>
+                        <!--<Trigger Property="ChartType" Value="Cylinder">
+                            <Setter Property="Stroke" Value="Blue" TargetName="polyLine"/>
+                        </Trigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -1066,7 +1067,8 @@
     
     <!--CoordinateSystem-->
     <Style TargetType="{x:Type local:CoordinateSystem}">
-
+        <Setter Property="Stroke" Value="Red"/>
+        <Setter Property="StrokeThickness" Value="2"/>
     </Style>
 
 
