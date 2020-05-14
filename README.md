@@ -273,3 +273,24 @@ MessageDialog.Show("标题", "是否还在工作?分红金额分红呵呵佛how�
 - Source 资源路径
 - ItemSource 资源路径集合
 ***
+
+### 3\. ChartControlView（图表控件）
+包含折线图、饼图、柱形图，还有转盘效果，其它图形还在更新中
+所有效果都是依赖属性，可自行调整，
+![效果](Resource/Demo/RotateTransform.gif)
+![效果](Resource/Demo/PolyLine.png)
+![效果](Resource/Demo/Histogram.png)
+
+属性就不再说明了，太多了，可自行尝试，方法如下
+```
+<cus:ChartControlView x:Name="chart" Width="600" Height="600" Background="Green" 
+                        CenterPoint="80,500" XEndPoint="480,500" YEndPoint="80,100"
+                        StrokeCoordinate="Red" StrokeThicknessCoordinate="2"
+                        XCoordinateTicks="6" YCoordinateTicks="8"
+                        XAxisDescription="月份(月)" XAxisMargin="5,0,0,0"
+                        YAxisDescription="人数(万)" YAxisMargin="-65,0,0,0"
+                        XTickDescription="1,2,3,4,5,6" XTicksMargin="-25,0,0,0"
+                        YTickDescription="1,2,3,4,5,6,7,8" YTicksMargin="-40,-8,0,0"
+                        ChartType="Histogram" ChartDataCollection="1,1,2,2,3,3,4,4,5,5,6,6"/>
+```
+***

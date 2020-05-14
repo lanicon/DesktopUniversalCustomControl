@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -35,7 +38,6 @@ namespace CustomControl.CustomComponent
         {
 
         }
-
 
 
         //旧数据
@@ -355,22 +357,206 @@ namespace CustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty ChartTypeProperty =
-            DependencyProperty.Register("ChartType", typeof(ChartType), typeof(ChartControlView), new PropertyMetadata(ChartType.PolyLine, TicksDescriptionChanged));
+            DependencyProperty.Register("ChartType", typeof(ChartType), typeof(ChartControlView), 
+                new PropertyMetadata(default(ChartType), ChartTypeChanged));
 
+        private static void ChartTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var chartControl = d as ChartControlView;
+            if (chartControl.TemplateCanvas != null)
+            {
+                ChartType type = (ChartType)e.NewValue;
+                OnDrawMap(type, chartControl, chartControl.TemplateCanvas);
+            }
+        }
 
+        //画图
+        private static void OnDrawMap(ChartType type, ChartControlView chartControl, Canvas TemplateCanvas)
+        {
+            foreach (var canvas in chartControl.TemplateRoot.Children)
+            {
+                (canvas as Canvas).Visibility = Visibility.Visible;
+            }
 
+            var standPoints = GetChartNewDataCollection(chartControl);
+            Canvas OtherHistogram = chartControl.Template.FindName("otherHistogram", chartControl) as Canvas;
+            Canvas Fangraph = chartControl.Template.FindName("Fangraph", chartControl) as Canvas;
+            switch (type)
+            {
+                case ChartType.PolyLine: //折线图
+                    {
+                        TemplateCanvas.Children.Remove(OtherHistogram);
+                        //TemplateCanvas.Children.Remove(OtherFangraph);
+                        foreach (var item in TemplateCanvas.Children)
+                        {
+                            Console.WriteLine("子项" + item.GetType().Name);
+                        }
+                    }
+                    break;
+                case ChartType.Cylinder:
+                    {
+                        TemplateCanvas.Children.Remove(OtherHistogram);
+                    }
+                    break;
+                case ChartType.Histogram:  //直方图
+                    {
+                        Path Histogram = TemplateCanvas.FindName("Histogram") as Path;
+                        double width = 2 * chartControl.XTickValueInterval / 3;
+                        //double intervalHeight = chartControl.YTickValueInterval;                       
+                        PointCollection RightTopPoints = standPoints;
+                        PointCollection LeftTopPoints = new PointCollection();
+                        for (int i = 0; i < standPoints.Count; i++)
+                        {
+                            LeftTopPoints.Add(new Point(standPoints[i].X - width, standPoints[i].Y));
+                        }
+                        PointCollection LeftBottomPoints = new PointCollection();
+                        for (int i = 0; i < standPoints.Count; i++)
+                        {
+                            LeftBottomPoints.Add(new Point(standPoints[i].X - width, chartControl.CenterPoint.Y));
+                        }
+                        PointCollection RightBottomPoints = new PointCollection();
+                        for (int i = 0; i < standPoints.Count; i++)
+                        {
+                            RightBottomPoints.Add(new Point(standPoints[i].X, chartControl.CenterPoint.Y));
+                        }
+
+                        string data = string.Empty;
+                        for (int i = 0; i < standPoints.Count; i++)
+                        {
+                            string data1 = $"M {RightTopPoints[i].X},{RightTopPoints[i].Y} {LeftTopPoints[i].X},{LeftTopPoints[i].Y}";
+                            string data2 = $" {LeftBottomPoints[i].X},{LeftBottomPoints[i].Y} {RightBottomPoints[i].X},{RightBottomPoints[i].Y} ";
+                            data += data1 + data2;
+                        }
+                        
+                        Histogram.Data = Geometry.Parse(data);
+                        
+                        for (int i = 0; i < chartControl.ChartDataCollection.Count; i++)
+                        {
+                            TextBlock textBlock = new TextBlock();
+                            textBlock.Text = chartControl.ChartDataCollection[i].Y.ToString();
+                            textBlock.Style = ComponentStyle.GetComponentStyle("textBlock");
+                            textBlock.Margin = new Thickness(standPoints[i].X - 50, standPoints[i].Y - 20, 0, 0);
+                            OtherHistogram.Children.Add(textBlock);
+                        }
+                        if(!TemplateCanvas.Children.Contains(OtherHistogram))
+                            TemplateCanvas.Children.Add(OtherHistogram);
+
+                        Console.WriteLine("DATA:" + data);
+                        Console.WriteLine("柱形图：" + Histogram.Name);
+                    }
+                    break;
+                case ChartType.Dottedgram:
+                    break;
+                case ChartType.Fangraph:  //饼图
+                    {
+                        foreach (var canvas in chartControl.TemplateRoot.Children)
+                        {
+                            if ((canvas as Canvas).Name.Equals("drawChart"))
+                                (canvas as Canvas).Visibility = Visibility.Visible;
+                            else
+                                (canvas as Canvas).Visibility = Visibility.Collapsed;
+                        }
+
+                        //圆的方程(x-a)^2 + (y-b)^2 = r^2
+                        List<double> anglesList = new List<double>(); //角度
+                        double sumY = 0;
+                        foreach (var p in chartControl.ChartDataCollection)
+                        {
+                            sumY += p.Y;
+                        }
+                        foreach (var p in chartControl.ChartDataCollection)
+                        {
+                            anglesList.Add(p.Y / sumY * 2 * Math.PI);
+                        }
+
+                        //圆上分割点
+                        List<Point> points = new List<Point>();
+                        //圆中心点
+                        //Point center = new Point(0, 0);
+                        Point center = new Point(chartControl.Width / 2, chartControl.Height / 2);
+                        //圆的半径
+                        double r = chartControl.Width > chartControl.Height ? 2 / 5D * chartControl.Height : 2 / 5D * chartControl.Width;
+                        double angle = 0D;
+                        for (int i = 0; i < chartControl.ChartDataCollection.Count; i++)
+                        {                        
+                            angle += anglesList[i];
+                            double x = center.X + r * Math.Cos(angle);
+                            double y = center.Y + r * Math.Sin(angle);
+                            points.Add(new Point(x, y));
+                        }
+
+                        Path ellipsePath = new Path();
+                        ellipsePath.Data = new EllipseGeometry(center, r, r);
+                        //ellipsePath.Stroke = Brushes.Red;
+                        //ellipsePath.StrokeThickness = 2;
+                        Fangraph.Children.Add(ellipsePath);
+
+                        Brush[] brushes = new Brush[7] { Brushes.Red, Brushes.BlueViolet, Brushes.Yellow, Brushes.Blue, Brushes.SaddleBrown, Brushes.Purple, Brushes.BlueViolet };
+                        for (int i = 0; i < points.Count; i++)
+                        {
+                            Path path = new Path();
+                            string source = "";
+                            if (i == points.Count - 1)
+                                source = $"M {points[i].X},{points[i].Y} A {r},{r} 50 0 1 {points[0].X},{points[0].Y} L {center.X},{center.Y}";
+                            else
+                                source = $"M {points[i].X},{points[i].Y} A {r},{r} 50 0 1 {points[i + 1].X},{points[i + 1].Y} L {center.X},{center.Y}";
+                            path.Data = Geometry.Parse(source);
+                            path.Fill = brushes[i];
+                            Fangraph.Children.Add(path);
+                        }
+                        ////画小圆
+                        //for (int i = 0; i < points.Count; i++)
+                        //{
+                        //    Path path = new Path();
+                        //    path.Data = new EllipseGeometry(points[i], 10, 10);
+                        //    path.Fill = brushes[i];
+                        //    Fangraph.Children.Add(path);
+                        //}
+
+                        ////如果原点为左上角，则需要平移
+                        //TranslateTransform transform = new TranslateTransform(300, 300);
+                        //Fangraph.RenderTransform = transform;
+
+                        //int roateAngle = 180;
+                        //while (true)
+                        //{
+                        //    roateAngle += 1;
+                        //    RotateTransform rotateTransform = new RotateTransform(roateAngle, 300, 300);
+                        //    Fangraph.RenderTransform = rotateTransform;
+                        //    Thread.Sleep(50);
+                        //}
+
+                        //DoubleAnimationUsingKeyFrames doubleAnimationUsingKeyFrames = new DoubleAnimationUsingKeyFrames();
+                        //Duration duration = new Duration(TimeSpan.FromSeconds(3));
+                        //DiscreteDoubleKeyFrame discreteDoubleKeyFrame = new DiscreteDoubleKeyFrame(roateAngle);
+                        //doubleAnimationUsingKeyFrames.Duration = duration;
+                        //doubleAnimationUsingKeyFrames.KeyFrames.Add(discreteDoubleKeyFrame);
+                        //AnimationClock clock = doubleAnimationUsingKeyFrames.CreateClock();
+                        //Fangraph.ApplyAnimationClock(RenderTransformProperty, clock);                       
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private Canvas TemplateCanvas; //大画板
+        private Grid TemplateRoot; //
         /// <summary>
         /// 重写ChartControlView控件
         /// </summary>
         public override void OnApplyTemplate()
         {
-            //if (this.Template == null)
-            //    return;
-            Grid TemplateRoot = this.Template.FindName("TemplateRoot", this) as Grid;
+            TemplateRoot = this.Template.FindName("TemplateRoot", this) as Grid;
             Canvas coordinateCanvas = this.Template.FindName("coordinateSystem", this) as Canvas;
             CoordinateSystem coordinateSystem = coordinateCanvas.FindName("coordinate") as CoordinateSystem;
             Canvas xCanvas = this.Template.FindName("xTicks", this) as Canvas;
             Canvas yCanvas = this.Template.FindName("yTicks", this) as Canvas;
+            TemplateCanvas = this.Template.FindName("drawChart", this) as Canvas;                     
+            Console.WriteLine("DrawChart==" + TemplateCanvas.Name);
+
+            Canvas Fangraph = this.Template.FindName("Fangraph", this) as Canvas;
+            Console.WriteLine("Fangraph==" + Fangraph.Name);
 
             //Canvas coordinateCanvas = ChartView.GetTemplateChild("coordinateSystem") as Canvas;
             //CoordinateSystem coordinateSystem = coordinateCanvas.FindName("coordinate") as CoordinateSystem;
@@ -382,7 +568,7 @@ namespace CustomControl.CustomComponent
             Console.WriteLine("TemplateXTickValueInterval=" + this.XTickValueInterval);
             Console.WriteLine("TemplateYTickValueInterval=" + this.YTickValueInterval);
             GetNewPointDataCollection(this);
-
+            OnDrawMap(ChartType, this, TemplateCanvas);
 
             //动态增加X刻度描述
             if (this.XTickDescription != null)
@@ -420,9 +606,9 @@ namespace CustomControl.CustomComponent
     public enum ChartType
     {
         PolyLine = 1, //折线图
-        Cylinder = 2, //圆柱图
-        Histogram = 3, //直方图
-        Dottedgram = 4, //虚线图
-        Fangraph = 5, //扇形图
+        Dottedgram = 2, //虚线图
+        Histogram = 3, //直方图       
+        Fangraph = 4, //饼图
+        Cylinder = 5, //圆柱图
     }
 }
