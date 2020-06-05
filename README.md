@@ -2,7 +2,7 @@
 # DesktopCustomControl
 
 ## 介绍
-C#WPF自定义控件集，也支持WinFrom，项目基于.netFrameWork4.6.1,完全原生开发，没有使用任何第三方控件，可以直接用在你的项目中，该项目会一直更新，后面会移植到.net Core 3.1上.
+C#WPF自定义控件集，也支持WinFrom，项目基于.Net Core3.1,完全原生开发，项目已打包好，可以直接用在你的项目中，该项目会一直更新。
 ***
 
 **如果我的代码对您有帮助，请给厨子一个星星,谢谢，您的赞赏是我最大的动力**
@@ -41,7 +41,7 @@ xmlns:cus="clr-namespace:CustomControl.CustomComponent;assembly=CustomControl
 ***
 
 ### 1\. ImageButton （图片按钮控件）
-![效果](Resource/Demo/ImageButton.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/ImageButton.gif)
 
 可以这样使用得到上面的结果，以下写的属性是添加的依赖属性：
 ```xaml
@@ -60,7 +60,7 @@ xmlns:cus="clr-namespace:CustomControl.CustomComponent;assembly=CustomControl
 ***
 
 ### 2\. CustomTextControl （文本输入控件）
-![效果](Resource/Demo/CustomTextControl.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/CustomTextControl.gif)
 ```xaml
 示例代码
 <cs:CustomTextControl Width="300" Height="40" 
@@ -87,7 +87,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ***
 
 ### 3\. SwitchControl（开关控件）
-![效果](Resource/Demo/SwitchControl.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/SwitchControl.gif)
 ```
 示例代码
 <cus:SwitchControl Width="100" Height="30" Foreground="Red" SwitchContent="关"
@@ -103,7 +103,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ### 4\. QRCodeControl（二维码控件）
 这个控件需要在vs中下载一个QRCoder包就可以使用了
 
-![效果](Resource/Demo/QRCodeControl.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/QRCodeControl.gif)
 
 属性说明：
 - CornerRadius 圆角
@@ -118,7 +118,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ***
 
 ### 5\.CustomComboBox (可编辑下拉控件)
-![效果](Resource/Demo/CustomComboBox.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/CustomComboBox.gif)
 ```
 示例代码
 <cus:CustomComboBox Width="300" Height='40' ToolTip="下拉框"
@@ -140,7 +140,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ### 6\. MutilComboBoxControl （多选可编辑下拉控件）
 继承CustomComboBox ，支持checkbox、button、image，可来回切换，并增加相应事件
 
-![效果](Resource/Demo/MutilComboBoxControlExtend.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/MutilComboBoxControlExtend.gif)
 ```
 示例代码
 <cus:MutilComboBoxControl Width="300" Height='40' x:Name="mcb" ItemsSource="{Binding list}" 
@@ -178,7 +178,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ### 7\. CustomPasswordBox（可清除、铭文显示密码框）
 支持删除、明码、Icon选择
 
-![效果](Resource/Demo/CustomPasswordBox.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/CustomPasswordBox.gif)
 
 ```
 <cus:CustomPasswordBox x:Name="cpb" Width="300" Height="50" BorderThickness="3" IconSizePercent="1" Background="Yellow" Foreground="Green" IsEyeVisible="True"/>
@@ -194,7 +194,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ### 8\. CustomIconControl（图标控件）
 纯代码绘制图标，目前只画了15个，后面有需要再加
 
-![效果](Resource/Demo/CustomIconControl.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/CustomIconControl.gif)
 ```
 <cus:CustomIconControl x:Name="xxx" Width="50" Height="30" Kind="Eye" Foreground="Green" Background="Yellow" IconSizePercent="10"/>
 ```
@@ -205,7 +205,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ### 9\. CustomProgressBar（进度控件）
 继承ProgressBar，可支持文字、竖直和横向
 
-![效果](Resource/Demo/CustomProgressBar.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/CustomProgressBar.gif)
 
 ```
 <cus:CustomProgressBar x:Name="progress" Width="300" Height="40" CornerRadius="10" IsIndeterminate="False"  Orientation="Horizontal" Background="SaddleBrown" Foreground="Red" Value="0" TextColor="Blue"/>
@@ -217,7 +217,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ### 10\. CustomSlider (滑动控件)
 继承Slider，可支持文字、竖直和横向
 
-![效果](Resource/Demo/CustomSlider.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/CustomSlider.gif)
 
 ```
 <cus:CustomSlider x:Name="slider" Width="300" Height="300" CornerRadius="10" Background="Yellow" 
@@ -238,7 +238,7 @@ CornerRadius="10" TextInputType="digitAndLetter" TextPlaceHolder="请输入"/>
 ### 11\. CustomPopupEx （浮动控件）
 可随父本控件移动，有阴影效果
 
-![效果](Resource/Demo/CustomPopupEx.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/CustomPopupEx.gif)
 
 ```
 <cus:CustomPopupEx IsOpen="True" StaysOpen="True" Placement="Center" 
@@ -259,7 +259,7 @@ Width="300" Height="300" IsPositionUpdate="True" Topmost="True">
 ### 1\. MessageDialog （弹出框）
 继承MessageBox，可提供自定义修改,支持键盘控制
 
-![效果](Resource/Demo/MessageDialog.png)
+![效果](DesktopUniversalCustomControl/Resource/Demo/MessageDialog.png)
 
 调用方法：目前有2个方法
 ```
@@ -271,7 +271,7 @@ MessageDialog.Show("标题", "是否还在工作?分红金额分红呵呵佛how�
 基于MediaElement，自定义视频播放器,
 有上一集，暂停，播放，下一集，倍速，音量控制，全屏，下载(待完成)等功能
 
-![效果](Resource/Demo/MediaPlayerView.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/MediaPlayerView.gif)
 
 - Source 资源路径
 - ItemSource 资源路径集合
@@ -280,9 +280,9 @@ MessageDialog.Show("标题", "是否还在工作?分红金额分红呵呵佛how�
 ### 3\. ChartControlView（图表控件）
 包含折线图、饼图、柱形图，还有转盘效果，其它图形还在更新中
 所有效果都是依赖属性，可自行调整，
-![效果](Resource/Demo/RotateTransform.gif)
-![效果](Resource/Demo/PolyLine.png)
-![效果](Resource/Demo/Histogram.png)
+![效果](DesktopUniversalCustomControl/Resource/Demo/RotateTransform.gif)
+![效果](DesktopUniversalCustomControl/Resource/Demo/PolyLine.png)
+![效果](DesktopUniversalCustomControl/Resource/Demo/Histogram.png)
 
 属性就不再说明了，太多了，可自行尝试，方法如下
 ```
