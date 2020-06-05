@@ -1,0 +1,68 @@
+﻿<Window x:Class="DesktopUniversalCustomControl.CustomView.MsgDlg.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopUniversalCustomControl.CustomView.MsgDlg"
+        xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:msgViewModel="clr-namespace:DesktopUniversalCustomControl.NotifycationObject"
+        mc:Ignorable="d"
+        x:Name="msgWindow"
+        Title="MessageWindow" Height="250" Width="400"
+        ShowInTaskbar="False" Topmost="True"
+        WindowStyle="None" WindowStartupLocation="CenterOwner" 
+        AllowsTransparency="True" ResizeMode="NoResize"
+        Style="{DynamicResource window}">
+
+    <!--d:DataContext="{d:DesignInstance msgViewModel:MsgViewModel}"-->
+    <Window.DataContext>
+        <msgViewModel:MsgViewModel/>
+    </Window.DataContext>
+
+    <!--pack://application:,,,/CustomControl;component/Resource/Dictionary/ControlDictionary.xaml-->
+    <Window.Resources>
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/DesktopUniversalCustomControl;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>-->
+        <Style x:Key="window" TargetType="{x:Type Window}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Grid Margin="5">
+                            <Rectangle Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" RadiusX="10" RadiusY="10">
+                                <Rectangle.Effect>
+                                    <DropShadowEffect BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray"/>
+                                </Rectangle.Effect>
+                            </Rectangle>
+                            <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    Background="{TemplateBinding Background}" CornerRadius="10" SnapsToDevicePixels="True">
+                                <ContentPresenter/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded">
+            <behaviors:InvokeCommandAction Command="{Binding LoadedWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></behaviors:InvokeCommandAction>
+        </behaviors:EventTrigger>
+        <behaviors:EventTrigger EventName="MouseMove">
+            <behaviors:InvokeCommandAction Command="{Binding MoveWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></behaviors:InvokeCommandAction>
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
+
+    <local:MessageDialog x:Name="customMsg">
+        <local:MessageDialog.InputBindings>
+            <KeyBinding Key="Y" Command="{Binding YesCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+            <KeyBinding Key="N" Command="{Binding NoCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+            <KeyBinding Key="C" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+            <KeyBinding Key="Esc" Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></KeyBinding>
+        </local:MessageDialog.InputBindings>
+    </local:MessageDialog>
+
+</Window>

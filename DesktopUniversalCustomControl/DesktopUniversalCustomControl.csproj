@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Authors>Chance__写代码的厨子</Authors>
+    <Description>基于.NetCore3.1的WPF/Winform自定义控件集和视图</Description>
+    <PackageProjectUrl>https://gitee.com/ChanceZXY/DesktopCustomControl</PackageProjectUrl>
+    <PackageIcon>tom.jpg</PackageIcon>
+    <RepositoryUrl>https://github.com/chancezheng/DesktopCustomControl</RepositoryUrl>
+    <NeutralLanguage>zh-CN</NeutralLanguage>
+    <AssemblyVersion>1.0.0.3</AssemblyVersion>
+    <FileVersion>1.0.0.3</FileVersion>
+    <PackageReleaseNotes>V1.0.2是基于.NetFramework</PackageReleaseNotes>
+    <PackageTags>WPF/Winfrom/XAML</PackageTags>
+    <Version>1.0.3.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resource\Images\background.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
+    <PackageReference Include="MySqlConnector" Version="0.67.0" />
+    <PackageReference Include="Prism.Wpf" Version="8.0.0.1740-pre" />
+    <PackageReference Include="QRCoder" Version="1.3.9" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="5.0.0-preview.4.20251.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="C:\Users\Administrator\Desktop\tom.jpg">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </Resource>
+    <Resource Include="Resource\Images\background.png" />
+  </ItemGroup>
+
+</Project>

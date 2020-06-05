@@ -1,0 +1,103 @@
+﻿<ResourceDictionary 
+    x:Class="DesktopUniversalCustomControl.Service.Common.DictionaryEvent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <!--ContentControl-->
+    <Style x:Key="contentControl" TargetType="{x:Type ContentControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <!--MouseLeftButtonDown="MouseLeftButtonPoint" MouseLeftButtonUp="MouseLeftButtonPointClear"-->
+                        <Grid>
+                            <ContentPresenter />
+                            <Canvas x:Name="canvas"></Canvas>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Window-->
+    <!--<Style x:Key="window" TargetType="Window">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <Grid Margin="5">
+                        <Rectangle Fill="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" RadiusX="10" RadiusY="10">
+                            <Rectangle.Effect>
+                                <DropShadowEffect BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray"></DropShadowEffect>
+                            </Rectangle.Effect>
+                        </Rectangle>
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"
+                                                CornerRadius="10" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <ContentPresenter/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+    <!--ComboBox-->
+    <Style x:Key="comboBox" TargetType="{x:Type ComboBox}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ComboBoxItem}">
+                    <Setter Property="Height" Value="40"></Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                <Border x:Name="border">
+                                    <StackPanel Orientation="Vertical">
+                                        <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" />
+                                        <Line Width="{TemplateBinding Width}" Stroke="White" StrokeThickness="1"/>
+                                    </StackPanel>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="Orange" TargetName="border"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Border SnapsToDevicePixels="True" Background="{TemplateBinding Background}" CornerRadius="5">
+                        <Grid x:Name="grid" SnapsToDevicePixels="True" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="50" MaxWidth="50"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter Content="{TemplateBinding SelectionBoxItem}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="{TemplateBinding Padding}"
+                                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"></ContentPresenter>
+                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" Grid.Column="0" Foreground="{TemplateBinding Foreground}" IsReadOnly="{TemplateBinding IsReadOnly}"></TextBox>
+                            <ToggleButton x:Name="toggle" Grid.Column="1" Style="{StaticResource toggleButton}" Focusable="False"
+                                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" ClickMode="Press"></ToggleButton>
+                            <Popup Grid.Column="0" Grid.ColumnSpan="2" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"
+                                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" Placement="Bottom">
+                                <Border x:Name="dropDownBorder" BorderBrush="Orange" BorderThickness="1" Background="BlueViolet"
+                                                    MaxHeight="{TemplateBinding MaxDropDownHeight}" MinWidth="{Binding ElementName=grid,Path=ActualWidth}">
+                                    <ScrollViewer x:Name="dropDownScrollViewer" CanContentScroll="True" SnapsToDevicePixels="True" 
+                                                              VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                        <!--<StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" Background="WhiteSmoke"></StackPanel>-->
+                                        <ItemsPresenter x:Name="itemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"></ItemsPresenter>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

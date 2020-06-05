@@ -8,6 +8,9 @@ C#WPF自定义控件集，也支持WinFrom，项目基于.netFrameWork4.6.1,完�
 **如果我的代码对您有帮助，请给厨子一个星星,谢谢，您的赞赏是我最大的动力**
 ***
 ## 使用方法
+```
+dotnet add package Chance.DesktopCustomControl --version 1.0.1
+```
 - 在WPF中使用方法：
 ```XAML
 xmlns:cus="clr-namespace:CustomControl.CustomComponent;assembly=CustomControl
