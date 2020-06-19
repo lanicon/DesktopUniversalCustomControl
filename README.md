@@ -297,3 +297,10 @@ MessageDialog.Show("标题", "是否还在工作?分红金额分红呵呵佛how�
                         ChartType="Histogram" ChartDataCollection="1,1,2,2,3,3,4,4,5,5,6,6"/>
 ```
 ***
+
+### 4\. CarouselView（轮播控件） 继承之ItemsControl
+![效果](DesktopUniversalCustomControl/Resource/Demo/CarouselView.gif)
+```
+<cus:CarouselControl x:Name="cc" Width="900" Height="400" Margin="0,10,0,0"/>
+```
+***
