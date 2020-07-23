@@ -12,11 +12,11 @@
     <PackageIcon>tom.jpg</PackageIcon>
     <RepositoryUrl>https://github.com/chancezheng/DesktopCustomControl</RepositoryUrl>
     <NeutralLanguage>zh-CN</NeutralLanguage>
-    <AssemblyVersion>1.0.0.3</AssemblyVersion>
-    <FileVersion>1.0.0.3</FileVersion>
+    <AssemblyVersion>1.0.0.4</AssemblyVersion>
+    <FileVersion>1.0.0.4</FileVersion>
     <PackageReleaseNotes>V1.0.2是基于.NetFramework</PackageReleaseNotes>
     <PackageTags>WPF/Winfrom/XAML</PackageTags>
-    <Version>1.0.3.2</Version>
+    <Version>1.0.3.4</Version>
   </PropertyGroup>
 
   <ItemGroup>

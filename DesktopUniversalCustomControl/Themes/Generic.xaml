@@ -527,8 +527,69 @@
                 <ControlTemplate TargetType="{x:Type local:CarouselControl}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <Canvas x:Name="imgCanvas" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" 
-                                Background="LimeGreen"/>
+                        <Canvas x:Name="imgCanvas" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
+                                Background="{TemplateBinding Background}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonBase" TargetType="{x:Type ButtonBase}">
+        <Setter Property="Background" Value="BlueViolet"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Border Background="{TemplateBinding Background}">
+                        <TextBlock Text="{TemplateBinding Content}" FontSize="16" VerticalAlignment="Center" IsHitTestVisible="True"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--输入法选择控件-->
+    <Style TargetType="{x:Type local:InputMethodView}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:InputMethodView}">
+                    <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" CornerRadius="5">
+                        <Grid x:Name="RootGrid" Width="{TemplateBinding Width}">
+                            <StackPanel Orientation="Horizontal" x:Name="sp">
+                                <ToggleButton x:Name="langSelect" Content="{TemplateBinding CurrentVisibleInputMethod}" Style="{StaticResource ButtonBase}" Margin="0,0,10,0"/>
+                                <Button x:Name="languageExange" Content="中&lt;=&gt;英" Visibility="{TemplateBinding LanguageExangeButton}" Style="{StaticResource ButtonBase}"/>
+                            </StackPanel>
+                            <local:CustomPopupEx x:Name="cpe" IsOpen="{Binding ElementName=langSelect,Path=IsChecked,Mode=TwoWay}" StaysOpen="False"
+                                                  Placement="Bottom" PlacementTarget="{Binding ElementName=sp}" PopupAnimation="Slide">
+                                <Grid>
+                                    <ListView x:Name="lv" SelectedIndex="0" Width="{TemplateBinding Width}">
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListViewItem}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                            <Border Width="{TemplateBinding Width}" Height="30">
+                                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                                    <TextBlock x:Name="tb" Width="30"
+                                                                               Foreground="BlueViolet" FontSize="16" Visibility="Hidden"/>
+                                                                    <TextBlock Text="{TemplateBinding Content}" Foreground="BlueViolet"/>
+                                                                </StackPanel>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsSelected" Value="True">
+                                                                    <Setter Property="Text" Value="√" TargetName="tb"/>
+                                                                    <Setter Property="Visibility" Value="Visible" TargetName="tb"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+                                    </ListView>
+                                </Grid>
+                            </local:CustomPopupEx>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

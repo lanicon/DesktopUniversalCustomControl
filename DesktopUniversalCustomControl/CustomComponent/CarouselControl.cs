@@ -3,9 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -19,7 +21,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
     /// <summary>
     /// 轮播控件
     /// </summary>
-    public class CarouselControl : ItemsControl
+    public class CarouselControl : Selector
     {
         static CarouselControl()
         {
@@ -44,10 +46,24 @@ namespace DesktopUniversalCustomControl.CustomComponent
         {
             Canvas = this.Template.FindName("imgCanvas", this) as Canvas;
             GetElements();
+            GetTopMost();
 
             this.MouseMove += CarouselControl_MouseMove;
             this.MouseDown += CarouselControl_MouseDown;
-            this.MouseUp += CarouselControl_MouseUp;
+            this.MouseUp += CarouselControl_MouseUp;            
+        }
+
+        //获取最上层的图片索引
+        private void GetTopMost()
+        {
+            List<int> list = new List<int>();
+            foreach (var item in elementList)
+            {
+                list.Add(Panel.GetZIndex(item));
+            }
+
+            int index = elementList.FindIndex(p => Panel.GetZIndex(p) == list.Max());
+            TopMostIndex = index;
         }
 
         #region DragMove
@@ -66,6 +82,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         private void CarouselControl_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            GetTopMost();
             ImageNavigate = null;
             if(inertiaAngle != 0)
             {
@@ -126,6 +143,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
             {
                 ImageItemInfo imgInfo = Items[i] as ImageItemInfo;
                 ImageAnimation imgItem = new ImageAnimation();
+                imgItem.WholeScene.FontSize = 20D;
                 imgItem.MouseLeftButtonDown += ImgItem_MouseLeftButtonDown;
                 imgItem.MouseLeftButtonUp += ImgItem_MouseLeftButtonUp;
                 imgItem.Width = ImageItemWidth;
@@ -133,7 +151,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                 imgItem.Source = new BitmapImage(new Uri(imgInfo.imgUri));
                 imgItem.ImageTagName = imgInfo.title;
                 imgItem.WholeScenePath = imgInfo.scenePath;
-                imgItem.WholeScene.Click += WholeScene_Click;
+                imgItem.WholeScene.MouseDown += WholeScene_MouseDown; ;
                 imgItem.Y = 1D;
                 imgItem.Angle = i * averageAngle;
                 elementList.Add(imgItem);
@@ -142,15 +160,16 @@ namespace DesktopUniversalCustomControl.CustomComponent
             UpdateLocaltion();
         }
 
-        private void WholeScene_Click(object sender, RoutedEventArgs e)
+        private void WholeScene_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //MessageBox.Show("123");
+
         }
 
         private void ImgItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if(ImageNavigate == sender)
             {
+                GetTopMost();
                 inertiaAngle = centerAngle - ImageNavigate.Angle;
                 ImageNavigate = null;
                 if (inertiaAngle != 0)
@@ -213,6 +232,8 @@ namespace DesktopUniversalCustomControl.CustomComponent
             DependencyProperty.Register("ImageItemWidth", typeof(double), typeof(CarouselControl), new PropertyMetadata(400D));
         public static readonly DependencyProperty ImageItemHeightProperty =
             DependencyProperty.Register("ImageItemHeight", typeof(double), typeof(CarouselControl), new PropertyMetadata(300D));
+        public static readonly DependencyProperty TopMostIndexProperty =
+            DependencyProperty.Register("TopMostIndex", typeof(int), typeof(CarouselControl), new PropertyMetadata(0));
 
         /// <summary>
         /// ImageItem的宽度
@@ -230,6 +251,12 @@ namespace DesktopUniversalCustomControl.CustomComponent
         {
             get { return (double)GetValue(ImageItemHeightProperty); }
             set { SetValue(ImageItemHeightProperty, value); }
+        }
+
+        public int TopMostIndex
+        {
+            get { return (int)GetValue(TopMostIndexProperty); }
+            set { SetValue(TopMostIndexProperty, value); }
         }
     }
 
