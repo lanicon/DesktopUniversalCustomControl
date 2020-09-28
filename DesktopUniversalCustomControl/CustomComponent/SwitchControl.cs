@@ -1,21 +1,8 @@
-﻿using DesktopUniversalCustomControl.Service.Common;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -25,8 +12,8 @@ namespace DesktopUniversalCustomControl.CustomComponent
     public class SwitchControl : CheckBox
     {
         static SwitchControl()
-        {           
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SwitchControl), new FrameworkPropertyMetadata(typeof(SwitchControl),FrameworkPropertyMetadataOptions.None,new PropertyChangedCallback(OnValueChanged)));
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(SwitchControl), new FrameworkPropertyMetadata(typeof(SwitchControl), FrameworkPropertyMetadataOptions.None, new PropertyChangedCallback(OnValueChanged)));
         }
 
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -61,7 +48,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
             sliderw = this.Width - this.Height;
             SetSliderWidth(this, sliderw);
             this.CornerRadius = new CornerRadius(this.Height / 2);
-            if(this.IsChecked == true)
+            if (this.IsChecked == true)
             {
                 OnChecked(e);
             }

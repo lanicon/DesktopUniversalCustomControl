@@ -1,21 +1,15 @@
-﻿using DesktopUniversalCustomControl.ExposedMethod;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Windows.Media;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
     /// <summary>
     /// CustomPasswordBox控件
     /// </summary>
-    public class CustomPasswordBox: Control
+    public class CustomPasswordBox : Control
     {
         static CustomPasswordBox()
         {
@@ -36,16 +30,16 @@ namespace DesktopUniversalCustomControl.CustomComponent
             }
         }
 
-        public static readonly RoutedEvent PasswordChangedEvent = 
-            EventManager.RegisterRoutedEvent("PasswordChanged",RoutingStrategy.Bubble,typeof(RoutedEventHandler),typeof(CustomPasswordBox));
+        public static readonly RoutedEvent PasswordChangedEvent =
+            EventManager.RegisterRoutedEvent("PasswordChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(CustomPasswordBox));
 
         protected virtual void OnPasswordChanged(string oldPassword, string newPassword)
         {
             RoutedPropertyChangedEventArgs<string> arg = new RoutedPropertyChangedEventArgs<string>(oldPassword, newPassword, PasswordChangedEvent);
             this.RaiseEvent(arg);
         }
-        
-        
+
+
         /// <summary>
         /// Password
         /// </summary>
@@ -56,7 +50,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(CustomPasswordBox), 
+            DependencyProperty.Register("Password", typeof(string), typeof(CustomPasswordBox),
             new PropertyMetadata(string.Empty, new PropertyChangedCallback(OnPasswordValueChanged), new CoerceValueCallback(OnPasswordValue)));
 
         private static object OnPasswordValue(DependencyObject d, object value)
@@ -66,41 +60,14 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         private static void OnPasswordValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d != null && d is CustomPasswordBox)
+            if (d != null && d is CustomPasswordBox)
             {
                 var pwd = d as CustomPasswordBox;
-                pwd.OnPasswordChanged(e.OldValue as string , e.NewValue as string);
-
-                //if (e.NewValue != null && e.NewValue.ToString() != string.Empty)
-                //    pwd.IsEyeVisible = true;
-                //else
-                //    pwd.IsEyeVisible = false;
-                //var passwordBox = pwd.Template.FindName("pb", pwd) as PasswordBox;
-                //passwordBox.Password = pwd.Password;
+                pwd.OnPasswordChanged(e.OldValue as string, e.NewValue as string);
 
                 Console.WriteLine("CustomPasswordBox密码为：" + pwd.Password);
-            }        
+            }
         }
-
-
-        ///// <summary>
-        ///// 密码是否可见（默认false）
-        ///// </summary>
-        //public bool IsShowPassword
-        //{
-        //    get { return (bool)GetValue(IsShowPasswordProperty); }
-        //    set { SetValue(IsShowPasswordProperty, value); }
-        //}
-
-        //public static readonly DependencyProperty IsShowPasswordProperty =
-        //    DependencyProperty.Register("IsShowPassword", typeof(bool), typeof(CustomPasswordBox), new PropertyMetadata(false, OnEyeValueChanged));
-
-        //private static void OnEyeValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    var pwd = d as CustomPasswordBox;
-        //    CustomPasswordBoxhelper.SetIsShowPassword(pwd, (bool)e.NewValue);
-        //}
-
 
         /// <summary>
         /// 眼睛和锁图标是否可见（默认false）
@@ -183,5 +150,17 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(CustomPasswordBox), new PropertyMetadata());
+
+
+        /// <summary>
+        /// CaretBrush
+        /// </summary>
+        public Brush CaretBrush
+        {
+            get { return (Brush)GetValue(CaretBrushProperty); }
+            set { SetValue(CaretBrushProperty, value); }
+        }
+        public static readonly DependencyProperty CaretBrushProperty =
+            DependencyProperty.Register("CaretBrush", typeof(Brush), typeof(CustomPasswordBox), new PropertyMetadata(Brushes.Black));
     }
 }

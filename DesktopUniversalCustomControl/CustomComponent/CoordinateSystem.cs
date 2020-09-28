@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
@@ -32,7 +21,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         /// <summary> 
         /// Y轴刻度坐标集合
         /// </summary>
-        public Point[] YTicks { get; set; } 
+        public Point[] YTicks { get; set; }
 
 
 
@@ -50,7 +39,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                     DrawCoordinateSystem(context, this);
                 }
                 return streamGeometry;
-            } 
+            }
         }
 
         /// <summary>
@@ -62,14 +51,14 @@ namespace DesktopUniversalCustomControl.CustomComponent
         {
             //画X轴
             context.BeginFigure(coordinate.CenterPoint, true, false);
-            context.LineTo(coordinate.XEndPoint, true, true);            
+            context.LineTo(coordinate.XEndPoint, true, true);
             Point[] xPoints = new Point[3] { new Point(coordinate.XEndPoint.X - 10, coordinate.XEndPoint.Y - 10), new Point(coordinate.XEndPoint.X + 2, coordinate.XEndPoint.Y), new Point(coordinate.XEndPoint.X - 10, coordinate.XEndPoint.Y + 10) };
             context.BeginFigure(xPoints[0], true, false);
             context.PolyLineTo(xPoints, true, true);
 
             //画Y轴
             context.BeginFigure(coordinate.CenterPoint, true, false);
-            context.LineTo(coordinate.YEndPoint, true, true);            
+            context.LineTo(coordinate.YEndPoint, true, true);
             Point[] yPoints = new Point[3] { new Point(coordinate.YEndPoint.X - 10, coordinate.YEndPoint.Y + 10), new Point(coordinate.YEndPoint.X, coordinate.YEndPoint.Y), new Point(coordinate.YEndPoint.X + 10, coordinate.YEndPoint.Y + 10) };
             context.BeginFigure(yPoints[0], true, false);
             context.PolyLineTo(yPoints, true, true);
@@ -83,7 +72,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
             XTicks = new Point[coordinate.XCoordinateTicks];
             for (int i = 0; i < XTicks.Length; i++)
             {
-                XTicks[i] = new Point(coordinate.CenterPoint.X + (i + 1) * XTickInterval, coordinate.XEndPoint.Y);                   
+                XTicks[i] = new Point(coordinate.CenterPoint.X + (i + 1) * XTickInterval, coordinate.XEndPoint.Y);
             }
             DrawTicks(context, XTicks, 9.0, coordinate, "X");
 
@@ -103,10 +92,10 @@ namespace DesktopUniversalCustomControl.CustomComponent
         }
 
         //画刻度
-        private void DrawTicks(StreamGeometryContext context,Point[] beginPoint, double tickHeight, CoordinateSystem coordinate, string axis)
+        private void DrawTicks(StreamGeometryContext context, Point[] beginPoint, double tickHeight, CoordinateSystem coordinate, string axis)
         {
             int index = 0;
-            while(index < beginPoint.Length)
+            while (index < beginPoint.Length)
             {
                 context.BeginFigure(beginPoint[index], true, false);
                 if (axis == "X")
@@ -219,7 +208,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         //更新坐标系
         private static void OnCoordinateSystemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d != null && d is CoordinateSystem)
+            if (d != null && d is CoordinateSystem)
             {
                 var coordinate = d as CoordinateSystem;
                 coordinate.DrawCoordinateSystem(coordinate.streamGeometry.Open(), coordinate);

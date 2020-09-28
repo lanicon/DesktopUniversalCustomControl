@@ -1,27 +1,11 @@
-﻿using DesktopUniversalCustomControl.ExposedMethod;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using System.Linq;
-using System.Media;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -87,16 +71,16 @@ namespace DesktopUniversalCustomControl.CustomComponent
             get { return (MediaPlayerState)GetValue(MediaStateProperty); }
             set { SetValue(MediaStateProperty, value); }
         }
-        
+
         public static readonly DependencyProperty MediaStateProperty =
             DependencyProperty.Register("MediaState", typeof(MediaPlayerState), typeof(MediaPlayerView), new PropertyMetadata(MediaPlayerState.Pause, OnMediaStateValueChanged));
 
         private static void OnMediaStateValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d != null && d is MediaPlayerView)
+            if (d != null && d is MediaPlayerView)
             {
                 var media = d as MediaPlayerView;
-                media.OnMediaStateChanged((MediaPlayerState)e.OldValue, (MediaPlayerState)e.NewValue);  
+                media.OnMediaStateChanged((MediaPlayerState)e.OldValue, (MediaPlayerState)e.NewValue);
             }
         }
 

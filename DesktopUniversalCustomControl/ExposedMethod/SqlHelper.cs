@@ -1,10 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DesktopUniversalCustomControl.ExposedMethod
 {
@@ -19,10 +15,10 @@ namespace DesktopUniversalCustomControl.ExposedMethod
         /// <returns></returns>
         public static int ExecuteNonQuery(string sql, params MySqlParameter[] parameters)
         {
-            using(MySqlConnection conn = new MySqlConnection(connectStr))
+            using (MySqlConnection conn = new MySqlConnection(connectStr))
             {
                 conn.Open();
-                using(MySqlCommand cmd = conn.CreateCommand())
+                using (MySqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = sql;
                     cmd.Parameters.AddRange(parameters);
@@ -38,7 +34,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
         /// <returns></returns>
         public static object ExecuteScalar(string sql, params MySqlParameter[] parameters)
         {
-            using(MySqlConnection conn = new MySqlConnection(connectStr))
+            using (MySqlConnection conn = new MySqlConnection(connectStr))
             {
                 conn.Open();
                 using (MySqlCommand cmd = conn.CreateCommand())
@@ -57,7 +53,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
         /// <returns></returns>
         public static DataTable ExecuteDataTable(string sql, params MySqlParameter[] parameters)
         {
-            using(MySqlConnection conn = new MySqlConnection(connectStr))
+            using (MySqlConnection conn = new MySqlConnection(connectStr))
             {
                 conn.Open();
                 using (MySqlCommand cmd = conn.CreateCommand())
@@ -81,7 +77,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
         /// <returns></returns>
         public static List<string> ExecuteDataReader(string sql, string columnName, params MySqlParameter[] parameters)
         {
-            using(MySqlConnection conn = new MySqlConnection(connectStr))
+            using (MySqlConnection conn = new MySqlConnection(connectStr))
             {
                 conn.Open();
                 using (MySqlCommand cmd = conn.CreateCommand())
@@ -89,7 +85,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
                     cmd.CommandText = sql;
                     cmd.Parameters.AddRange(parameters);
 
-                    List<string> list = new List<string>(); 
+                    List<string> list = new List<string>();
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())

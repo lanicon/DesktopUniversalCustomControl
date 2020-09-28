@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -9,14 +9,14 @@
     <Authors>Chance__写代码的厨子</Authors>
     <Description>基于.NetCore3.1的WPF/Winform自定义控件集和视图</Description>
     <PackageProjectUrl>https://gitee.com/ChanceZXY/DesktopCustomControl</PackageProjectUrl>
-    <PackageIcon>tom.jpg</PackageIcon>
+    <!--<PackageIcon>tom.jpg</PackageIcon>-->
     <RepositoryUrl>https://github.com/chancezheng/DesktopCustomControl</RepositoryUrl>
     <NeutralLanguage>zh-CN</NeutralLanguage>
     <AssemblyVersion>1.0.0.4</AssemblyVersion>
     <FileVersion>1.0.0.4</FileVersion>
     <PackageReleaseNotes>V1.0.2是基于.NetFramework</PackageReleaseNotes>
     <PackageTags>WPF/Winfrom/XAML</PackageTags>
-    <Version>1.0.3.4</Version>
+    <Version>1.0.3.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.12.0" />
+    <PackageReference Include="HelixToolkit.Wpf" Version="2.12.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="MySqlConnector" Version="0.67.0" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1740-pre" />
@@ -33,11 +33,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="C:\Users\Administrator\Desktop\tom.jpg">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </Resource>
     <Resource Include="Resource\Images\background.png" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
+    <PackageReference Include="HelixToolkit.Core.Wpf">
+      <Version>2.12.0</Version>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

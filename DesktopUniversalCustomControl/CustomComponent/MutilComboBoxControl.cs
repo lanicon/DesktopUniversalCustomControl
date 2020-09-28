@@ -1,23 +1,9 @@
-﻿using DesktopUniversalCustomControl.ExposedMethod;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -37,12 +23,12 @@ namespace DesktopUniversalCustomControl.CustomComponent
         {
             MutilComboBox = this;
             MutilComboBox.Loaded += MutilComboBox_Loaded;
-            
+
         }
 
         private void MutilComboBox_Loaded(object sender, RoutedEventArgs e)
         {
- 
+
         }
 
 
@@ -70,8 +56,8 @@ namespace DesktopUniversalCustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty ItemTypeProperty =
-            DependencyProperty.Register("ItemType", typeof(ItemType), typeof(MutilComboBoxControl), 
-                new PropertyMetadata(ItemType.CheckBox,changed));
+            DependencyProperty.Register("ItemType", typeof(ItemType), typeof(MutilComboBoxControl),
+                new PropertyMetadata(ItemType.CheckBox, changed));
 
         private static void changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -95,7 +81,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                 default:
                     break;
             }
-            
+
             //Console.WriteLine($"序号：{MutilComboBox.ItemType}"); 
         }
 
@@ -155,19 +141,19 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         //是否点击删除子项按钮
         public static readonly DependencyProperty IsDeleteButtonPressedProperty =
-            DependencyProperty.RegisterAttached("IsDeleteButtonPressed", typeof(bool), typeof(MutilComboBoxControl), 
-                new PropertyMetadata(false,IsPressedChanged));
+            DependencyProperty.RegisterAttached("IsDeleteButtonPressed", typeof(bool), typeof(MutilComboBoxControl),
+                new PropertyMetadata(false, IsPressedChanged));
         private static Label lable;
         private static void IsPressedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var listBoxItem = d as ListBoxItem;
             lable = listBoxItem.Template.FindName("lb", listBoxItem) as Label;
-            if((bool)e.NewValue)
+            if ((bool)e.NewValue)
             {
                 MutilComboBox.SelectedItemContent = lable.Content;
                 MutilComboBox.OnDeleteItemValueEvent(e.OldValue, e.NewValue);
                 Console.WriteLine(lable.Content);
-            }              
+            }
         }
 
 
@@ -187,7 +173,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         //删除按钮事件
         public static readonly RoutedEvent DeleteItemValueEvent =
             EventManager.RegisterRoutedEvent("DeleteItemValue", RoutingStrategy.Bubble, typeof(RoutedPropertyChangedEventArgs<object>), typeof(MutilComboBoxControl));
-        
+
         protected virtual void OnDeleteItemValueEvent(object oldString, object newString)
         {
             //RoutedEventArgs args = new RoutedEventArgs(DeleteItemValueEvent, this);
@@ -248,7 +234,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
             get { return (Brush)GetValue(StrokeLineColorProperty); }
             set { SetValue(StrokeLineColorProperty, value); }
         }
-      
+
         public static readonly DependencyProperty StrokeLineColorProperty =
             DependencyProperty.Register("StrokeLineColor", typeof(Brush), typeof(MutilComboBoxControl), new PropertyMetadata());
 
@@ -265,8 +251,8 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         // 是否清空内容
         public static readonly DependencyProperty IsDeletedContentProperty =
-            DependencyProperty.RegisterAttached("IsDeletedContent", typeof(bool), typeof(MutilComboBoxControl), 
-                new PropertyMetadata(false,new PropertyChangedCallback(DeleteContentChanged)));
+            DependencyProperty.RegisterAttached("IsDeletedContent", typeof(bool), typeof(MutilComboBoxControl),
+                new PropertyMetadata(false, new PropertyChangedCallback(DeleteContentChanged)));
 
         private static void DeleteContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -293,7 +279,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         //清空文本事件
         public static readonly RoutedEvent ClearButtonIsCheckedChangedEvent =
             EventManager.RegisterRoutedEvent("ClearButtonIsCheckedChanged", RoutingStrategy.Bubble, typeof(Boolean), typeof(MutilComboBoxControl));
-        
+
         protected virtual void OnClearButtonIsCheckedChanged(bool oldString, bool newString)
         {
             RoutedPropertyChangedEventArgs<bool> arg = new RoutedPropertyChangedEventArgs<bool>(oldString, newString, ClearButtonIsCheckedChangedEvent);
@@ -329,14 +315,14 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         // 检查CheckBox是否Checked
         public static readonly DependencyProperty IsCheckedProperty =
-            DependencyProperty.RegisterAttached("IsChecked", typeof(bool), typeof(MutilComboBoxControl), 
-                new PropertyMetadata(default(bool),new PropertyChangedCallback(IsCheckedChanged)));
+            DependencyProperty.RegisterAttached("IsChecked", typeof(bool), typeof(MutilComboBoxControl),
+                new PropertyMetadata(default(bool), new PropertyChangedCallback(IsCheckedChanged)));
 
         private static List<string> contentList = new List<string>();
         public static string textMutil = "";
         //选择子项改变文本显示内容
         private static void IsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {         
+        {
             var listBoxItem = d as ListBoxItem;
             bool isChecked = (bool)e.NewValue;
             string content = listBoxItem.Content.ToString();
@@ -387,7 +373,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         public static readonly DependencyProperty ListItemsSourceProperty =
             DependencyProperty.RegisterAttached("ListItemsSource", typeof(ItemCollection), typeof(MutilComboBoxControl), new PropertyMetadata());
     }
-    
+
     /// <summary>
     /// 选择类型
     /// </summary>

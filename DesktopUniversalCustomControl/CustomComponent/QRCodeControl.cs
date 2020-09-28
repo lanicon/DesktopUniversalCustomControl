@@ -1,21 +1,11 @@
 ﻿using DesktopUniversalCustomControl.ExposedMethod;
 using QRCoder;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
 
@@ -39,7 +29,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
             GetQRCodeImage(this);
         }
-        
+
         /// <summary>
         /// 得到二维码
         /// </summary>
@@ -56,7 +46,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
             {
                 using (QRCodeData qRCodeData = qrGenerator.CreateQrCode(qrCodeControl.QrCodeContent, QRCodeGenerator.ECCLevel.Q))
                 {
-                    using(QRCode qrCode = new QRCode(qRCodeData))
+                    using (QRCode qrCode = new QRCode(qRCodeData))
                     {
                         Bitmap codeImage = qrCode.GetGraphic(
                             qrCodeControl.QrCodePixelsPerModule,
@@ -70,7 +60,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                         return qrCodeControl.QRCodeImage;
                     }
                 }
-            }              
+            }
         }
 
 
@@ -102,7 +92,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         private static void OnQRCodeImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var qrCodeControl = d as QRCodeControl;
-            if(qrCodeControl.QRCodeImage == null || qrCodeControl.QRCodeImage.ToString() == string.Empty)
+            if (qrCodeControl.QRCodeImage == null || qrCodeControl.QRCodeImage.ToString() == string.Empty)
                 qrCodeControl.QRCodeImage = GetQRCodeImage(qrCodeControl);
         }
 

@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -109,7 +97,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                     method.Invoke(this, null);
                 }
             }
-            catch 
+            catch
             {
                 return;
             }
@@ -145,11 +133,11 @@ namespace DesktopUniversalCustomControl.CustomComponent
         private void UpdateWindow()
         {
             IntPtr intPtr = new IntPtr();
-            if(Child != null)
+            if (Child != null)
                 intPtr = ((HwndSource)PresentationSource.FromVisual(this.Child)).Handle;
 
             RECT rect;
-            if(NativeMethods.GetWindowRect(intPtr, out rect))
+            if (NativeMethods.GetWindowRect(intPtr, out rect))
             {
                 NativeMethods.SetWindowPos(intPtr, Topmost ? -1 : -2, rect.Left, rect.Top, (int)Width, (int)Height, 0);
             }

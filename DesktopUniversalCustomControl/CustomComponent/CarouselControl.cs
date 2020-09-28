@@ -1,20 +1,13 @@
 ﻿using DesktopUniversalCustomControl.CustomView;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -34,7 +27,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         public CarouselControl()
         {
             this.Loaded += CarouselControl_Loaded;
-            this.Unloaded += CarouselControl_Unloaded;                   
+            this.Unloaded += CarouselControl_Unloaded;
         }
 
         private void CarouselControl_Unloaded(object sender, RoutedEventArgs e)
@@ -50,7 +43,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
             this.MouseMove += CarouselControl_MouseMove;
             this.MouseDown += CarouselControl_MouseDown;
-            this.MouseUp += CarouselControl_MouseUp;            
+            this.MouseUp += CarouselControl_MouseUp;
         }
 
         //获取最上层的图片索引
@@ -84,7 +77,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         {
             GetTopMost();
             ImageNavigate = null;
-            if(inertiaAngle != 0)
+            if (inertiaAngle != 0)
             {
                 CompositionTarget.Rendering -= CompositionTarget_Rendering;
                 CompositionTarget.Rendering += CompositionTarget_Rendering;
@@ -93,7 +86,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         private void CarouselControl_MouseMove(object sender, MouseEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
                 currentX = e.GetPosition(this).X;
                 moveDistanceX = currentX - originX;
@@ -131,7 +124,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         private const double averageAngle = 360D / 6;
         private const double radius = 300D;
-        private List<ImageAnimation> elementList;       
+        private List<ImageAnimation> elementList;
         private double totalAngle = 0;
         private double centerAngle = 180D;
 
@@ -167,7 +160,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         private void ImgItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if(ImageNavigate == sender)
+            if (ImageNavigate == sender)
             {
                 GetTopMost();
                 inertiaAngle = centerAngle - ImageNavigate.Angle;
@@ -193,7 +186,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                 else if (centerAngle - item.Angle >= totalAngle / 2D)
                     item.Angle += totalAngle;
 
-                if(item.Angle >= 90D && item.Angle <= 270D)
+                if (item.Angle >= 90D && item.Angle <= 270D)
                     SetElementVisiable(item);
                 else
                     SetElementInvisiable(item);

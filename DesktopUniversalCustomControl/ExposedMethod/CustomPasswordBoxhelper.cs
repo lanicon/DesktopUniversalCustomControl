@@ -1,15 +1,8 @@
-﻿using DesktopUniversalCustomControl.CustomComponent;
-using Microsoft.Xaml.Behaviors;
+﻿using Microsoft.Xaml.Behaviors;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace DesktopUniversalCustomControl.ExposedMethod
 {
@@ -127,7 +120,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
             DependencyProperty.RegisterAttached("IsShowIcon", typeof(bool), typeof(CustomPasswordBoxhelper), new PropertyMetadata(false));
     }
 
-    public class PasswordBoxBehavior: Behavior<PasswordBox>
+    public class PasswordBoxBehavior : Behavior<PasswordBox>
     {
         [DllImport("user32")]
         //得到光标在屏幕上的位置
@@ -158,7 +151,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
         {
             var pwd = sender as PasswordBox;
             string password = CustomPasswordBoxhelper.GetPassword(pwd);
-            if(pwd != null && pwd.Password != password)
+            if (pwd != null && pwd.Password != password)
             {
                 CustomPasswordBoxhelper.SetPassword(pwd, pwd.Password);
             }
@@ -192,7 +185,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
     /// <summary>
     /// 实现 ScrollViewer 滚动到指定控件处
     /// </summary>
-    public class ScrollToControlAction: TriggerAction<FrameworkElement>
+    public class ScrollToControlAction : TriggerAction<FrameworkElement>
     {
         /// <summary>
         /// 目标ScrollViewer
@@ -222,7 +215,7 @@ namespace DesktopUniversalCustomControl.ExposedMethod
 
         protected override void Invoke(object parameter)
         {
-            if(TargetControl == null || ScrollViewer == null)
+            if (TargetControl == null || ScrollViewer == null)
             {
                 throw new ArgumentNullException($"{ScrollViewer} or {TargetControl} cannot be null");
             }

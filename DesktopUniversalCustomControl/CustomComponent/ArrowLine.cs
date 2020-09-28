@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
@@ -28,14 +18,14 @@ namespace DesktopUniversalCustomControl.CustomComponent
         private double nY2; //新的Y2
         private StreamGeometry geometry;
 
-        protected override Geometry DefiningGeometry 
+        protected override Geometry DefiningGeometry
         {
             get
             {
                 //geometry = new StreamGeometry();
                 geometry.FillRule = FillRule.EvenOdd;
 
-                using(StreamGeometryContext context = geometry.Open())
+                using (StreamGeometryContext context = geometry.Open())
                 {
                     DrawArrowLine(context, this);
                 }
@@ -43,7 +33,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                 return geometry;
             }
         }
-        
+
         /// <summary>
         /// 绘制图形
         /// </summary>
@@ -60,17 +50,17 @@ namespace DesktopUniversalCustomControl.CustomComponent
             context.BeginFigure(arrowLine.ArrowPoints[0], true, false);
             context.PolyLineTo(arrowLine.ArrowPoints, true, true);
 
-            context.Close();       
+            context.Close();
         }
 
 
         static ArrowLine()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ArrowLine), new FrameworkPropertyMetadata(typeof(ArrowLine)));            
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ArrowLine), new FrameworkPropertyMetadata(typeof(ArrowLine)));
         }
 
         public ArrowLine()
-        {           
+        {
             geometry = new StreamGeometry();
         }
 
@@ -138,7 +128,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
                     arrowLine.ArrowPoints = arrowLine.ArrowPoints.Clone();
                     arrowLine.ArrowPoints.Clear();
-                    if(arrowLine.X1 == arrowLine.X2 && arrowLine.Y1 == arrowLine.Y2)
+                    if (arrowLine.X1 == arrowLine.X2 && arrowLine.Y1 == arrowLine.Y2)
                     {
                         arrowLine.ArrowPoints = new PointCollection(new Point[3] { new Point(0, 0), new Point(0, 0), new Point(0, 0) });
                     }

@@ -19,13 +19,7 @@
         <msgViewModel:MsgViewModel/>
     </Window.DataContext>
 
-    <!--pack://application:,,,/CustomControl;component/Resource/Dictionary/ControlDictionary.xaml-->
     <Window.Resources>
-        <!--<ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/DesktopUniversalCustomControl;component/Themes/Generic.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>-->
         <Style x:Key="window" TargetType="{x:Type Window}">
             <Setter Property="Template">
                 <Setter.Value>

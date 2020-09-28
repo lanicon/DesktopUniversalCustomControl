@@ -1,10 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace DesktopUniversalCustomControl.Resource.Transitions
 {
-    public class AttachedProperty: DependencyObject
+    public class AttachedProperty : DependencyObject
     {
         public static Brush GetFillColor(DependencyObject obj)
         {

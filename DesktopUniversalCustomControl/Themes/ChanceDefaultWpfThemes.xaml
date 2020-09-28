@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--Control-->
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomTextControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomRadioButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomPasswordBox.xaml" />
+        
+        <!--View-->
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/MessageDialogView.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

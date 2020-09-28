@@ -2,19 +2,11 @@
 using DesktopUniversalCustomControl.ExposedMethod;
 using DesktopUniversalCustomControl.Resource.Transitions;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -34,7 +26,7 @@ namespace DesktopUniversalCustomControl.Service.Common
         public Point ClickPoint
         {
             get { return _clickPoint; }
-            set 
+            set
             {
                 _clickPoint = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ClickPoint"));
@@ -96,7 +88,7 @@ namespace DesktopUniversalCustomControl.Service.Common
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(1);
-            timer.Tick += delegate { ClickWindow(point,canvas); };
+            timer.Tick += delegate { ClickWindow(point, canvas); };
             timer.Start();
         }
 
@@ -125,7 +117,7 @@ namespace DesktopUniversalCustomControl.Service.Common
         //释放点击的坐标
         private void MouseLeftButtonPointClear(object sender, MouseButtonEventArgs e)
         {
-            if(timer != null)
+            if (timer != null)
                 timer.Stop();
             count = 0;
 

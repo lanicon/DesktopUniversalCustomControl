@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -146,7 +133,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         private static void OnCornerRadiusChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d != null && d is CustomSlider)
+            if (d != null && d is CustomSlider)
             {
                 var slider = d as CustomSlider;
                 double value = slider.CornerRadius.TopLeft;
@@ -215,7 +202,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         //Thumb形状
         public static readonly DependencyProperty ShapeProperty =
-            DependencyProperty.RegisterAttached("Shape", typeof(ShapeEnum), typeof(CustomSlider), new PropertyMetadata(ShapeEnum.Circle));    
+            DependencyProperty.RegisterAttached("Shape", typeof(ShapeEnum), typeof(CustomSlider), new PropertyMetadata(ShapeEnum.Circle));
     }
 
     public enum ShapeEnum

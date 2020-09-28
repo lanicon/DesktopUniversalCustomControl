@@ -10,7 +10,6 @@
     xmlns:converter="clr-namespace:DesktopUniversalCustomControl.Service.Common">
 
     <ResourceDictionary.MergedDictionaries>
-        <!--<ResourceDictionary Source="/DesktopUniversalCustomControl;component/Resource/Dictionary/ControlDictionary.xaml"/>-->
         <ResourceDictionary Source="/DesktopUniversalCustomControl;component/Resource/Dictionary/IconDictionary.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -232,71 +231,6 @@
             </Setter.Value>
         </Setter>
     </Style> 
-    <!--PasswordBox-->
-    <Style x:Key="passwordbox" TargetType="{x:Type PasswordBox}">
-        <Setter Property="FontFamily" Value="Times New Roman"/>
-        <Setter Property="Padding" Value="1"/>
-        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="AllowDrop" Value="True"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Stylus.IsFlicksEnabled" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type PasswordBox}">
-                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
-                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomPasswordBox},Path=CornerRadius}"
-                            Background="{TemplateBinding Background}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="30" MaxWidth="40"/>
-                            </Grid.ColumnDefinitions>
-                            <ScrollViewer x:Name="PART_ContentHost" UseLayoutRounding="{TemplateBinding UseLayoutRounding}"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Focusable="False"
-                                          ScrollViewer.CanContentScroll="True" Foreground="{TemplateBinding Foreground}"/>
-                            <TextBlock x:Name="PART_PlaceHolder" Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomPasswordBox},Mode=TwoWay,Path=PasswordPlaceHolder}" 
-                                       Foreground="LightGray" FontSize="14" Visibility="Collapsed" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
-                            <local:CustomTextControl x:Name="visiblePassword" Visibility="Collapsed"
-                                                         Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomPasswordBox},Path=Password,UpdateSourceTrigger=PropertyChanged}" 
-                                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                         Background="Transparent" InputMethod.IsInputMethodEnabled="False" 
-                                                         BorderThickness="0" Focusable="True" MaxLength="{TemplateBinding MaxLength}"
-                                                         Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:CustomPasswordBox},Path=Foreground}"/>
-                            <local:CustomIconControl x:Name="eye" Grid.Column="1" Kind="Lock" VerticalAlignment="Center" Foreground="SaddleBrown" Background="White"
-                                                         IconSizePercent="{TemplateBinding exposed:CustomPasswordBoxhelper.IconSizePercent}"
-                                                         Visibility="{TemplateBinding exposed:CustomPasswordBoxhelper.IsShowIcon,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="exposed:CustomPasswordBoxhelper.Password" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_PlaceHolder"></Setter>
-                        </Trigger>
-                        <Trigger Property="exposed:CustomPasswordBoxhelper.Password" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_PlaceHolder"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="True" SourceName="eye">
-                            <Setter Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="True"></Setter>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="PART_ContentHost"></Setter>
-                            <Setter Property="Visibility" Value="Visible" TargetName="visiblePassword"></Setter>
-                            <Setter Property="Kind" Value="Eye" TargetName="eye"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False" SourceName="eye">
-                            <Setter Property="exposed:CustomPasswordBoxhelper.IsShowPassword" Value="False"></Setter>
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_ContentHost"></Setter>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="visiblePassword"></Setter>
-                            <Setter Property="Kind" Value="Lock" TargetName="eye"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" TargetName="border" Value="{StaticResource {x:Static SystemColors.ControlBrushKey}}"/>
-                            <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     <!--TextBlock-->
     <Style x:Key="textBlock" TargetType="{x:Type TextBlock}">
         <Setter Property="Width" Value="50"/>
@@ -307,96 +241,6 @@
         <Setter Property="FontFamily" Value="微软雅黑"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="Margin" Value="-25,0,0,0"/>
-    </Style>
-
-
-
-
-
-    <!--MessageBoxView-->
-    <Style TargetType="{x:Type msgDlg:MessageDialog}">
-        <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
-        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"></Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type msgDlg:MessageDialog}">
-                    <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"  CornerRadius="10"
-                                    BorderBrush="{StaticResource foregroundColor}" BorderThickness="0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="45"></RowDefinition>
-                                <RowDefinition />
-                                <RowDefinition Height="60"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Border Grid.Row="0" Background="{StaticResource backgroundColor}" CornerRadius="10,10,0,0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                                        <ColumnDefinition Width="8*"></ColumnDefinition>
-                                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <local:CustomIconControl Kind="Message" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"></local:CustomIconControl>
-                                    <TextBlock Grid.Column="1" Text="{Binding caption}" Foreground="White" FontSize="16" FontFamily="正楷" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
-                                    <local:CustomIconControl Grid.Column="2" Kind="CloseCircle" ForceCursor="True" Foreground="White" Background="Green" 
-                                                             Width="30" Height="30" ToolTip="关闭">
-                                        <behaviors:Interaction.Triggers>
-                                            <behaviors:EventTrigger EventName="Click">
-                                                <behaviors:InvokeCommandAction Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=msgWindow}"></behaviors:InvokeCommandAction>
-                                            </behaviors:EventTrigger>
-                                        </behaviors:Interaction.Triggers>
-                                    </local:CustomIconControl>
-                                </Grid>
-                            </Border>
-
-                            <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                                    <ColumnDefinition Width="5*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <local:CustomIconControl x:Name="hintText" Grid.Column="1" Kind="{Binding msgIcon}" Visibility="Collapsed"
-                                                         Margin="0,0,0,0" IconSizePercent="1" Foreground="{StaticResource foregroundColor}"
-                                                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                <TextBlock Grid.Column="2" Text="{Binding indicateText}" TextWrapping="Wrap" VerticalAlignment="Center"
-                                           Margin="15,0,0,0" Foreground="{StaticResource foregroundColor}" FontSize="16"></TextBlock>
-                            </Grid>
-                            
-                            <Grid Grid.Row="2" x:Name="singleGrid" HorizontalAlignment="Center">
-                                <Button Content="确定" Width="80" Height="35" Style="{StaticResource button}"
-                                        Command="{Binding SureCommand}" CommandParameter="{Binding ElementName=msgWindow}"/>
-                            </Grid>
-
-                            <Grid Grid.Row="2" x:Name="moreGrid" Visibility="Collapsed">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" Content="是(Y)" Width="80" Height="35" Style="{StaticResource button}" x:Name="yes"
-                                        Command="{Binding YesCommand}" CommandParameter="{Binding ElementName=msgWindow}"/>
-                                <Button Grid.Column="1" Content="否(N)" Width="80" Height="35" Style="{StaticResource button}"
-                                        Command="{Binding NoCommand}" CommandParameter="{Binding ElementName=msgWindow}"/>
-                                <Button Grid.Column="2" Content="取消(C)" Width="80" Height="35" Style="{StaticResource button}"
-                                        Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=msgWindow}"/>
-                            </Grid>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <!--<Trigger Property="MessageButtonResult" Value="Single">
-                            <Setter Property="Visibility" Value="Visible" TargetName="singleGrid"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="moreGrid"/>
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="hintText"/>
-                        </Trigger>-->
-                        <Trigger Property="MessageButtonResult" Value="More">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="singleGrid"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="moreGrid"/>
-                            <Setter Property="Visibility" Value="Visible" TargetName="hintText"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <!--MediaPlayerView-->
@@ -1143,105 +987,6 @@
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
-            </Setter.Value>          
-        </Setter>
-    </Style>
-
-    <!--CustomPasswordBox-->
-    <Style TargetType="{x:Type local:CustomPasswordBox}">
-        <Setter Property="IconSizePercent" Value="1.0"/>
-        <Setter Property="PasswordChar" Value="●"/>
-        <Setter Property="MaxLength" Value="15" />
-        <Setter Property="PasswordPlaceHolder" Value="请输入密码"/>
-        <Setter Property="IsEyeVisible" Value="False"/>
-        <Setter Property="CornerRadius" Value="10"/>
-        <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.WindowTextBrushKey}}"/>
-        <Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="BorderBrush" Value="BlueViolet"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:CustomPasswordBox}">
-                    <Border x:Name="border">
-                        <Grid>
-                            <PasswordBox x:Name="pb" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"
-                                     BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" 
-                                     Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" 
-                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Style="{StaticResource passwordbox}"                                       
-                                     exposed:CustomPasswordBoxhelper.IsShowIcon="{TemplateBinding IsEyeVisible}"
-                                     exposed:CustomPasswordBoxhelper.IconSizePercent="{TemplateBinding IconSizePercent}"
-                                     exposed:CustomPasswordBoxhelper.IsTrigger="True"         
-                                     exposed:CustomPasswordBoxhelper.Password="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                     PasswordChar="{TemplateBinding PasswordChar}" MaxLength="{TemplateBinding MaxLength}">
-
-                                <!--exposed:CustomPasswordBoxhelper.Password ="{Binding Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"-->
-                                <!--exposed:CustomPasswordBoxhelper.Password="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"-->
-                                <!--<i:Interaction.Behaviors>
-                                    <exposed:PasswordBoxBehavior></exposed:PasswordBoxBehavior>
-                                </i:Interaction.Behaviors>-->
-                            </PasswordBox>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <!--CustomTextControl-->
-    <Style TargetType="{x:Type local:CustomTextControl}">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="5"></Setter>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-        <Setter Property="Foreground" Value="DarkGray"/>
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="TextPlaceHolder" Value="{x:Null}"></Setter>
-        <Setter Property="ToolTip" Value="{x:Null}"></Setter>
-        <Setter Property="InputMethod.IsInputMethodEnabled" Value="False"></Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:CustomTextControl}">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" ToolTip="{TemplateBinding ToolTip}"
-                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
-                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      IsHitTestVisible="{TemplateBinding IsHitTestVisible}" Foreground="{TemplateBinding Foreground}"></ScrollViewer>
-                            <TextBlock x:Name="PART_PlaceHolder" Visibility="Collapsed" Text="{TemplateBinding TextPlaceHolder}" Foreground="{TemplateBinding Foreground}" Opacity="0.7" 
-                                       FontSize="{TemplateBinding FontSize}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}"></TextBlock>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="Text" Value="">
-                            <Setter Property="Visibility" Value="Visible" TargetName="PART_PlaceHolder"></Setter>
-                        </Trigger>
-                        <Trigger Property="local:CustomTextControl.IsMatchRule" Value="false">
-                            <Setter Property="BorderBrush" Value="Red"></Setter>
-                            <Setter Property="BorderThickness" Value="2"></Setter>
-                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(local:CustomTextControl.WrongTextIndicate),Mode=TwoWay}"/>
-                        </Trigger>
-                        <Trigger Property="Validation.HasError" Value="true">
-                            <Setter Property="BorderBrush" Value="Red"></Setter>
-                            <Setter Property="BorderThickness" Value="2"></Setter>
-                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(Validation.Errors)[0].ErrorContent}"></Setter>
-                        </Trigger>
-                        <Trigger Property="TextInputType" Value="defaultText">
-                            <Setter Property="InputMethod.IsInputMethodEnabled" Value="True"></Setter>
-                        </Trigger>
-                        <Trigger Property="TextInputType" Value="chinese">
-                            <Setter Property="InputMethod.IsInputMethodEnabled" Value="True"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="CaretBrush" Value="Black"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -1483,6 +1228,21 @@
     <Style TargetType="{x:Type local:CoordinateSystem}">
         <Setter Property="Stroke" Value="Red"/>
         <Setter Property="StrokeThickness" Value="2"/>
+    </Style>
+
+
+    <Style TargetType="{x:Type local:CustomRadioButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CustomRadioButton}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace DesktopUniversalCustomControl.NotifycationObject
+﻿namespace DesktopUniversalCustomControl.NotifycationObject
 {
-    public class MediaViewModel: NotifyPropertyChanged
+    public class MediaViewModel : NotifyPropertyChanged
     {
         private bool _isVolumeOpen = false;
         /// <summary>

@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:customCtl="clr-namespace:DesktopUniversalCustomControl.CustomComponent">
+
+    <Style x:Key="ChanceTextControl" TargetType="{x:Type customCtl:CustomTextControl}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="5"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="DarkGray"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="TextPlaceHolder" Value="{x:Null}"/>
+        <Setter Property="ToolTip" Value="{x:Null}"/>
+        <Setter Property="InputMethod.IsInputMethodEnabled" Value="False"/>
+        <Setter Property="Padding" Value="8,0,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customCtl:CustomTextControl}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" ToolTip="{TemplateBinding ToolTip}"
+                            BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <TextBlock x:Name="PART_PlaceHolder" Text="{TemplateBinding TextPlaceHolder}" Foreground="LightGray" Opacity="0"
+                                       TextAlignment="Left" FontSize="{TemplateBinding FontSize}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Padding="{TemplateBinding Padding}"/>
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      IsHitTestVisible="{TemplateBinding IsHitTestVisible}" Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter Property="Opacity" Value="0.6" TargetName="PART_PlaceHolder"></Setter>
+                        </Trigger>
+                        <Trigger Property="customCtl:CustomTextControl.IsMatchRule" Value="false">
+                            <Setter Property="BorderBrush" Value="Red" TargetName="border"></Setter>
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(customCtl:CustomTextControl.WrongTextIndicate),Mode=TwoWay}"/>
+                        </Trigger>
+                        <Trigger Property="Validation.HasError" Value="true">
+                            <Setter Property="BorderBrush" Value="Red" TargetName="border"></Setter>
+                            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(Validation.Errors)[0].ErrorContent}"></Setter>
+                        </Trigger>
+                        <Trigger Property="TextInputType" Value="defaultText">
+                            <Setter Property="InputMethod.IsInputMethodEnabled" Value="True"></Setter>
+                        </Trigger>
+                        <Trigger Property="TextInputType" Value="chinese">
+                            <Setter Property="InputMethod.IsInputMethodEnabled" Value="True"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="CaretBrush" Value="#4A4A4A"/>
+                            <Setter Property="Cursor" Value="IBeam"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type customCtl:CustomTextControl}" TargetType="{x:Type customCtl:CustomTextControl}" BasedOn="{StaticResource ChanceTextControl}">
+        
+    </Style>
+    
+</ResourceDictionary>

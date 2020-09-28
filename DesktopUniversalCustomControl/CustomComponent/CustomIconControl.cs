@@ -1,22 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Automation.Peers;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -27,7 +10,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
     {
         static CustomIconControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomIconControl), new FrameworkPropertyMetadata(typeof(CustomIconControl)));           
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CustomIconControl), new FrameworkPropertyMetadata(typeof(CustomIconControl)));
         }
 
         /// <summary>
@@ -40,8 +23,8 @@ namespace DesktopUniversalCustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty KindProperty =
-            DependencyProperty.Register("Kind", typeof(IconType), typeof(CustomIconControl), 
-               new FrameworkPropertyMetadata(IconType.Lock,new PropertyChangedCallback(KindChanged)));
+            DependencyProperty.Register("Kind", typeof(IconType), typeof(CustomIconControl),
+               new FrameworkPropertyMetadata(IconType.Lock, new PropertyChangedCallback(KindChanged)));
 
         private static void KindChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

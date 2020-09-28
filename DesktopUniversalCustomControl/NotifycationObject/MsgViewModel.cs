@@ -1,13 +1,6 @@
 ﻿using DesktopUniversalCustomControl.CustomComponent;
 using DesktopUniversalCustomControl.CustomView.MsgDlg;
 using Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -24,7 +17,7 @@ namespace DesktopUniversalCustomControl.NotifycationObject
             {
                 return new DelegateCommand<Window>(win =>
                 {
-                    if(win != null)
+                    if (win != null)
                     {
                         win.MouseMove += (sender, e) =>
                         {
@@ -48,7 +41,7 @@ namespace DesktopUniversalCustomControl.NotifycationObject
         }
 
 
-        public DelegateCommand<Window> CloseWindowCommand 
+        public DelegateCommand<Window> CloseWindowCommand
         {
             get
             {
@@ -153,7 +146,7 @@ namespace DesktopUniversalCustomControl.NotifycationObject
 
         private void LoadedWindow(Window win)
         {
-            var localMsg = win.FindName("customMsg") as MessageDialog;         
+            var localMsg = win.FindName("customMsg") as MessageDialog;
             var yesBtn = localMsg.Template.FindName("yes", localMsg) as Button;
             yesBtn.Focus();
         }
@@ -183,7 +176,7 @@ namespace DesktopUniversalCustomControl.NotifycationObject
         /// </summary>
         /// <param name="win"></param>
         private void Cancel(Window win)
-        {          
+        {
             win.Close();
             msg_Result = MessageBoxResult.Cancel;
         }

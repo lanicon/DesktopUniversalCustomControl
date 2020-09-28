@@ -1,23 +1,9 @@
 ﻿using DesktopUniversalCustomControl.CustomComponent;
 using DesktopUniversalCustomControl.NotifycationObject;
-using DesktopUniversalCustomControl.Service.Common;
-using Prism.Commands;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomView.MsgDlg
 {
@@ -26,18 +12,51 @@ namespace DesktopUniversalCustomControl.CustomView.MsgDlg
     /// </summary>
     public class MessageDialog : Control
     {
+        private static Brush fore;
+        private static Brush back;
+
         static MessageDialog()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MessageDialog), new FrameworkPropertyMetadata(typeof(MessageDialog)));
+        }
+
+        /// <summary>
+        /// 初始化弹出框主题颜色
+        /// </summary>
+        /// <param name="_fore"></param>
+        /// <param name="_back"></param>
+        public static void InitMessageDialogTheme(Brush _fore, Brush _back)
+        {
+            fore = _fore;
+            back = _back;
         }
 
         public MessageButtonCount MessageButtonResult
         {
             get { return (MessageButtonCount)GetValue(MessageButtonResultProperty); }
             set { SetValue(MessageButtonResultProperty, value); }
-        }       
+        }
         public static readonly DependencyProperty MessageButtonResultProperty =
             DependencyProperty.Register("MessageButtonResult", typeof(MessageButtonCount), typeof(MessageDialog), new PropertyMetadata(MessageButtonCount.Single));
+
+        [Bindable(true)]
+        public Brush AdornerForeground
+        {
+            get { return (Brush)GetValue(AdornerForegroundProperty); }
+            set { SetValue(AdornerForegroundProperty, value); }
+        }
+        public static readonly DependencyProperty AdornerForegroundProperty =
+            DependencyProperty.Register("AdornerForeground", typeof(Brush), typeof(MessageDialog), new PropertyMetadata());
+
+        [Bindable(true)]
+        public Brush AdornerBackground
+        {
+            get { return (Brush)GetValue(AdornerBackgroundProperty); }
+            set { SetValue(AdornerBackgroundProperty, value); }
+        }
+        public static readonly DependencyProperty AdornerBackgroundProperty =
+            DependencyProperty.Register("AdornerBackground", typeof(Brush), typeof(MessageDialog), new PropertyMetadata());
+
 
 
         /// <summary>
@@ -60,7 +79,7 @@ namespace DesktopUniversalCustomControl.CustomView.MsgDlg
         {
             MsgViewModel.msg_Caption = caption;
             MsgViewModel.msg_IndicateText = indicateText;
-            MsgViewModel.msg_Icon = msgIcon;         
+            MsgViewModel.msg_Icon = msgIcon;
 
             return OpenMsgWindow(messageButtonCount);
         }
@@ -81,6 +100,8 @@ namespace DesktopUniversalCustomControl.CustomView.MsgDlg
         private static void StateChanged(MessageWindow msgWin, MessageButtonCount messageButtonCount)
         {
             var localMsg = msgWin.FindName("customMsg") as MessageDialog;
+            localMsg.AdornerForeground = fore;
+            localMsg.AdornerBackground = back;
             localMsg.MessageButtonResult = messageButtonCount; //更改button的个数
         }
     }
@@ -88,6 +109,7 @@ namespace DesktopUniversalCustomControl.CustomView.MsgDlg
     public enum MessageButtonCount
     {
         Single,
+        Two,
         More,
     }
 }

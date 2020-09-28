@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -21,13 +17,13 @@ namespace DesktopUniversalCustomControl.ExposedMethod
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
                 var el = VisualTreeHelper.GetChild(obj, i) as FrameworkElement;
-                if(el.GetType() is T)
-                {                   
+                if (el.GetType() is T)
+                {
                     return default(T);
                 }
                 else
                     FindChildByTree<T>(el, type);
-                    
+
             }
             return null;
         }

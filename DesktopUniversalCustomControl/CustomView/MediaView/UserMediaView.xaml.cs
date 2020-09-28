@@ -3,17 +3,10 @@ using DesktopUniversalCustomControl.CustomView.MsgDlg;
 using DesktopUniversalCustomControl.ExposedMethod;
 using DesktopUniversalCustomControl.NotifycationObject;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
@@ -101,7 +94,7 @@ namespace DesktopUniversalCustomControl.CustomView.MediaView
         #region 播放、暂停、重放
 
         private void PlayPause_Control(object sender, RoutedEventArgs e)
-        {          
+        {
             if (!play_pause.IsChecked.Value)
                 Pause();
             else
@@ -113,13 +106,13 @@ namespace DesktopUniversalCustomControl.CustomView.MediaView
             if (play_pause.IsChecked.Value)
             {
                 Pause();
-                play_pause.IsChecked = false;                             
+                play_pause.IsChecked = false;
             }
             else
             {
                 Play();
-                play_pause.IsChecked = true;                              
-            }                
+                play_pause.IsChecked = true;
+            }
         }
 
         //播放
@@ -231,7 +224,7 @@ namespace DesktopUniversalCustomControl.CustomView.MediaView
         //播放速度
         private void speedSelection_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.RemovedItems.Count > 0)
+            if (e.RemovedItems.Count > 0)
             {
                 mediaElement.SpeedRatio = speed[speedSlider.SelectedIndex];
             }

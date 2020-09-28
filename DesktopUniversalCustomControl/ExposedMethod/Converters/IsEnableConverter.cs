@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace DesktopUniversalCustomControl.ExposedMethod
+namespace DesktopUniversalCustomControl.ExposedMethod.Converters
 {
     /***
      * 控件是否可用
      * 转换器
      * ***/
-
 
     public class ToggleButtonSingleIsEnabled : IValueConverter
     {

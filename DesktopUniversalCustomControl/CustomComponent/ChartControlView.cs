@@ -1,24 +1,11 @@
-﻿using DesktopUniversalCustomControl.ExposedMethod;
-using DesktopUniversalCustomControl.Service.Common;
+﻿using DesktopUniversalCustomControl.Service.Common;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
@@ -42,7 +29,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         //旧数据
         public static readonly DependencyProperty ChartDataCollectionProperty =
-            DependencyProperty.Register("ChartDataCollection", typeof(PointCollection), typeof(ChartControlView), 
+            DependencyProperty.Register("ChartDataCollection", typeof(PointCollection), typeof(ChartControlView),
                 new PropertyMetadata(default(PointCollection), OnChartDataCollectionChanged));
 
         //新数据
@@ -69,7 +56,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         //数据改变时发生
         private static void OnChartDataCollectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d != null && d is ChartControlView)
+            if (d != null && d is ChartControlView)
             {
                 var chartControl = d as ChartControlView;
                 if (chartControl.ChartDataCollection != null)
@@ -291,7 +278,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty XTickDescriptionProperty =
-            DependencyProperty.Register("XTickDescription", typeof(List<string>), typeof(ChartControlView), new PropertyMetadata(default(List<string>), TicksDescriptionChanged)); 
+            DependencyProperty.Register("XTickDescription", typeof(List<string>), typeof(ChartControlView), new PropertyMetadata(default(List<string>), TicksDescriptionChanged));
 
 
         /// <summary>
@@ -357,7 +344,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         }
 
         public static readonly DependencyProperty ChartTypeProperty =
-            DependencyProperty.Register("ChartType", typeof(ChartType), typeof(ChartControlView), 
+            DependencyProperty.Register("ChartType", typeof(ChartType), typeof(ChartControlView),
                 new PropertyMetadata(default(ChartType), ChartTypeChanged));
 
         private static void ChartTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -427,9 +414,9 @@ namespace DesktopUniversalCustomControl.CustomComponent
                             string data2 = $" {LeftBottomPoints[i].X},{LeftBottomPoints[i].Y} {RightBottomPoints[i].X},{RightBottomPoints[i].Y} ";
                             data += data1 + data2;
                         }
-                        
+
                         Histogram.Data = Geometry.Parse(data);
-                        
+
                         for (int i = 0; i < chartControl.ChartDataCollection.Count; i++)
                         {
                             TextBlock textBlock = new TextBlock();
@@ -439,7 +426,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                             textBlock.Margin = new Thickness(standPoints[i].X - 30, standPoints[i].Y - 20, 0, 0);
                             OtherHistogram.Children.Add(textBlock);
                         }
-                        if(!TemplateCanvas.Children.Contains(OtherHistogram))
+                        if (!TemplateCanvas.Children.Contains(OtherHistogram))
                             TemplateCanvas.Children.Add(OtherHistogram);
 
                         Console.WriteLine("DATA:" + data);
@@ -479,7 +466,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
                         double r = chartControl.Width > chartControl.Height ? 2 / 5D * chartControl.Height : 2 / 5D * chartControl.Width;
                         double angle = 0D;
                         for (int i = 0; i < chartControl.ChartDataCollection.Count; i++)
-                        {                        
+                        {
                             angle += anglesList[i];
                             double x = center.X + r * Math.Cos(angle);
                             double y = center.Y + r * Math.Sin(angle);
@@ -553,7 +540,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
             CoordinateSystem coordinateSystem = coordinateCanvas.FindName("coordinate") as CoordinateSystem;
             Canvas xCanvas = this.Template.FindName("xTicks", this) as Canvas;
             Canvas yCanvas = this.Template.FindName("yTicks", this) as Canvas;
-            TemplateCanvas = this.Template.FindName("drawChart", this) as Canvas;                     
+            TemplateCanvas = this.Template.FindName("drawChart", this) as Canvas;
             Console.WriteLine("DrawChart==" + TemplateCanvas.Name);
 
             Canvas Fangraph = this.Template.FindName("Fangraph", this) as Canvas;

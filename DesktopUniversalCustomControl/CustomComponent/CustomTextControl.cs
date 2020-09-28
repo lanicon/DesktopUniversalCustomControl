@@ -1,19 +1,6 @@
-﻿using DesktopUniversalCustomControl.CustomView.MsgDlg;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DesktopUniversalCustomControl.CustomComponent
 {
@@ -74,7 +61,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
             Validation.ErrorEvent.AddOwner(typeof(CustomTextControl));
             SetWrongTextIndicate(textControl, wrongs[index]);
-            if(string.IsNullOrEmpty(textControl.TextPlaceHolder))
+            if (string.IsNullOrEmpty(textControl.TextPlaceHolder))
                 textControl.TextPlaceHolder = wrongs[index];
         }
 
@@ -138,7 +125,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
     /// <summary>
     /// 文本框输入类型
     /// </summary>
-    public enum TextInputType  
+    public enum TextInputType
     {
         defaultText = 0,//普通文本(包括汉字)
         digit = 1, //仅实数
