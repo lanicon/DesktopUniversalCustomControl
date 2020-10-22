@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace DesktopUniversalCustomControl.ExposedMethod.Converters
+namespace DesktopUniversalCustomControl.ValueConverters
 {
     /***
      * 控件是否可用

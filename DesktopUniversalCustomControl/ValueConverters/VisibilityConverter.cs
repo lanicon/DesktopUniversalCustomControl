@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DesktopUniversalCustomControl.ExposedMethod.Converters
+namespace DesktopUniversalCustomControl.ValueConverters
 {
     public class MessageDialogButtonToVisibilityConverter : IValueConverter
     {

@@ -6,9 +6,19 @@
         <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomTextControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomRadioButton.xaml" />
         <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomPasswordBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomSwitch.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomCheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/ImageButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/QRCodeControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomMutilComboBox.xaml" />
         
         <!--View-->
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomToolTip.xaml" />
         <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/MessageDialogView.xaml" />
+            
+        <!--Other-->
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalCustomControl;component/Themes/CustomEffectShadow.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

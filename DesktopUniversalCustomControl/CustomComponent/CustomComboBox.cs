@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace DesktopUniversalCustomControl.CustomComponent
@@ -8,6 +9,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
     /// <summary>
     /// CustomComboBox控件
     /// </summary>
+    [TemplatePart(Name = "PART_Border", Type = typeof(Border))]
     public class CustomComboBox : ComboBox
     {
         static CustomComboBox()
@@ -24,7 +26,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
         private void CustomComboBox_Loaded(object sender, RoutedEventArgs e)
         {
             cus = sender as CustomComboBox;
-            var border = this.Template.FindName("border", cus) as Border;
+            var border = GetTemplateChild("PART_Border") as Border;
             if (border != null)
                 border.MouseLeftButtonDown += Border_MouseLeftButtonDown;   //控制下拉框开关     
         }
@@ -42,10 +44,15 @@ namespace DesktopUniversalCustomControl.CustomComponent
         /// </summary>
         public CornerRadius CornerRadius
         {
-            get { return (CornerRadius)GetValue(CornerRadiusProperty); }
-            set { SetValue(CornerRadiusProperty, value); }
+            get
+            {
+                return (CornerRadius)GetValue(CornerRadiusProperty);
+            }
+            set
+            {
+                SetValue(CornerRadiusProperty, value);
+            }
         }
-
         public static readonly DependencyProperty CornerRadiusProperty =
             DependencyProperty.Register("CornerRadius", typeof(CornerRadius), typeof(CustomComboBox), new PropertyMetadata());
 
@@ -55,10 +62,15 @@ namespace DesktopUniversalCustomControl.CustomComponent
         /// </summary>
         public Brush ComboBoxListBackground
         {
-            get { return (Brush)GetValue(ComboBoxListBackgroundProperty); }
-            set { SetValue(ComboBoxListBackgroundProperty, value); }
+            get
+            {
+                return (Brush)GetValue(ComboBoxListBackgroundProperty);
+            }
+            set
+            {
+                SetValue(ComboBoxListBackgroundProperty, value);
+            }
         }
-
         public static readonly DependencyProperty ComboBoxListBackgroundProperty =
             DependencyProperty.Register("ComboBoxListBackground", typeof(Brush), typeof(CustomComboBox), new PropertyMetadata());
 
@@ -68,10 +80,15 @@ namespace DesktopUniversalCustomControl.CustomComponent
         /// </summary>
         public Brush ComboxBoxItemMouseOverBackground
         {
-            get { return (Brush)GetValue(ComboxBoxItemMouseOverBackgroundProperty); }
-            set { SetValue(ComboxBoxItemMouseOverBackgroundProperty, value); }
+            get
+            {
+                return (Brush)GetValue(ComboxBoxItemMouseOverBackgroundProperty);
+            }
+            set
+            {
+                SetValue(ComboxBoxItemMouseOverBackgroundProperty, value);
+            }
         }
-
         public static readonly DependencyProperty ComboxBoxItemMouseOverBackgroundProperty =
             DependencyProperty.Register("ComboxBoxItemMouseOverBackground", typeof(Brush), typeof(CustomComboBox), new PropertyMetadata());
 
@@ -81,11 +98,34 @@ namespace DesktopUniversalCustomControl.CustomComponent
         /// </summary>
         public Brush ToggleButtonBackground
         {
-            get { return (Brush)GetValue(ToggleButtonBackgroundProperty); }
-            set { SetValue(ToggleButtonBackgroundProperty, value); }
+            get
+            {
+                return (Brush)GetValue(ToggleButtonBackgroundProperty);
+            }
+            set
+            {
+                SetValue(ToggleButtonBackgroundProperty, value);
+            }
         }
-
         public static readonly DependencyProperty ToggleButtonBackgroundProperty =
             DependencyProperty.Register("ToggleButtonBackground", typeof(Brush), typeof(CustomComboBox), new PropertyMetadata());
+
+
+        /// <summary>
+        /// ToggleButton大小
+        /// </summary>
+        public double ToggleButtonSize
+        {
+            get
+            {
+                return (double)GetValue(ToggleButtonSizeProperty);
+            }
+            set
+            {
+                SetValue(ToggleButtonSizeProperty, value);
+            }
+        }      
+        public static readonly DependencyProperty ToggleButtonSizeProperty =
+            DependencyProperty.Register("ToggleButtonSize", typeof(double), typeof(CustomComboBox), new PropertyMetadata(default(double)));
     }
 }

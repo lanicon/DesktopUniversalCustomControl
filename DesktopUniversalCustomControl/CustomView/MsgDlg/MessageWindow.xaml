@@ -10,7 +10,7 @@
         x:Name="msgWindow"
         Title="MessageWindow" Height="250" Width="400"
         ShowInTaskbar="False" Topmost="True"
-        WindowStyle="None" WindowStartupLocation="CenterOwner" 
+        WindowStyle="None" WindowStartupLocation="CenterScreen" 
         AllowsTransparency="True" ResizeMode="NoResize"
         Style="{DynamicResource window}">
 

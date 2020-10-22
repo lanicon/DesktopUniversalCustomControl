@@ -9,6 +9,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
     /// <summary>
     /// 开关控件
     /// </summary>
+    [TemplatePart(Name ="PART_CheckFlag",Type =typeof(Border))]
     public class SwitchControl : CheckBox
     {
         static SwitchControl()
@@ -36,7 +37,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
             SetSliderWidth(this, sliderw);
             this.CornerRadius = new CornerRadius(this.Height / 2);
 
-            borderCheckFlag = this.Template.FindName("CheckFlag", this) as Border;
+            borderCheckFlag = GetTemplateChild("PART_CheckFlag") as Border;
             translate = new TranslateTransform();
             borderCheckFlag.RenderTransform = translate;
 

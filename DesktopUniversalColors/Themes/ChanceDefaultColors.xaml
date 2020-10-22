@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/DesktopUniversalColors;component/Themes/DesktopUniversalColor.BlueViolet.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+   
+    <SolidColorBrush x:Key="PrimaryBackgroundColor" Color="{StaticResource BlueVioletFF}" po:Freeze="True"/>
+    <SolidColorBrush x:Key="AssistantBackgroundColor" Color="{StaticResource BlueVioletAA}" po:Freeze="True"/>
+    <SolidColorBrush x:Key="PrimaryForegroundColor" Color="{StaticResource BlueVioletFF}" po:Freeze="True"/>
+    <SolidColorBrush x:Key="AssistantForegroundColor" Color="White" po:Freeze="True"/>
+
+</ResourceDictionary>

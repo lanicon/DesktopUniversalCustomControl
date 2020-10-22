@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace DesktopUniversalCustomControl.CustomView.MsgDlg
 {
@@ -18,6 +19,7 @@ namespace DesktopUniversalCustomControl.CustomView.MsgDlg
         static MessageDialog()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MessageDialog), new FrameworkPropertyMetadata(typeof(MessageDialog)));
+            InitMessageDialogTheme(Brushes.White, Brushes.BlueViolet);
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace DesktopUniversalCustomControl.CustomView.MsgDlg
         {
             MsgViewModel.msg_IndicateText = indicateText;
 
-            return OpenMsgWindow(messageButtonCount);
+            return Application.Current.Dispatcher.Invoke(() => OpenMsgWindow(messageButtonCount));
         }
 
         /// <summary>
@@ -81,7 +83,7 @@ namespace DesktopUniversalCustomControl.CustomView.MsgDlg
             MsgViewModel.msg_IndicateText = indicateText;
             MsgViewModel.msg_Icon = msgIcon;
 
-            return OpenMsgWindow(messageButtonCount);
+            return Application.Current.Dispatcher.Invoke(() => OpenMsgWindow(messageButtonCount));
         }
 
         /// <summary>

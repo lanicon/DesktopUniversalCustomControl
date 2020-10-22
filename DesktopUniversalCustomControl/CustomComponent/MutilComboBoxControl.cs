@@ -256,7 +256,7 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         private static void DeleteContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var mutil = d as MutilComboBoxControl;
+            var mutil = d as MutilComboBoxControl;            
             mutil.Text = null;
             contentList.Clear();
             var lb = mutil.Template.FindName("dropDownListBox", mutil) as ListBox;

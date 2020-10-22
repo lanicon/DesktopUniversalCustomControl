@@ -3,10 +3,9 @@
                     xmlns:customCtl="clr-namespace:DesktopUniversalCustomControl.CustomComponent"
                     xmlns:msgDlg="clr-namespace:DesktopUniversalCustomControl.CustomView.MsgDlg"
                     xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-                    xmlns:converter="clr-namespace:DesktopUniversalCustomControl.ExposedMethod.Converters">
+                    xmlns:converter="clr-namespace:DesktopUniversalCustomControl.ValueConverters">
 
     <converter:MessageDialogButtonToVisibilityConverter x:Key="MessageDialogButtonToVisibilityConverter"/>
-    <DropShadowEffect x:Key="effect" BlurRadius="10" ShadowDepth="1" Direction="90" Color="LightGray" Opacity="0.6" RenderingBias="Performance"/>
 
     <Style x:Key="button" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=msgDlg:MessageDialog},Mode=TwoWay,Path=AdornerBackground}"/>
@@ -46,11 +45,10 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Effect" Value="{StaticResource effect}"/>
-                            <!--<Setter Property="Background" Value="BlueViolet"/>-->
+                            <Setter Property="Background" Value="BlueViolet"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="true">
-                            <!--<Setter Property="Effect" Value="{StaticResource effect}"></Setter>-->
+                            <Setter Property="Effect" Value="{DynamicResource CustomShadowDepth1}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Trigger.EnterActions>

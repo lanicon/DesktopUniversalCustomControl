@@ -1,9 +1,12 @@
 ﻿using DesktopUniversalCustomControl.ExposedMethod;
 using QRCoder;
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Brush = System.Windows.Media.Brush;
@@ -16,6 +19,9 @@ namespace DesktopUniversalCustomControl.CustomComponent
     /// </summary>
     public class QRCodeControl : Control
     {
+        public readonly static ICommand RefreshQrCodeCommand = new RoutedCommand("Refresh", typeof(QRCodeControl));
+        private static int index;
+
         static QRCodeControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(QRCodeControl), new FrameworkPropertyMetadata(typeof(QRCodeControl)));
@@ -23,11 +29,44 @@ namespace DesktopUniversalCustomControl.CustomComponent
 
         public QRCodeControl()
         {
-            //this.QrIcon = new BitmapImage(new Uri(GetPathHelper.GetBinParentPath() + "\\Resource\\Images\\msgIcon.png"));
-            //this.QrCodeContent = "She is my wife";
-            //GetQRCodeImage(this, QrCodeContent, null);
-
+            InitCommand();
             GetQRCodeImage(this);
+        }
+
+        private void InitCommand()
+        {
+            //CommandManager.RegisterClassCommandBinding(typeof(QRCodeControl), new CommandBinding(RefreshQrCodeCommand, delegate { RefreshQrCode(this); }));
+
+            CommandBinding commandBinding = new CommandBinding(RefreshQrCodeCommand);
+            commandBinding.CanExecute += CommandBinding_CanExecute;
+            commandBinding.Executed += delegate { RefreshQrCode(this); };
+            this.CommandBindings.Add(commandBinding);
+        }
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+
+            e.Handled = true;
+        }
+
+        private void RefreshQrCode(QRCodeControl qRCodeControl)
+        {
+            if (IsRefresh)
+            {                
+                if (index <= 5)
+                {
+                    index++;
+                    qRCodeControl.QrCodeContent += " ";
+                }                  
+                else
+                {
+                    index = 0;
+                    qRCodeControl.QrCodeContent = qRCodeControl.QrCodeContent.Trim();
+                }
+
+                qRCodeControl.QRCodeImage = GetQRCodeImage(qRCodeControl);
+            }        
         }
 
         /// <summary>
@@ -39,12 +78,10 @@ namespace DesktopUniversalCustomControl.CustomComponent
         /// <returns></returns>
         private static ImageSource GetQRCodeImage(QRCodeControl qrCodeControl)
         {
-            //Console.WriteLine(qrCodeControl.GetValue(ForegroundProperty).ToString() + "|" + qrCodeControl.GetValue(BackgroundProperty).ToString());
-
             System.Drawing.ColorConverter colorConverter = new System.Drawing.ColorConverter();
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
             {
-                using (QRCodeData qRCodeData = qrGenerator.CreateQrCode(qrCodeControl.QrCodeContent, QRCodeGenerator.ECCLevel.Q))
+                using (QRCodeData qRCodeData = qrGenerator.CreateQrCode(qrCodeControl.QrCodeContent, QRCodeGenerator.ECCLevel.L))
                 {
                     using (QRCode qrCode = new QRCode(qRCodeData))
                     {
@@ -55,12 +92,30 @@ namespace DesktopUniversalCustomControl.CustomComponent
                             ImageBitmapConverter.ToBitmap(qrCodeControl.QrCodeIcon),
                             qrCodeControl.QrCodeIconSizePercent,
                             qrCodeControl.QrCodeIconBorderWidth);
+
                         qrCodeControl.QRCodeImage = ImageBitmapConverter.ToImageSource(codeImage);
                         //qrCodeControl.QRCodeImage = Imaging.CreateBitmapSourceFromHBitmap(codeImage.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                         return qrCodeControl.QRCodeImage;
                     }
                 }
             }
+        }
+
+
+        /// <summary>
+        /// 是否刷新二维码
+        /// </summary>
+        public bool IsRefresh
+        {
+            get{ return (bool)GetValue(IsRefreshProperty); }
+            set{ SetValue(IsRefreshProperty, value); }
+        }       
+        public static readonly DependencyProperty IsRefreshProperty =
+            DependencyProperty.Register("IsRefresh", typeof(bool), typeof(QRCodeControl), new PropertyMetadata(false, new PropertyChangedCallback(RefreshChanged)));
+      
+        private static void RefreshChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {           
+            var qrcode = d as QRCodeControl;
         }
 
 
@@ -83,14 +138,14 @@ namespace DesktopUniversalCustomControl.CustomComponent
         public ImageSource QRCodeImage
         {
             get { return (ImageSource)GetValue(QRCodeImageProperty); }
-            set { SetValue(QRCodeImageProperty, value); }
+            private set { SetValue(QRCodeImageProperty, value); }
         }
 
         public static readonly DependencyProperty QRCodeImageProperty =
             DependencyProperty.Register("QRCodeImage", typeof(ImageSource), typeof(QRCodeControl), new PropertyMetadata(OnQRCodeImageChanged));
 
         private static void OnQRCodeImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
+        {            
             var qrCodeControl = d as QRCodeControl;
             if (qrCodeControl.QRCodeImage == null || qrCodeControl.QRCodeImage.ToString() == string.Empty)
                 qrCodeControl.QRCodeImage = GetQRCodeImage(qrCodeControl);
@@ -195,8 +250,8 @@ namespace DesktopUniversalCustomControl.CustomComponent
                 var qrCodeControl = d as QRCodeControl;
                 if (qrCodeControl.QrCodeIconSizePercent < 0)
                     qrCodeControl.QrCodeIconSizePercent = 0;
-                if (qrCodeControl.QrCodeIconSizePercent > 20)
-                    qrCodeControl.QrCodeIconSizePercent = 20;
+                if (qrCodeControl.QrCodeIconSizePercent > 30)
+                    qrCodeControl.QrCodeIconSizePercent = 30;
                 if (qrCodeControl.QrCodeIconBorderWidth <= 0)
                     qrCodeControl.QrCodeIconBorderWidth = 1;
                 if (qrCodeControl.QrCodePixelsPerModule <= 0)

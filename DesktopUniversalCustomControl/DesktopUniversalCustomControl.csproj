@@ -7,20 +7,26 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Chance__写代码的厨子</Authors>
-    <Description>基于.NetCore3.1的WPF/Winform自定义控件集和视图</Description>
+    <Description>基于Framework4.6.1与NetCore3.1的WPF/Winform自定义控件集和视图</Description>
     <PackageProjectUrl>https://gitee.com/ChanceZXY/DesktopCustomControl</PackageProjectUrl>
-    <!--<PackageIcon>tom.jpg</PackageIcon>-->
     <RepositoryUrl>https://github.com/chancezheng/DesktopCustomControl</RepositoryUrl>
     <NeutralLanguage>zh-CN</NeutralLanguage>
-    <AssemblyVersion>1.0.0.4</AssemblyVersion>
-    <FileVersion>1.0.0.4</FileVersion>
-    <PackageReleaseNotes>V1.0.2是基于.NetFramework</PackageReleaseNotes>
+    <AssemblyVersion>1.0.3.6</AssemblyVersion>
+    <FileVersion>1.0.3.6</FileVersion>
+    <PackageReleaseNotes>V1.0.2是基于.NetFramework，该版本是兼容Framework4.6.1和.Net Core3.1的</PackageReleaseNotes>
     <PackageTags>WPF/Winfrom/XAML</PackageTags>
-    <Version>1.0.3.5</Version>
+    <Version>1.0.3.6</Version>
+    <Copyright>Chance个人所有</Copyright>
+    <PackageIcon>C.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Resource\Images\background.png" />
+    <None Remove="Resource\Images\C.png" />
+    <Resource Include="C:\Users\Chance\Desktop\C.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +39,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DesktopUniversalColors\DesktopUniversalColors.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resource\Images\background.png" />
+    <Resource Include="Resource\Images\C.png" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">

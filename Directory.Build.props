@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Copyright>Copyright © 2020 Chance 个人所有</Copyright>
+    <Authors>Chance</Authors>
+    <Configuration>Debug;Release</Configuration>
+    <Version>1.0.3.6</Version>
+    <!--<OutputPath>$(MSBuildThisFileDirectory)bin\$(Configuration)\</OutputPath>-->
+    <ImportDirectoryBuildTargets>True</ImportDirectoryBuildTargets>
+    <!--<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />-->
+  </PropertyGroup>
+</Project>

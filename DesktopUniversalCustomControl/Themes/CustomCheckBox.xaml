@@ -1,0 +1,58 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:customCtl="clr-namespace:DesktopUniversalCustomControl.CustomComponent">
+
+    <Style x:Key="ChanceCheckBox" TargetType="{x:Type customCtl:CustomCheckBox}">
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBackgroundColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryForegroundColor}" />
+        <Setter Property="FillBrush" Value="{DynamicResource PrimaryBackgroundColor}" />
+        <Setter Property="FillType" Value="Check" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customCtl:CustomCheckBox}">
+                    <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="20" Height="20" Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid>
+                                    <Rectangle x:Name="rec" Width="10" Height="10" Fill="{TemplateBinding FillBrush}" Opacity="0"/>
+                                    <Path x:Name="check" Data="M 3,8 L 8,12 L 15,3" Stroke="{TemplateBinding FillBrush}" StrokeThickness="2" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter Content="{TemplateBinding Content}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="FillType" Value="Rectangle"/>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Opacity" Value="1.0" TargetName="rec"/>
+                                <Setter Property="Opacity" Value="0" TargetName="check"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="FillType" Value="Check"/>
+                                <Condition Property="IsChecked" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Opacity" Value="0" TargetName="rec"/>
+                                <Setter Property="Opacity" Value="1.0" TargetName="check"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type customCtl:CustomCheckBox}"  TargetType="{x:Type customCtl:CustomCheckBox}" BasedOn="{StaticResource ChanceCheckBox}">
+        
+    </Style>
+
+</ResourceDictionary>

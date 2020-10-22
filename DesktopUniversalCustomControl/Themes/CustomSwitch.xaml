@@ -1,0 +1,99 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:customCtl="clr-namespace:DesktopUniversalCustomControl.CustomComponent">
+
+    <Style x:Key="SwitchFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="10,0,0,0" SnapsToDevicePixels="true" Stroke="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="2" StrokeDashArray="1 2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ChanceSwitchControl" TargetType="{x:Type customCtl:SwitchControl}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="Background" Value="BlueViolet"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="SwitchContent" Value="关"/>
+        <Setter Property="CornerRadius" Value="15"/>
+        <Setter Property="SwitchOpenBackground" Value="#FF0000"/>
+        <Setter Property="SwicthCloseBackground" Value="#DADADA"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customCtl:SwitchControl}">
+                    <ControlTemplate.Resources>
+                        <!--<Storyboard x:Key="StoryboardIsChecked">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="X" Storyboard.TargetName="translate">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="80"/>
+                            </DoubleAnimationUsingKeyFrames> 
+                        </Storyboard>
+                        <Storyboard x:Key="StoryboardIsCheckedOff">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="X" Storyboard.TargetName="translate">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="80"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>-->
+                    </ControlTemplate.Resources>
+                    <BulletDecorator Background="Transparent" SnapsToDevicePixels="True" ToolTip="{TemplateBinding ToolTip}">
+                        <BulletDecorator.Bullet>
+                            <Border x:Name="ForegroundPanel" BorderThickness="1" CornerRadius="{TemplateBinding CornerRadius}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                <Canvas>
+                                    <Border x:Name="PART_CheckFlag" Width="{TemplateBinding Height}" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}" 
+                                            CornerRadius="{Binding RelativeSource={RelativeSource Self},Path=Height}"
+                                            VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" BorderThickness="1">
+                                        <Border.RenderTransform>
+                                            <TranslateTransform X="0" x:Name="translate"/>
+                                        </Border.RenderTransform>
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="10" ShadowDepth="1" Direction="90" Color="Gray" Opacity="0.9"/>
+                                        </Border.Effect>
+                                        <TextBlock Text="{TemplateBinding SwitchContent}" Foreground="{TemplateBinding Foreground}" Margin="{TemplateBinding Padding}" 
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    </Border>
+                                </Canvas>
+                            </Border>
+                        </BulletDecorator.Bullet>
+                    </BulletDecorator>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasContent" Value="true">
+                            <Setter Property="FocusVisualStyle" Value="{StaticResource SwitchFocusVisual}"/>
+                            <Setter Property="Padding" Value="4,0,0,0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="ForegroundPanel" Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=SwitchOpenBackground}"/>
+                            <Setter Property="SwitchContent" Value="开" />
+                            <!--<Trigger.EnterActions>
+                                <BeginStoryboard x:Name="BeginStoryboardCheckedTrue" Storyboard="{StaticResource StoryboardIsChecked}" />
+                                <RemoveStoryboard BeginStoryboardName="BeginStoryboardCheckedFalse" />
+                            </Trigger.EnterActions>-->
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="ForegroundPanel" Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=SwicthCloseBackground}"/>
+                            <!--<Trigger.EnterActions>
+                                <BeginStoryboard x:Name="BeginStoryboardCheckedFalse" Storyboard="{StaticResource StoryboardIsCheckedOff}" />
+                                <RemoveStoryboard BeginStoryboardName="BeginStoryboardCheckedTrue" />
+                            </Trigger.EnterActions>-->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type customCtl:SwitchControl}" TargetType="{x:Type customCtl:SwitchControl}" BasedOn="{StaticResource ChanceSwitchControl}">
+        
+    </Style>
+
+</ResourceDictionary>
